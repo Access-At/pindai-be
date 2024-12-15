@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $roleKaprodi = Role::create(['name' => 'kaprodi']);
         $roleDosen = Role::create(['name' => 'dosen']);
 
-        $faker = Faker::create('id_ID');
+        // $faker = Faker::create('id_ID');
 
         $userDppm = User::factory()->create([
             'name' => 'Direktur Pembinaan Mahasiswa',

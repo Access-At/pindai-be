@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('nidn')->unique()->nullable();
             $table->string('scholar_id')->unique()->nullable();
             $table->string('scopus_id')->unique()->nullable();
+            $table->foreignId('faculties_id')->nullable()->references('id')->on('faculties')->onDelete('set null');
             $table->text('address')->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);
-            $table->foreignId('faculties_id')->constrained('faculties')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });
