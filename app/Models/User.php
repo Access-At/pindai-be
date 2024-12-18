@@ -8,14 +8,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Models\Role;
+use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
-
-    use HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HashableId, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +34,9 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'email_verified_at',
     ];
 
     public function getJWTIdentifier()
@@ -61,5 +62,15 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function kaprodi()
+    {
+        return $this->hasOne(Kaprodi::class);
+    }
+
+    public function dosen()
+    {
+        return $this->hasOne(Dosen::class);
     }
 }

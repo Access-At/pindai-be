@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Helper\ResponseApi;
 use App\Helper\SecureCommunication;
 use App\Http\Requests\AuthRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -16,9 +18,7 @@ class AuthController extends Controller
         $email = User::where('email', $request->email)->first();
 
         if (! $email) {
-            return ResponseApi::statusQueryError()->message('Login gagal.')->data([
-                'email' => 'Email tidak ditemukan.',
-            ])->json();
+            return ResponseApi::statusQueryError()->message('Login gagal, Email tidak ditemukan.')->json();
         }
 
         $exp = 1440;
@@ -80,7 +80,7 @@ class AuthController extends Controller
 
         return ResponseApi::statusSuccess()
             ->message('Data berhasil diperoleh.')
-            ->data(auth('api')->user())
+            ->data(new UserResource(auth('api')->user()))
             ->json();
     }
 
@@ -96,16 +96,17 @@ class AuthController extends Controller
         unset($user->roles);
 
         $userData = $user ? [
-            ...$user->toArray(),
+            'name' => $user->name,
             'role' => $user->roles->first()->name ?? false,
         ] : [];
+
 
         return ResponseApi::statusSuccess()
             ->message('Login berhasil.')
             ->data([
                 'user' => SecureCommunication::encrypt(json_encode($userData)),
+                'token_type' => 'bearer',
                 'access_token' => $token,
-                'token_type' => 'bearer'
             ])->json();
     }
 }

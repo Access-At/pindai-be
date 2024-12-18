@@ -1,0 +1,12 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Access-At/secana/main/schema.json",
+    "path": {
+        "laravel": {
+            "command": "app/Console/Commands",
+            "helper": "app/Helper"
+        },
+        "react": {
+            "utils": "-"
+        }
+    }
+}

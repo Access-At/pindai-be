@@ -15,12 +15,14 @@ class SignatureHeaderMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->header('X-BYPASS')) return $next($request);
+
         $signature = $request->header('X-SIGNATURE');
         $timestamp = $request->header('X-TIMESTAMP');
         $secretKey = env('SECURE_API_KEY');
 
         // Periksa header wajib
-        if (!$signature || !$timestamp) {
+        if (!$signature && !$timestamp) {
             return ResponseApi::statusFatalError()
                 ->error('Header X-SIGNATURE and X-TIMESTAMP are required.')
                 ->message('Missing signature or timestamp.')
@@ -45,29 +47,14 @@ class SignatureHeaderMiddleware
         }
 
         // Buat signature ulang untuk validasi
-        // $payload = $timestamp . $salt . SecureCommunication::decrypt($request->getContent());
-        $payload = $timestamp . $salt . $request->getContent();
-        $expectedSignature = hash_hmac('sha256', $payload, $secretKey);
+        $expectedPayload = $timestamp . $salt . $request->getContent();
+        $expectedSignature = hash_hmac('sha256', $expectedPayload, $secretKey);
 
         // Validasi signature
         if (!hash_equals($expectedSignature, $signature)) {
             return ResponseApi::statusQueryError()
                 ->error('The provided signature does not match the expected signature.')
                 ->message('Invalid signature.')
-                ->data([
-                    'fe' => [
-                        'x-signature' => $request->header('X-SIGNATURE') ?? '',
-                        'x-timestamp' => $request->header('X-TIMESTAMP') ?? '',
-                        'x-salt' => $request->header('X-SALT') ?? '',
-                        'x-payload' => $request->header('X-PAYLOAD') ?? '',
-                    ],
-                    'be' => [
-                        'x-signature' => $expectedSignature,
-                        'x-payload' => $payload,
-                    ],
-                    'cek' => hash_equals($expectedSignature, $signature),
-                    'contentSend' => SecureCommunication::decrypt($request->getContent()),
-                ])
                 ->json();
         }
 

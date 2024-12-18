@@ -32,11 +32,10 @@ class RoleMiddleware
                 ? $role
                 : explode('|', $role);
 
-            if ( ! $authGuard->user()->hasAnyRole($roles)) {
+            if (! $authGuard->user()->hasAnyRole($roles)) {
                 abort(ResponseApi::statusValidateError()
                     ->error('You don\'t have role access')
                     ->message('Unauthorized')
-                    ->info(['auth' => false])
                     ->json());
             }
 
@@ -45,7 +44,6 @@ class RoleMiddleware
             abort(ResponseApi::statusValidateError()
                 ->error('You don\'t have role access')
                 ->message('Unauthorized')
-                ->info(['auth' => false])
                 ->json());
         }
     }

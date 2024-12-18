@@ -24,7 +24,7 @@ class SecureCommunication
             new self();
         }
 
-        $iv = random_bytes(12); // Panjang IV untuk AES-GCM
+        $iv = random_bytes(12);
 
         $cipher = openssl_encrypt(
             $data,
@@ -39,7 +39,6 @@ class SecureCommunication
             throw new Exception('Encryption failed.');
         }
 
-        // Gabungkan IV, tag, dan cipher untuk transportasi
         return base64_encode($iv . $tag . $cipher);
     }
 
@@ -55,8 +54,12 @@ class SecureCommunication
             throw new Exception('Decryption failed: invalid base64 encoding.');
         }
 
-        $ivLength = 12; // Panjang IV untuk AES-GCM
-        $tagLength = 16; // Panjang tag autentikasi
+        $ivLength = 12;
+        $tagLength = 16;
+
+        if (strlen($decoded) < ($ivLength + $tagLength)) {
+            throw new Exception('Decryption failed: data is too short.');
+        }
 
         $iv = substr($decoded, 0, $ivLength);
         $tag = substr($decoded, $ivLength, $tagLength);

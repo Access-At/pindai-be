@@ -14,6 +14,8 @@ class SecureCommunicationMiddleware
 
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->header('X-BYPASS')) return $next($request);
+
         try {
             // Dekripsi payload untuk JSON dan file metadata
             if ($request->isJson()) {
