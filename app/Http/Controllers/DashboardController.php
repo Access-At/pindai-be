@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\ResponseApi;
 use App\Services\DashboardService;
 use Illuminate\Http\Request;
 
@@ -9,17 +10,25 @@ class DashboardController extends Controller
 {
     public function getDashboardDppm()
     {
-        return DashboardService::getDashboardDppm();
-        // return view('dashboard');
+        return ResponseApi::statusSuccess()
+            ->message('Data Dashboard berhasil diambil')
+            ->data(DashboardService::getDashboardDppm())
+            ->json();
     }
 
     public function getDashboardDosen()
     {
-        // return view('dashboard');
+        return ResponseApi::statusSuccess()
+            ->message('Data Dashboard berhasil diambil')
+            ->data([])
+            ->json();
     }
 
     public function getDashboardKaprodi()
     {
-        // return view('dashboard');
+        return ResponseApi::statusSuccess()
+            ->message('Data Dashboard berhasil diambil')
+            ->data([])
+            ->json();
     }
 }

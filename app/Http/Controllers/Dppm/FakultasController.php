@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dppm;
 
 use App\Helper\ResponseApi;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\FakultasRequest;
 use App\Services\FakultasService;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class FakultasController extends Controller
 
     public function store(FakultasRequest $request)
     {
-        return ResponseApi::statusSuccess()
+        return ResponseApi::statusSuccessCreated()
             ->message('Data Fakultas berhasil ditambahkan')
             ->data(FakultasService::createFakultas($request->validated()))
             ->json();

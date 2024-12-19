@@ -4,14 +4,14 @@ namespace App\Helper;
 
 use Exception;
 
-class SecureCommunication
+class EncryptData
 {
     private static string $encryptionKey = '';
     private static string $cipher = 'aes-256-gcm';
 
     public function __construct()
     {
-        self::$encryptionKey = env('SECURE_COMMUNICATION_KEY');
+        self::$encryptionKey = env('SECURE_DATA_KEY');
 
         if (strlen(self::$encryptionKey) !== 32) {
             throw new Exception('Encryption key must be exactly 32 characters.');

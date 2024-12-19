@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\EncryptData as HelperEncryptData;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helper\ResponseApi;
-use App\Helper\SecureCommunication;
 use App\Http\Requests\AuthRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -100,11 +99,11 @@ class AuthController extends Controller
             'role' => $user->roles->first()->name ?? false,
         ] : [];
 
-
         return ResponseApi::statusSuccess()
             ->message('Login berhasil.')
             ->data([
-                'user' => SecureCommunication::encrypt(json_encode($userData)),
+                'user' => HelperEncryptData::encrypt(json_encode($userData)),
+                // 'user' => $userData,
                 'token_type' => 'bearer',
                 'access_token' => $token,
             ])->json();

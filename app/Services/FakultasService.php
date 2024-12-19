@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Http\Resources\FakultasPaginationResource;
-use App\Http\Resources\FakultasResource;
+use App\Http\Resources\Dppm\FakultasResource;
+use App\Http\Resources\Pagination\FakultasPaginationCollection;
 use App\Repositories\FakultasRepository;
 
 class FakultasService
 {
     public static function getAllFakultas($perPage, $page, $search)
     {
-        return new FakultasPaginationResource(FakultasRepository::getAllFakultas($perPage, $page, $search));
+        return new FakultasPaginationCollection(FakultasRepository::getAllFakultas($perPage, $page, $search));
     }
 
     public static function getFakultasById($id)

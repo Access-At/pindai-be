@@ -9,13 +9,9 @@ class FakultasRepository implements FakultasRepositoryInterface
 {
     public static function getAllFakultas($perPage, $page, $search)
     {
-        $query = Faculty::query();
-
-        if (!empty($search)) {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-
-        return $query->orderBy('name', 'asc')->paginate($perPage, ['*'], 'page', $page);
+        return Faculty::where('name', 'like', '%' . $search . '%')
+            ->orderBy('name', 'asc')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 
     public static function getFakultasById($id)
@@ -25,7 +21,6 @@ class FakultasRepository implements FakultasRepositoryInterface
 
     public static function createFakultas($data)
     {
-        // dd('FakultasRepository::createFakultas', $data);
         return Faculty::create($data);
     }
 
@@ -40,7 +35,6 @@ class FakultasRepository implements FakultasRepositoryInterface
     {
         $fakultas = Faculty::byHash($id);
         $fakultas->delete();
-
         return $fakultas;
     }
 

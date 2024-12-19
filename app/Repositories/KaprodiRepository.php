@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\Faculty;
+use App\Models\Kaprodi;
+use App\Models\User;
+use App\RepositoriesInterface\KaprodiRepositoryInterface;
+
+class KaprodiRepository implements KaprodiRepositoryInterface
+{
+    public  static function getAllKaprodi($perPage, $page, $search)
+    {
+        return User::role('kaprodi')->with(
+            ['kaprodi' => function ($q) {
+                $q->with('faculty');
+            }]
+        )->where('name', 'like', '%' . $search . '%')->paginate($perPage, ['*'], 'page', $page);
+    }
+
+    public static function getKaprodiById($id)
+    {
+        return User::with(
+            ['kaprodi' => function ($q) {
+                $q->with('faculty');
+            }]
+        )->byHash($id)->first();
+    }
+
+    public static function createKaprodi($data)
+    {
+        // create user and assign role kaprodi
+        $user = User::create($data);
+        $user->assignRole('kaprodi');
+
+        // get fakultas
+        $fakultas = Faculty::byHash($data['fakultas']);
+
+        // create kaprodi
+        return Kaprodi::create([
+            'user_id' => $user->id,
+            'faculties_id' => $fakultas->id,
+            'is_active' => $data['status'],
+        ]);
+    }
+
+    public static function updateKaprodi($id, $data)
+    {
+        $user = User::byHash($id);
+        $fakultas = Faculty::byHash($data['fakultas']);
+
+        $user->update($data);
+
+        return Kaprodi::where([
+            'user_id' => $user->id
+        ])->update([
+            'faculties_id' => $fakultas->id,
+            'is_active' => $data['status'],
+        ]);
+    }
+
+    public static function deleteKaprodi($id)
+    {
+        $user = User::byHash($id);
+        $kaprodi = Kaprodi::where('user_id', '=', $user->id)->first();
+
+        if ($kaprodi) {
+            $kaprodi->delete();
+            $user->delete();
+        }
+
+        return $kaprodi;
+    }
+}

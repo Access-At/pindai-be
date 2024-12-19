@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Pagination;
 
+use App\Http\Resources\BasePaginationCollection;
+use App\Http\Resources\Dppm\FakultasResource;
 use Illuminate\Http\Request;
 
-class FakultasPaginationResource extends BasePaginationCollection
+class FakultasPaginationCollection extends BasePaginationCollection
 {
     /**
      * Transform the resource into an array.
