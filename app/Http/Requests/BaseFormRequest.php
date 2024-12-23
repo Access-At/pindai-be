@@ -20,6 +20,11 @@ class BaseFormRequest extends FormRequest
         $errors = $validator->errors()->toArray();
 
         throw new
-            HttpResponseException(response()->json(['success' => false, 'message' => 'Validation errors occurred.', 'errors' => $errors], 422));
+            HttpResponseException(
+                response()->json(
+                    ['success' => false, 'message' => 'Validation errors occurred.', 'errors' => $errors],
+                    422
+                )
+            );
     }
 }

@@ -101,6 +101,14 @@ class ResponseApi
         ]);
     }
 
+    public static function statusNotFound(): self
+    {
+        return new self([
+            'status' => Response::HTTP_NOT_FOUND,
+            'message' => 'Resource not found',
+        ]);
+    }
+
     /**
      * Sets the response message
      * @param string $message Response message

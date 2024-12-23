@@ -4,23 +4,16 @@ use App\Helper\ResponseApi;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dppm\DosenController;
 use App\Http\Controllers\Dppm\FakultasController;
 use App\Http\Controllers\Dppm\KaprodiController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
 
 Route::group(['prefix' => 'v1', 'middleware' => [
     'secure',
     // 'signature',
 ]], function () {
-
-    // Route::get('/test', function () {
-    //     return ResponseApi::statusSuccess()->message('Welcome to API')->data([
-    //         'message' => 'Welcome to API',
-    //         'version' => 'v1',
-    //         'timestamp' => now(),
-    //         'request' => request()->all(),
-    //         'headers' => request()->header(),
-    //     ])->json();
-    // });
 
     // Auth
     Route::group(['prefix' => 'auth'], function () {
@@ -36,6 +29,12 @@ Route::group(['prefix' => 'v1', 'middleware' => [
 
         Route::get('/me', [AuthController::class, 'me']);
 
+        // Data List
+        Route::group(['prefix' => 'list'], function () {
+            Route::get('/fakultas', [ListController::class, 'getListFakultas']);
+            Route::get('/prodi/{fakultas}', [ListController::class, 'getListProdi']);
+        });
+
         // DPPM
         Route::group([
             'prefix' => 'dppm',
@@ -43,8 +42,10 @@ Route::group(['prefix' => 'v1', 'middleware' => [
         ], function () {
             Route::get('/dashboard', [DashboardController::class, 'getDashboardDppm']);
 
+            // master data
             Route::apiResource('fakultas', FakultasController::class);
             Route::apiResource('kaprodi', KaprodiController::class);
+            Route::apiResource('dosen', DosenController::class)->only('index', 'show');
         });
 
         // Kaprodi
@@ -53,6 +54,9 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             'middleware' => ['role:kaprodi']
         ], function () {
             Route::get('/dashboard', [DashboardController::class, 'getDashboardKaprodi']);
+
+            // master data
+            Route::apiResource('dosen', KaprodiDosenController::class)->only('index', 'show', 'store');
         });
 
         // dosen

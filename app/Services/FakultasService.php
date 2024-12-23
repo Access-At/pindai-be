@@ -13,6 +13,11 @@ class FakultasService
         return new FakultasPaginationCollection(FakultasRepository::getAllFakultas($perPage, $page, $search));
     }
 
+    public static function getListFakultas()
+    {
+        return FakultasResource::collection(FakultasRepository::getListFakultas());
+    }
+
     public static function getFakultasById($id)
     {
         return new FakultasResource(FakultasRepository::getFakultasById($id));

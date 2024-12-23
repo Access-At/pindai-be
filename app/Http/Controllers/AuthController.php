@@ -20,6 +20,10 @@ class AuthController extends Controller
             return ResponseApi::statusQueryError()->message('Login gagal, Email tidak ditemukan.')->json();
         }
 
+        if ($email->hasRole('kaprodi') && !$email->kaprodi->is_active) {  // 0 = Nonaktif
+            return ResponseApi::statusQueryError()->message('Login gagal, Akun anda telah dinonaktifkan. tolong hubungi DPPM')->json();
+        }
+
         $exp = 1440;
 
         if ($request->remember_me) {

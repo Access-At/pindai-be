@@ -14,6 +14,11 @@ class FakultasRepository implements FakultasRepositoryInterface
             ->paginate($perPage, ['*'], 'page', $page);
     }
 
+    public static function getListFakultas()
+    {
+        return Faculty::orderBy('name', 'asc')->get();
+    }
+
     public static function getFakultasById($id)
     {
         return Faculty::byHash($id);

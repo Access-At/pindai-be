@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Http\Resources\Dppm\KaprodiResource;
 use App\Http\Resources\Pagination\KaprodiPaginationCollection;
 use App\Repositories\KaprodiRepository;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class KaprodiService
 {
@@ -22,10 +24,23 @@ class KaprodiService
 
     public static function createKaprodi($data)
     {
-        // TODO: password masih hardcode, harusnya random, harusnya ada middleware untuk mengirimkan email ke user
-        $password = 'password';
+        $password = Str::random(8);
+
+        // Kirim email dengan password
+        Mail::to($data['email'])->queue(new \App\Mail\SendEmail([
+            'view' => 'emails.Register',
+            'subject' => 'Password Akun Kaprodi',
+            'menuju' => 'Kaprodi',
+            'oleh' => 'DPPM',
+            'data' => [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $password,
+            ]
+        ]));
 
         $data['password'] = bcrypt($password);
+
         return new KaprodiResource(KaprodiRepository::createKaprodi($data));
     }
 

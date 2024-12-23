@@ -23,9 +23,9 @@ class KaprodiResource extends JsonResource
             "email" => $this->email,
             "nidn" => $this->nidn,
             "address" => $this->address,
-            "fakultas" => $this->kaprodi->faculty->name,
-            "status" => $this->kaprodi->is_active,
-            'status_label' => $this->kaprodi->is_active ? 'Aktif' : 'Tidak Aktif',
+            "fakultas_id" => $this->kaprodi->faculty->hash,
+            "fakultas" =>  $this->kaprodi->faculty->name,
+            "status" => $this->kaprodi->is_active ? '1' : '0',
         ];
     }
 }
