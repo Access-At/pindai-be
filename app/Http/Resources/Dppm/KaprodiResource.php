@@ -2,14 +2,11 @@
 
 namespace App\Http\Resources\Dppm;
 
-use App\Http\Resources\BasePaginationCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class KaprodiResource extends JsonResource
 {
-
     /**
      * Transform the resource collection into an array.
      *
@@ -19,13 +16,13 @@ class KaprodiResource extends JsonResource
     {
         return [
             'id' => $this->hash,
-            "name" => $this->name,
-            "email" => $this->email,
-            "nidn" => $this->nidn,
-            "address" => $this->address,
-            "fakultas_id" => $this->kaprodi->faculty->hash,
-            "fakultas" =>  $this->kaprodi->faculty->name,
-            "status" => $this->kaprodi->is_active ? '1' : '0',
+            'name' => $this->name,
+            'email' => $this->email,
+            'nidn' => $this->nidn,
+            'address' => $this->address,
+            'fakultas_id' => $this->kaprodi->faculty->hash,
+            'fakultas' => $this->kaprodi->faculty->name,
+            'status' => $this->kaprodi->is_active ? '1' : '0',
         ];
     }
 }

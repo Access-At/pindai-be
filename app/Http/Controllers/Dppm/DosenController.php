@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Dppm;
 
+use Throwable;
 use App\Helper\ResponseApi;
-use App\Http\Controllers\Controller;
-use App\Services\DosenService;
 use Illuminate\Http\Request;
-
+use App\Services\DosenService;
+use App\Http\Controllers\Controller;
 
 class DosenController extends Controller
 {
@@ -26,10 +26,18 @@ class DosenController extends Controller
 
     public function show($id)
     {
-        $data = DosenService::getDosenById($id);
-        return ResponseApi::statusSuccess()
-            ->message('succes get dosen')
-            ->data($data)
-            ->json();
+        try {
+            $data = DosenService::getDosenById($id);
+
+            return ResponseApi::statusSuccess()
+                ->message('succes get dosen')
+                ->data($data)
+                ->json();
+        } catch (Throwable $th) {
+            return ResponseApi::statusNotFound()
+                ->message('data dosen tidak ditemukan')
+                ->data($th->getMessage())
+                ->json();
+        }
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Repositories\KaprodiRepository;
 use App\Http\Resources\Dppm\KaprodiResource;
 use App\Http\Resources\Pagination\KaprodiPaginationCollection;
-use App\Repositories\KaprodiRepository;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class KaprodiService
 {
-
     public static function getAllKaprodi($perPage, $page, $search)
     {
         $data = KaprodiRepository::getAllKaprodi($perPage, $page, $search);
+
         return new KaprodiPaginationCollection($data);
     }
 
@@ -36,7 +36,7 @@ class KaprodiService
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => $password,
-            ]
+            ],
         ]));
 
         $data['password'] = bcrypt($password);

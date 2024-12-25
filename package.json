@@ -4,7 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "serve": "concurrently \"php artisan serve\" \"php artisan queue:work\""
+        "serve": "concurrently \"php artisan serve\" \"php artisan queue:work\"",
+        "format": "./vendor/bin/pint -v"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",

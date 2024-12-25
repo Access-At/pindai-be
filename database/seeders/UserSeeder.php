@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Kaprodi;
-use App\Models\User;
-use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +19,6 @@ class UserSeeder extends Seeder
         $roleDppm = Role::create(['name' => 'dppm']);
         $roleKaprodi = Role::create(['name' => 'kaprodi']);
         $roleDosen = Role::create(['name' => 'dosen']);
-
 
         $userDppm = User::factory()->create([
             'name' => 'Direktur Pembinaan Mahasiswa',

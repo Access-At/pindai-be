@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FacultySeeder extends Seeder
@@ -19,7 +18,7 @@ class FacultySeeder extends Seeder
             'Fakultas Ilmu Budaya' => ['Sastra Indonesia', 'Sastra Inggris', 'Sastra Jepang'],
             'Fakultas Ilmu Kesehatan' => ['Keperawatan', 'Kesehatan Masyarakat', 'Farmasi'],
             'Fakultas Teknik' => ['Teknik Sipil', 'Teknik Elektro', 'Teknik Mesin'],
-            'Fakultas Pertanian' => ['Agroteknologi', 'Agribisnis', 'Teknologi Pangan']
+            'Fakultas Pertanian' => ['Agroteknologi', 'Agribisnis', 'Teknologi Pangan'],
         ];
 
         foreach ($faculties as $faculty => $studyPrograms) {
@@ -30,7 +29,7 @@ class FacultySeeder extends Seeder
             foreach ($studyPrograms as $program) {
                 \App\Models\Prodi::create([
                     'faculties_id' => $facultyModel->id,
-                    'name' => $program
+                    'name' => $program,
                 ]);
             }
         }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Faculty;
 use App\Models\User;
+use App\Models\Faculty;
 use Illuminate\Validation\Rule;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
@@ -26,23 +26,23 @@ class DppmKaprodiRequest extends BaseFormRequest
     {
 
         return [
-            "name" => ['required', 'string', 'max:255'],
-            "email" => [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
                 'required',
                 'string',
                 'email',
                 'max:255',
                 Rule::unique(User::class)->ignore($this->kaprodi ? User::hashToId($this->kaprodi) : null),
             ],
-            "nidn" => [
+            'nidn' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->kaprodi ? User::hashToId($this->kaprodi) : null)
+                Rule::unique(User::class)->ignore($this->kaprodi ? User::hashToId($this->kaprodi) : null),
             ],
-            "address" => ['required', 'string', 'max:255'],
-            "fakultas_id" => ['required', new ExistsByHash(Faculty::class)],
-            "status" => ['required', 'boolean']
+            'address' => ['required', 'string', 'max:255'],
+            'fakultas_id' => ['required', new ExistsByHash(Faculty::class)],
+            'status' => ['required', 'boolean'],
         ];
     }
 }

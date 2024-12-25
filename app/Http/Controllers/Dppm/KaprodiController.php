@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Dppm;
 
+use Throwable;
 use App\Helper\ResponseApi;
+use Illuminate\Http\Request;
+use App\Services\KaprodiService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DppmKaprodiRequest;
-use App\Models\Kaprodi;
-use App\Models\User;
-use App\Services\KaprodiService;
-use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 
 class KaprodiController extends Controller
 {
@@ -31,11 +29,12 @@ class KaprodiController extends Controller
     {
         try {
             $data = KaprodiService::getKaprodiById($id);
+
             return ResponseApi::statusSuccess()
                 ->message('Data Kaprodi berhasil diambil')
                 ->data($data)
                 ->json();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ResponseApi::statusNotFound()
                 ->message('Data Kaprodi tidak ditemukan')
                 ->json();
@@ -55,10 +54,11 @@ class KaprodiController extends Controller
     {
         try {
             KaprodiService::updateKaprodi($id, $request->validated());
+
             return ResponseApi::statusSuccess()
                 ->message('Data Kaprodi berhasil diubah')
                 ->json();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ResponseApi::statusNotFound()
                 ->message('Data Kaprodi tidak ditemukan')
                 ->json();
@@ -69,10 +69,11 @@ class KaprodiController extends Controller
     {
         try {
             KaprodiService::deleteKaprodi($id);
+
             return ResponseApi::statusSuccess()
                 ->message('Data Kaprodi berhasil dihapus')
                 ->json();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return ResponseApi::statusNotFound()
                 ->message('Data Kaprodi tidak ditemukan')
                 ->json();

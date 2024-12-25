@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Kaprodi\ProdiResource;
 use App\Repositories\ProdiRepository;
+use App\Http\Resources\Kaprodi\ProdiResource;
 
 class ProdiService
 {
-
     public static function getAllProdi(int $perPage, int $page, string $search)
     {
         return ProdiRepository::getAllProdi($perPage, $page, $search);

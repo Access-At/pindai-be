@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Dppm;
 
+use Throwable;
 use App\Helper\ResponseApi;
+use Illuminate\Http\Request;
+use App\Services\FakultasService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FakultasRequest;
-use App\Services\FakultasService;
-use Illuminate\Http\Request;
 
 class FakultasController extends Controller
 {
@@ -26,10 +27,16 @@ class FakultasController extends Controller
 
     public function show($id)
     {
-        return ResponseApi::statusSuccess()
-            ->message('Data Fakultas berhasil diambil')
-            ->data(FakultasService::getFakultasById($id))
-            ->json();
+        try {
+            return ResponseApi::statusSuccess()
+                ->message('Data Fakultas berhasil diambil')
+                ->data(FakultasService::getFakultasById($id))
+                ->json();
+        } catch (Throwable $th) {
+            return ResponseApi::statusNotFound()
+                ->message('Data Fakultas tidak ditemukan')
+                ->json();
+        }
     }
 
     public function store(FakultasRequest $request)
@@ -42,17 +49,29 @@ class FakultasController extends Controller
 
     public function update(FakultasRequest $request, $id)
     {
-        return ResponseApi::statusSuccess()
-            ->message('Data Fakultas berhasil diubah')
-            ->data(FakultasService::updateFakultas($id, $request->validated()))
-            ->json();
+        try {
+            return ResponseApi::statusSuccess()
+                ->message('Data Fakultas berhasil diubah')
+                ->data(FakultasService::updateFakultas($id, $request->validated()))
+                ->json();
+        } catch (Throwable $th) {
+            return ResponseApi::statusNotFound()
+                ->message('Data Fakultas tidak ditemukan')
+                ->json();
+        }
     }
 
     public function destroy($id)
     {
-        return ResponseApi::statusSuccess()
-            ->message('Data Fakultas berhasil dihapus')
-            ->data((FakultasService::deleteFakultas($id)))
-            ->json();
+        try {
+            return ResponseApi::statusSuccess()
+                ->message('Data Fakultas berhasil dihapus')
+                ->data((FakultasService::deleteFakultas($id)))
+                ->json();
+        } catch (Throwable $th) {
+            return ResponseApi::statusNotFound()
+                ->message('Data Fakultas tidak ditemukan')
+                ->json();
+        }
     }
 }

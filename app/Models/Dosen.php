@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Znck\Eloquent\Traits\BelongsToThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
-use \Znck\Eloquent\Traits\BelongsToThrough;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Dosen extends Model
 {
-    use HasFactory, BelongsToThrough, HashableId;
+    use BelongsToThrough, HasFactory, HashableId, SoftDeletes;
 
     protected $table = 'dosen';
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = [
         'user_id',

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Kaprodi;
 
+use Throwable;
 use App\Helper\ResponseApi;
+use Illuminate\Http\Request;
+use App\Services\DosenService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KaprodiDosenRequest;
-use App\Services\DosenService;
-use Illuminate\Http\Request;
 
 class DosenController extends Controller
 {
@@ -26,35 +27,44 @@ class DosenController extends Controller
 
     public function show($id)
     {
-        $data = DosenService::getDosenById($id);
-        return ResponseApi::statusSuccess()
-            ->message('succes get dosen')
-            ->data($data)
-            ->json();
+        try {
+            $data = DosenService::getDosenById($id);
+
+            return ResponseApi::statusSuccess()
+                ->message('succes get dosen')
+                ->data($data)
+                ->json();
+        } catch (Throwable $th) {
+            return ResponseApi::statusNotFound()
+                ->message('data dosen tidak ditemukan')
+                ->json();
+        }
     }
 
-    public function store(KaprodiDosenRequest  $request)
+    public function store(KaprodiDosenRequest $request)
     {
         DosenService::createDosen($request->validated());
 
         return ResponseApi::statusSuccess()
-            ->message('succes create dosen')
+            ->message('berhasil tambah dosen')
             ->json();
     }
 
-    // public function update(KaprodiDosenRequest $request, $id)
-    // {
-    //     DosenService::updateDosen($id, $request->validated());
+    public function update(KaprodiDosenRequest $request, $id)
+    {
+        DosenService::updateDosen($id, $request->validated());
 
-    //     return ResponseApi::statusSuccess()
-    //         ->message('succes update dosen')
-    //         ->json();
-    // }
+        return ResponseApi::statusSuccess()
+            ->message('berhasil mengubah dosen')
+            ->json();
+    }
 
-    // public function destroy()
-    // {
-    //     return ResponseApi::statusSuccess()
-    //         ->message('succes delete dosen')
-    //         ->json();
-    // }
+    public function destroy($id)
+    {
+        DosenService::deleteDosen($id);
+
+        return ResponseApi::statusSuccess()
+            ->message('berhasil menghapus dosen')
+            ->json();
+    }
 }

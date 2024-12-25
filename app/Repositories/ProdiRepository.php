@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Faculty;
 use App\Models\Prodi;
+use App\Models\Faculty;
 use App\RepositoriesInterface\ProdiRepositoryInterface;
 
 class ProdiRepository implements ProdiRepositoryInterface
@@ -11,6 +11,7 @@ class ProdiRepository implements ProdiRepositoryInterface
     public static function getListProdi($fakultas)
     {
         $dataFakultas = Faculty::byHash($fakultas);
+
         return Prodi::where('faculties_id', $dataFakultas->id)->get();
     }
 
@@ -37,6 +38,7 @@ class ProdiRepository implements ProdiRepositoryInterface
     {
         $prodi = Prodi::byHash($id);
         $prodi->update($data);
+
         return $prodi;
     }
 
@@ -44,6 +46,7 @@ class ProdiRepository implements ProdiRepositoryInterface
     {
         $prodi = Prodi::byHash($id);
         $prodi->delete();
+
         return $prodi;
     }
 }

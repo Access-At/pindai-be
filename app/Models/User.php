@@ -6,14 +6,15 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Veelasky\LaravelHashId\Eloquent\HashableId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HashableId, HasRoles;
+    use HasApiTokens, HasFactory, HashableId, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +28,8 @@ class User extends Authenticatable implements JWTSubject
         'nidn',
         'address',
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -53,6 +56,16 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public function kaprodi()
+    {
+        return $this->hasOne(Kaprodi::class);
+    }
+
+    public function dosen()
+    {
+        return $this->hasOne(Dosen::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -64,15 +77,5 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function kaprodi()
-    {
-        return $this->hasOne(Kaprodi::class);
-    }
-
-    public function dosen()
-    {
-        return $this->hasOne(Dosen::class);
     }
 }

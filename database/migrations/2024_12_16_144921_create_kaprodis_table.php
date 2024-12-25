@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,7 +17,7 @@ return new class extends Migration
                 ->nullable()->references(
                     'id'
                 )->on('faculties')
-                ->onDelete('set null');
+                ->noActionOnDelete();
             $table->foreignId('user_id')
                 ->nullable()->references(
                     'id'
@@ -25,6 +25,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

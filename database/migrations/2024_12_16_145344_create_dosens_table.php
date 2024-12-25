@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
-            $table->string('name_with_title');
+            $table->string('name_with_title')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('scholar_id')->unique()->nullable();
             $table->string('scopus_id')->unique()->nullable();
@@ -28,8 +28,9 @@ return new class extends Migration
                 ->nullable()->references(
                     'id'
                 )->on('prodi')
-                ->onDelete('set null');
+                ->noActionOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

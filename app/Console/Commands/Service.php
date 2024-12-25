@@ -28,8 +28,8 @@ class Service extends Command
     {
         $name = $this->argument('name');
 
-        if (!File::exists("App/Services")) {
-            File::makeDirectory("App/Services", 0755, true);
+        if ( ! File::exists('App/Services')) {
+            File::makeDirectory('App/Services', 0755, true);
         }
 
         $servicePath = "App/Services/{$name}Service.php";

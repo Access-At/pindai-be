@@ -7,13 +7,14 @@ use Exception;
 class EncryptData
 {
     private static string $encryptionKey = '';
+
     private static string $cipher = 'aes-256-gcm';
 
     public function __construct()
     {
         self::$encryptionKey = env('SECURE_DATA_KEY');
 
-        if (strlen(self::$encryptionKey) !== 32) {
+        if (mb_strlen(self::$encryptionKey) !== 32) {
             throw new Exception('Encryption key must be exactly 32 characters.');
         }
     }
@@ -21,7 +22,7 @@ class EncryptData
     public static function encrypt(string $data): string
     {
         if (empty(self::$encryptionKey)) {
-            new self();
+            new self;
         }
 
         $iv = random_bytes(12);
@@ -45,10 +46,10 @@ class EncryptData
     public static function decrypt(string $data): string
     {
         if (empty(self::$encryptionKey)) {
-            new self();
+            new self;
         }
 
-        $decoded = base64_decode($data);
+        $decoded = base64_decode($data, true);
 
         if ($decoded === false) {
             throw new Exception('Decryption failed: invalid base64 encoding.');
@@ -57,13 +58,13 @@ class EncryptData
         $ivLength = 12;
         $tagLength = 16;
 
-        if (strlen($decoded) < ($ivLength + $tagLength)) {
+        if (mb_strlen($decoded) < ($ivLength + $tagLength)) {
             throw new Exception('Decryption failed: data is too short.');
         }
 
-        $iv = substr($decoded, 0, $ivLength);
-        $tag = substr($decoded, $ivLength, $tagLength);
-        $cipher = substr($decoded, $ivLength + $tagLength);
+        $iv = mb_substr($decoded, 0, $ivLength);
+        $tag = mb_substr($decoded, $ivLength, $tagLength);
+        $cipher = mb_substr($decoded, $ivLength + $tagLength);
 
         $plainText = openssl_decrypt(
             $cipher,

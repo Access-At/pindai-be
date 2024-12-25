@@ -30,7 +30,7 @@ class BasePaginationCollection extends ResourceCollection
                 'per_page' => $this->perPage(),
                 'to' => $this->lastItem(),
                 'total' => $this->total(),
-            ]
+            ],
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\Faculty;
 use App\Models\Kaprodi;
-use App\Models\User;
 use App\RepositoriesInterface\KaprodiRepositoryInterface;
 
 class KaprodiRepository implements KaprodiRepositoryInterface
@@ -41,14 +41,12 @@ class KaprodiRepository implements KaprodiRepositoryInterface
     public static function updateKaprodi($id, $data)
     {
         $user = User::byHash($id);
-        $faculty = Faculty::byHash($data['fakultas_id']);
         $user->update($data);
 
-        return Kaprodi::where('user_id', $user->id)
-            ->update([
-                'faculties_id' => $faculty->id,
-                'is_active' => $data['status'],
-            ]);
+        return $user->kaprodi->update([
+            'faculties_id' => Faculty::byHash($data['fakultas_id'])->id,
+            'is_active' => $data['status'],
+        ]);
     }
 
     public static function deleteKaprodi($id)

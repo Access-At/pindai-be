@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
+use App\Repositories\FakultasRepository;
 use App\Http\Resources\Dppm\FakultasResource;
 use App\Http\Resources\Pagination\FakultasPaginationCollection;
-use App\Repositories\FakultasRepository;
 
 class FakultasService
 {

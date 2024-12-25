@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Pagination;
 
-use App\Http\Resources\BasePaginationCollection;
-use App\Http\Resources\Dppm\DosenResource;
 use Illuminate\Http\Request;
+use App\Http\Resources\Dppm\DosenResource;
+use App\Http\Resources\BasePaginationCollection;
 
 class DosenPaginationCollection extends BasePaginationCollection
 {

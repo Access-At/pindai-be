@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Kaprodi extends Model
 {
-    use HasFactory, HashableId;
+    use HasFactory, HashableId, SoftDeletes;
 
     protected $table = 'kaprodi';
 
@@ -17,6 +18,8 @@ class Kaprodi extends Model
         'user_id',
         'is_active',
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function faculty()
     {

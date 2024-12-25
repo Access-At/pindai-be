@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class FakultasRequest extends BaseFormRequest
 {
     /**
@@ -22,7 +20,7 @@ class FakultasRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
         ];
     }
 }

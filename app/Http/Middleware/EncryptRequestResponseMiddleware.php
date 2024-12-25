@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Helper\EncryptRequestResponse;
-use Illuminate\Http\JsonResponse;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Helper\EncryptRequestResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class EncryptRequestResponseMiddleware
@@ -18,11 +19,37 @@ class EncryptRequestResponseMiddleware
     }
 
     /**
+     * Handle method: Modifikasi request sebelum dan response sesudah.
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (
+            config('app.env') === 'local' &&
+            $request->header('x-bypass')
+        ) {
+            return $next($request);
+        }
+
+        // Modifikasi Request
+        $this->modifyRequest($request);
+
+        // // Panggil middleware berikutnya
+        $response = $next($request);
+
+        // Modifikasi Response jika berupa JsonResponse
+        if ($response instanceof JsonResponse) {
+            $this->modifyResponse($response);
+        }
+
+        return $response;
+    }
+
+    /**
      * Modifikasi Request: Dekripsi payload dan tambahkan ke Request.
      */
     private function modifyRequest(Request $request): void
     {
-        if (!$request->has('payload')) {
+        if ( ! $request->has('payload')) {
             return; // Jika payload tidak ada, lanjutkan tanpa modifikasi
         }
 
@@ -35,7 +62,7 @@ class EncryptRequestResponseMiddleware
                 $request->merge($decrypted);
                 $request->replace($request->except('payload')); // Hapus payload asli
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Jika dekripsi gagal, log error (opsional) dan abaikan
             logger()->error('Failed to decrypt payload: ' . $e->getMessage());
         }
@@ -54,33 +81,9 @@ class EncryptRequestResponseMiddleware
                 $content['data'] = $this->encrypt->encrypt($content['data']);
                 $response->setContent(json_encode($content));
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Jika enkripsi gagal, log error (opsional) dan lanjutkan tanpa modifikasi
             logger()->error('Failed to encrypt response: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Handle method: Modifikasi request sebelum dan response sesudah.
-     */
-    public function handle(Request $request, Closure $next): Response
-    {
-        if (
-            config('app.env') === "local" &&
-            $request->header('x-bypass')
-        ) return $next($request);
-
-        // Modifikasi Request
-        $this->modifyRequest($request);
-
-        // // Panggil middleware berikutnya
-        $response = $next($request);
-
-        // Modifikasi Response jika berupa JsonResponse
-        if ($response instanceof JsonResponse) {
-            $this->modifyResponse($response);
-        }
-
-        return $response;
     }
 }

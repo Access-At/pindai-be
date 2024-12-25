@@ -3,12 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Helper\ResponseApi;
-// use App\Helper\SecureCommunication;
-use Illuminate\Http\Request;
 use Random\Engine\Secure;
+// use App\Helper\SecureCommunication;
+use App\Helper\ResponseApi;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class SignatureHeaderMiddleware
 {
@@ -66,7 +65,6 @@ class SignatureHeaderMiddleware
     //         $expectedSignature,
     //         // hash_equals($expectedSignature, $signature)
     //     ]);
-
 
     //     // Validasi signature
     //     if (!hash_equals($expectedSignature, $signature)) {

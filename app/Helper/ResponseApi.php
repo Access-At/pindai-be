@@ -17,7 +17,8 @@ class ResponseApi
 
     /**
      * Constructor
-     * @param array $args Initial response data
+     *
+     * @param  array  $args  Initial response data
      */
     public function __construct(array $args)
     {
@@ -111,52 +112,60 @@ class ResponseApi
 
     /**
      * Sets the response message
-     * @param string $message Response message
+     *
+     * @param  string  $message  Response message
      * @return $this
      */
     public function message(string $message): self
     {
         $this->data['message'] = $message;
+
         return $this;
     }
 
     /**
      * Sets the response data
-     * @param mixed $data Response data
+     *
+     * @param  mixed  $data  Response data
      * @return $this
      */
     public function data($data): self
     {
         $this->data['data'] = $data;
+
         return $this;
     }
 
     /**
      * Sets additional information for the response
-     * @param mixed $info Additional information
+     *
+     * @param  mixed  $info  Additional information
      * @return $this
      */
     public function info($info): self
     {
         $this->data['info'] = $info;
+
         return $this;
     }
 
     /**
      * Sets the error message
-     * @param string $error Error message
+     *
+     * @param  string  $error  Error message
      * @return $this
      */
     public function error(string $error): self
     {
         $this->data['error'] = $error;
+
         return $this;
     }
 
     /**
      * Sets the response status code
-     * @param int $status HTTP status code
-     * @return int
+     *
+     * @param  int  $status  HTTP status code
      */
     public function setStatus(int $status): int
     {
@@ -165,7 +174,6 @@ class ResponseApi
 
     /**
      * Gets the error message
-     * @return string|null
      */
     public function getError(): ?string
     {
@@ -174,7 +182,6 @@ class ResponseApi
 
     /**
      * Gets the response message
-     * @return string|null
      */
     public function getMessage(): ?string
     {
@@ -183,6 +190,7 @@ class ResponseApi
 
     /**
      * Gets the response data
+     *
      * @return mixed
      */
     public function getData()
@@ -192,6 +200,7 @@ class ResponseApi
 
     /**
      * Gets the additional information
+     *
      * @return mixed
      */
     public function getInfo()
@@ -201,7 +210,6 @@ class ResponseApi
 
     /**
      * Gets the response status code
-     * @return int
      */
     public function getStatus(): int
     {
@@ -214,6 +222,7 @@ class ResponseApi
     public function removeData()
     {
         unset($this->data['data']);
+
         return $this;
     }
 
@@ -223,6 +232,7 @@ class ResponseApi
     public function removeMessage()
     {
         unset($this->data['message']);
+
         return $this;
     }
 
@@ -232,6 +242,7 @@ class ResponseApi
     public function removeInfo()
     {
         unset($this->data['info']);
+
         return $this;
     }
 
@@ -241,12 +252,12 @@ class ResponseApi
     public function removeError()
     {
         unset($this->data['error']);
+
         return $this;
     }
 
     /**
      * Converts the response to an array
-     * @return array
      */
     public function toArray(): array
     {
@@ -255,11 +266,13 @@ class ResponseApi
 
     /**
      * Returns a JSON response with appropriate HTTP status code
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function json()
     {
         $status = $this->getStatus();
+
         return response()->json($this->toArray(), $status);
     }
 }

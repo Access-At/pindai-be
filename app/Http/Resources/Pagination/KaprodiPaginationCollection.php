@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Pagination;
 
-use App\Http\Resources\BasePaginationCollection;
-use App\Http\Resources\Dppm\KaprodiResource;
 use Illuminate\Http\Request;
+use App\Http\Resources\Dppm\KaprodiResource;
+use App\Http\Resources\BasePaginationCollection;
 
 class KaprodiPaginationCollection extends BasePaginationCollection
 {

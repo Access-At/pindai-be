@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Prodi;
-use App\Models\User;
 use App\RepositoriesInterface\DosenRepositoryInterface;
 
 class DosenRepository implements DosenRepositoryInterface
@@ -18,6 +18,15 @@ class DosenRepository implements DosenRepositoryInterface
             ->orderBy('name', 'asc')
             ->where('name', 'like', "%{$search}%")
             ->paginate($perPage, ['*'], 'page', $page);
+    }
+
+    public static function getListDosen(string $name)
+    {
+        return User::role(self::ROLE_DOSEN)
+            ->with(['dosen.prodi', 'dosen.fakultas'])
+            ->where('name', 'like', "%{$name}%")
+            ->orWhere('nidn', 'like', "%{$name}%")
+            ->get();
     }
 
     public static function getDosenById($id)
@@ -38,32 +47,29 @@ class DosenRepository implements DosenRepositoryInterface
         return Dosen::create([
             'user_id' => $user->id,
             'prodi_id' => $prodi->id,
-            'name_with_title' => $data['name_with_title'],
-            'phone_number' => $data['phone_number'],
-            'affiliate_campus' => $data['affiliate_campus'],
-            'job_functional' => $data['job_functional'],
-            'scholar_id' => $data['scopus_id'],
-            'scopus_id' => $data['scopus_id'],
+            // 'name_with_title' => $data['name_with_title'],
+            // 'phone_number' => $data['phone_number'],
+            // 'affiliate_campus' => $data['affiliate_campus'],
+            // 'job_functional' => $data['job_functional'],
+            // 'scholar_id' => $data['scopus_id'],
+            // 'scopus_id' => $data['scopus_id'],
         ]);
     }
 
     public static function updateDosen($id, $data)
     {
         $user = User::byHash($id);
-        $prodi = Prodi::byHash($data['prodi_id']);
-
         $user->update($data);
 
-        return Dosen::where('user_id', $user->id)
-            ->update([
-                'prodi_id' => $prodi->id,
-                'name_with_title' => $data['name_with_title'],
-                'phone_number' => $data['phone_number'],
-                'affiliate_campus' => $data['affiliate_campus'],
-                'job_functional' => $data['job_functional'],
-                'scholar_id' => $data['scopus_id'],
-                'scopus_id' => $data['scopus_id'],
-            ]);
+        return $user->dosen->update([
+            'prodi_id' => Prodi::byHash($data['prodi_id'])->id,
+            'name_with_title' => $data['name_with_title'] ?? '',
+            'phone_number' => $data['phone_number'] ?? '',
+            'affiliate_campus' => $data['affiliate_campus'] ?? '',
+            'job_functional' => $data['job_functional'] ?? '',
+            'scholar_id' => $data['scopus_id'] ?? null,
+            'scopus_id' => $data['scopus_id'] ?? null,
+        ]);
     }
 
     public static function deleteDosen($id)

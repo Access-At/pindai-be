@@ -33,6 +33,7 @@ class FakultasRepository implements FakultasRepositoryInterface
     {
         $fakultas = Faculty::byHash($id);
         $fakultas->update($data);
+
         return $fakultas;
     }
 
@@ -40,6 +41,7 @@ class FakultasRepository implements FakultasRepositoryInterface
     {
         $fakultas = Faculty::byHash($id);
         $fakultas->delete();
+
         return $fakultas;
     }
 
