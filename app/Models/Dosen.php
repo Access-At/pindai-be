@@ -41,7 +41,7 @@ class Dosen extends Model
             'faculties_id',
             '',
             [
-                Faculty::class => 'id',
+                Faculty::class => 'faculties_id',
                 Prodi::class => 'prodi_id',
             ]
         );

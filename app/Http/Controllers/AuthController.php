@@ -106,13 +106,13 @@ class AuthController extends Controller
 
         if ($user->roles->first()->name === 'dosen') {
             $userData = array_merge($userData, [
-                'name_with_title' => $user->dosen->name_with_title,
-                'phone_number' => $user->dosen->phone_number,
-                'scholar_id' => $user->dosen->scholar_id,
-                'scopus_id' => $user->dosen->scopus_id,
-                'job_functional' => $user->dosen->job_functional,
-                'affiliate_campus' => $user->dosen->affiliate_campus,
-                'prodi' => $user->dosen->prodi->name,
+                'name_with_title' => $user->dosen->name_with_title ?? '',
+                'phone_number' => $user->dosen->phone_number ?? '',
+                'scholar_id' => $user->dosen->scholar_id ?? '',
+                'scopus_id' => $user->dosen->scopus_id ?? '',
+                'job_functional' => $user->dosen->job_functional ?? '',
+                'affiliate_campus' => $user->dosen->affiliate_campus ?? '',
+                'prodi' => $user->dosen->prodi->name ?? '',
             ]);
         }
 
