@@ -28,21 +28,24 @@ class JenisPenelitianSeeder extends Seeder
                 'Keterangan' => 'Minimal Lektor'
             ],
             [
-                'jenis' => 'Penelitian Kerjasama Luar Negeri', 
+                'jenis' => 'Penelitian Kerjasama Luar Negeri',
                 'kriteria' => [
-                    'Target Luaran Jurnal Internasional Bereputasi', 'Memiliki MoU, MoA, dan IA Kerjasama'
+                    'Target Luaran Jurnal Internasional Bereputasi',
+                    'Memiliki MoU, MoA, dan IA Kerjasama'
                 ],
                 'Keterangan' => 'Minimal Lektor'
             ],
             [
-                'jenis' => 'Penelitian Kerjasama Dalam Negeri', 
+                'jenis' => 'Penelitian Kerjasama Dalam Negeri',
                 'kriteria' => [
-                    'Target Luaran Publikasi Sinta 1 s/d 3','Target Luaran Jurnal Internasional Bereputasi', 'Jurnal International Bereputasi'
+                    'Target Luaran Publikasi Sinta 1 s/d 3',
+                    'Target Luaran Jurnal Internasional Bereputasi',
+                    'Jurnal International Bereputasi'
                 ],
                 'Keterangan' => 'Minimal Asisten Ahli'
             ],
             [
-                'jenis' => 'Penelitian Mandiri', 
+                'jenis' => 'Penelitian Mandiri',
                 'kriteria' => [
                     'Target Publikasi Jurnal Nasional Terakreditasi 5 dan 6'
                 ],
@@ -51,7 +54,7 @@ class JenisPenelitianSeeder extends Seeder
         ];
 
         foreach ($jenis as $key => $value) {
-            \App\Models\JenisPenelitianModel::create($value);
+            \App\Models\JenisPenelitian::create($value);
         }
     }
 }

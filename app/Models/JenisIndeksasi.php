@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JenisPengabdianModel extends Model
+class JenisIndeksasi extends Model
 {
-    protected $table = 'jenis_pengabdian';
+    protected $table = 'jenis_indeksasi';
     protected $guarded = [];
 
     protected $casts = [
-       'kriteria' => 'array'
+        'kriteria' => 'array'
     ];
 }
