@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helper\ResponseApi;
-use App\Http\Requests\ProfileRequest;
-use App\Services\ProfileService;
+use Modules\Profile\DataTransferObjects\ProfileDto;
+use Modules\Profile\Interfaces\ProfileServiceInterface;
+use Modules\Profile\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        protected ProfileServiceInterface $service
+    ) {}
+
     public function getProfile()
     {
-        $profile = ProfileService::getProfile();
+        $profile = $this->service->getProfile();
 
         return ResponseApi::statusSuccess()
             ->message('Get Profile Success')
@@ -21,20 +26,22 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-        $profile = ProfileService::updateProfile($request->validated());
+
+        $this->service->updateProfile(
+            ProfileDto::fromRequest($request)
+        );
 
         return ResponseApi::statusSuccess()
-            ->message('Ubah data profile berhasil')
-            ->data($profile)
+            ->message('Berhasil ubah data profile')
             ->json();
     }
 
-    public function updatePassword(Request $request)
-    {
-        $profile = ProfileService::changePassword($request);
+    // public function updatePassword(Request $request)
+    // {
+    //     $profile = ProfileService::changePassword($request);
 
-        return ResponseApi::statusSuccess()
-            ->data($profile)
-            ->json();
-    }
+    //     return ResponseApi::statusSuccess()
+    //         ->data($profile)
+    //         ->json();
+    // }
 }

@@ -29,6 +29,8 @@ return new class extends Migration
                     'id'
                 )->on('prodi')
                 ->noActionOnDelete();
+            $table->boolean('is_approved')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

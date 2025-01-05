@@ -66,6 +66,57 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Dosen::class);
     }
 
+    public function scopeDppmRole($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'dppm');
+        });
+    }
+
+    public function scopeKaprodiRole($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'kaprodi');
+        });
+    }
+
+    public function scopeDosenRole($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'dosen');
+        });
+    }
+
+    public function scopeKeuanganRole($query)
+    {
+        return $query->whereHas('roles', function ($query) {
+            $query->where('name', 'keuangan');
+        });
+    }
+
+    public function scopeActiveKaprodi($query, $type)
+    {
+        return $query->whereHas('kaprodi', function ($query) use ($type) {
+            $query->where('is_active', $type);
+        });
+    }
+
+    public function scopeActiveDosen($query, $type)
+    {
+        return $query->whereHas('dosen', function ($query) use ($type) {
+            $query->where('is_active', $type);
+        });
+    }
+
+    public function scopeApprovedDosen($query, $type)
+    {
+        return $query->whereHas('dosen', function ($query) use ($type) {
+            $query->where('is_approved', $type);
+        });
+    }
+
+
+
     /**
      * Get the attributes that should be cast.
      *

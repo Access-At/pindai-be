@@ -21,6 +21,12 @@ class Kaprodi extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function scopeActive($query, $type = 1)
+    {
+        return $query->where('is_active', $type);
+    }
+
+
     public function faculty()
     {
         return $this->belongsTo(Faculty::class, 'faculties_id');

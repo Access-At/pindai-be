@@ -15,8 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => App\Http\Middleware\RoleMiddleware::class,
             'secure' => App\Http\Middleware\EncryptRequestResponseMiddleware::class,
-
-            // 'signature' => App\Http\Middleware\SignatureHeaderMiddleware::class,
+            'signature' => App\Http\Middleware\SignatureHeaderMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {})->create();

@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
         $roleDppm = Role::create(['name' => 'dppm']);
         $roleKaprodi = Role::create(['name' => 'kaprodi']);
         $roleDosen = Role::create(['name' => 'dosen']);
+        $roleKuangan =  Role::create(['name' => 'kuangan']);
 
         $userDppm = User::factory()->create([
             'name' => 'Direktur Pembinaan Mahasiswa',
@@ -32,15 +33,27 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        Kaprodi::create([
-            'user_id' => $userKaprodi->id,
-            'faculties_id' => 2,
-        ]);
-
         $userDosen = User::factory()->create([
             'name' => 'Dosen',
             'email' => 'dosen@example.com',
             'password' => Hash::make('password'),
+        ]);
+
+        $userDosen1 = User::factory()->create([
+            'name' => 'Dosen1',
+            'email' => 'dosen1@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        $userKuangan = User::factory()->create([
+            'name' => 'Kuangan',
+            'email' => 'kuangan@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        Kaprodi::create([
+            'user_id' => $userKaprodi->id,
+            'faculties_id' => 2,
         ]);
 
         Dosen::create([
@@ -52,12 +65,6 @@ class UserSeeder extends Seeder
             'job_functional' => 'Dosen',
             'affiliate_campus' => 'Kampus A',
             'prodi_id' => 1,
-        ]);
-
-        $userDosen1 = User::factory()->create([
-            'name' => 'Dosen1',
-            'email' => 'dosen1@example.com',
-            'password' => Hash::make('password'),
         ]);
 
         Dosen::create([
@@ -75,5 +82,6 @@ class UserSeeder extends Seeder
         $userKaprodi->assignRole($roleKaprodi);
         $userDosen->assignRole($roleDosen);
         $userDosen1->assignRole($roleDosen);
+        $userKuangan->assignRole($roleKuangan);
     }
 }

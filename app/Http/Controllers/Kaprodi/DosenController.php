@@ -5,19 +5,24 @@ namespace App\Http\Controllers\Kaprodi;
 use Throwable;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
-use App\Services\DosenService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\KaprodiDosenRequest;
+use Modules\Kaprodi\DataTransferObjects\DosenDto;
+use Modules\Kaprodi\Requests\DosenRequest;
+use Modules\Kaprodi\Services\DosenService;
 
 class DosenController extends Controller
 {
+    public function __construct(
+        protected DosenService $service
+    ) {}
+
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10); // default 10
         $page = $request->get('page', 1); // default halaman 1
-        $search = $request->get('search', ''); // default filter kosong
+        $search = $request->get('search', '') ?? ''; // default filter kosong
 
-        $data = DosenService::getAllDosen($perPage, $page, $search);
+        $data = $this->service->getAllDosen($perPage, $page, $search);
 
         return ResponseApi::statusSuccess()
             ->message('succes get dosen')
@@ -27,41 +32,61 @@ class DosenController extends Controller
 
     public function show($id)
     {
-        try {
-            $data = DosenService::getDosenById($id);
+        $data = $this->service->getDosenById($id);
 
-            return ResponseApi::statusSuccess()
-                ->message('succes get dosen')
-                ->data($data)
-                ->json();
-        } catch (Throwable $th) {
-            return ResponseApi::statusNotFound()
-                ->message('data dosen tidak ditemukan')
-                ->json();
-        }
+        return ResponseApi::statusSuccess()
+            ->message('succes get dosen')
+            ->data($data)
+            ->json();
     }
 
-    public function store(KaprodiDosenRequest $request)
+    public function store(DosenRequest $request)
     {
-        DosenService::createDosen($request->validated());
+        // DosenService::createDosen($request->validated());
+        $this->service->insertDosen(
+            DosenDto::fromRequest($request)
+        );
 
         return ResponseApi::statusSuccess()
             ->message('berhasil tambah dosen')
             ->json();
     }
 
-    public function update(KaprodiDosenRequest $request, $id)
+    public function update(DosenRequest $request, $id)
     {
-        DosenService::updateDosen($id, $request->validated());
+        // DosenService::updateDosen($id, $request->validated());
+        $this->service->updateDosen(
+            $id,
+            DosenDto::fromRequest($request)
+        );
 
         return ResponseApi::statusSuccess()
             ->message('berhasil mengubah dosen')
             ->json();
     }
 
+    public function approved($id)
+    {
+        $this->service->approvedDosen($id);
+
+        return ResponseApi::statusSuccess()
+            ->message('dosen telah disetujui')
+            ->json();
+    }
+
+    public function active($id, Request $request)
+    {
+        // DosenService::activeDosen($id, $request->is_active);
+        $this->service->activeDosen($id, $request->is_active);
+
+        return ResponseApi::statusSuccess()
+            ->message('berhasil mengubah status dosen')
+            ->json();
+    }
+
     public function destroy($id)
     {
-        DosenService::deleteDosen($id);
+        $this->service->deleteDosen($id);
 
         return ResponseApi::statusSuccess()
             ->message('berhasil menghapus dosen')

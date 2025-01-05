@@ -166,10 +166,13 @@ class ResponseApi
      * Sets the response status code
      *
      * @param  int  $status  HTTP status code
+     * @return $this
      */
-    public function setStatus(int $status): int
+    public function status(int $status): self
     {
-        return $this->data['status'] = $status;
+        $this->data['status'] = $status;
+
+        return $this;
     }
 
     /**

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Password Akun {{ $data['menuju'] }}</title>
     <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
@@ -12,18 +13,22 @@
             margin: 0 auto;
             padding: 20px;
         }
+
         h2 {
             color: #2c5282;
             border-bottom: 2px solid #2c5282;
             padding-bottom: 10px;
         }
+
         table {
             margin: 20px 0;
             border-collapse: collapse;
         }
+
         td {
             padding: 8px 15px;
         }
+
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -33,6 +38,7 @@
             border-radius: 5px;
             margin: 20px 0;
         }
+
         .footer {
             margin-top: 30px;
             padding-top: 20px;
@@ -41,6 +47,7 @@
         }
     </style>
 </head>
+
 <body>
     <h2>Informasi Akun {{ $data['menuju'] }}</h2>
     <p>Yth. Bapak/Ibu {{ $data['menuju'] }}</p>
@@ -60,7 +67,7 @@
     <p>Silakan gunakan informasi di atas untuk login ke sistem.</p>
     <p>Demi keamanan akun Anda, segera ubah password setelah berhasil login.</p>
 
-    {{-- <a href="{{ url('/login') }}" class="button">Login Sekarang</a> --}}
+    {{-- <a href="{{ url('/') }}" class="button">Login Sekarang</a> --}}
 
     <div class="footer">
         <p>Terima kasih,</p>
@@ -68,4 +75,5 @@
         <small>Email ini dibuat secara otomatis. Mohon tidak membalas email ini.</small>
     </div>
 </body>
+
 </html>

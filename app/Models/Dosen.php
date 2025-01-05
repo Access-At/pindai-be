@@ -26,7 +26,19 @@ class Dosen extends Model
         'scopus_id',
         'job_functional',
         'affiliate_campus',
+        'is_approved',
+        'is_active',
     ];
+
+    public function scopeActive($query, $type = 1)
+    {
+        return $query->where('is_active', $type);
+    }
+
+    public function scopeApproved($query, $type = 1)
+    {
+        return $query->where('is_approved', $type);
+    }
 
     public function prodi()
     {
