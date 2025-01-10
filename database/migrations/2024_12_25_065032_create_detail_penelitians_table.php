@@ -18,7 +18,7 @@ return new class extends Migration
                     'id'
                 )->on('anggota_penelitian')
                 ->noActionOnDelete();
-            $table->foreignId('penilitian_id')
+            $table->foreignId('penelitian_id')
                 ->nullable()->references(
                     'id'
                 )->on('penelitian')

@@ -41,6 +41,10 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::get('/dosen', [ListController::class, 'getListDosen']);
             Route::get('/author-scholar', [ListController::class, 'getAuthorScholar']);
             Route::get('/author-scholar/{id}', [ListController::class, 'getAuthorProfileScholar']);
+
+            Route::get('/jenis-indeksasi', [ListController::class, 'getListJenisIndeksasi']);
+            Route::get('/jenis-penelitian', [ListController::class, 'getListJenisPenelitian']);
+            Route::get('/jenis-pengabdian', [ListController::class, 'getListJenisPengambdian']);
         });
 
         // DPPM

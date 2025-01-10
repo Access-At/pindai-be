@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatusPenelitian;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,8 +20,8 @@ return new class extends Migration
             // $table->enum('semester', ['ganjil', 'genap']);
             $table->string('semester');
             $table->text('deskripsi');
-            $table->string('status_kaprodi');
-            $table->string('status_dppm');
+            $table->string('status_kaprodi')->default(StatusPenelitian::Pending);
+            $table->string('status_dppm')->default(StatusPenelitian::Pending);
             $table->foreignId('jenis_penelitian_id')
                 ->nullable()->references(
                     'id'

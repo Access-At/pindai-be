@@ -26,7 +26,6 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-
         $this->service->updateProfile(
             ProfileDto::fromRequest($request)
         );

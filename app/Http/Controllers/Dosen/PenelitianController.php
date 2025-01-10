@@ -24,18 +24,18 @@ class PenelitianController extends Controller
         $data = $this->service->getAllPenelitian($perPage, $page, $search);
 
         return ResponseApi::statusSuccess()
-            ->message('Data Fakultas berhasil diambil')
+            ->message('Data Penelitian berhasil diambil')
             ->data($data)
             ->json();
     }
 
-    // public function show(string $id)
-    // {
-    //     return ResponseApi::statusSuccess()
-    //         ->message('Data Fakultas berhasil diambil')
-    //         ->data($this->service->getFakultasById($id))
-    //         ->json();
-    // }
+    public function show(string $id)
+    {
+        return ResponseApi::statusSuccess()
+            ->message('Data Penelitian berhasil diambil')
+            ->data($this->service->getPenelitianById($id))
+            ->json();
+    }
 
     public function store(PenelitianRequest $request)
     {
@@ -44,27 +44,27 @@ class PenelitianController extends Controller
         );
 
         return ResponseApi::statusSuccessCreated()
-            ->message('Data Fakultas berhasil ditambahkan')
+            ->message('Data Penelitian berhasil ditambahkan')
             ->data($data)
             ->json();
     }
 
-    // public function update(FakultasRequest $request, $id)
+    // public function update(PenelitianRequest $request, $id)
     // {
-    //     $data = $this->service->updateFakultas($id, FakultasDto::fromRequest($request));
+    //     $data = $this->service->updatePenelitian($id, PenelitianDto::fromRequest($request));
 
     //     return ResponseApi::statusSuccess()
-    //         ->message('Data Fakultas berhasil diubah')
+    //         ->message('Data Penelitian berhasil diubah')
     //         ->data($data)
     //         ->json();
     // }
 
     // public function destroy($id)
     // {
-    //     $this->service->deleteFakultas($id);
+    //     $this->service->deletePenelitian($id);
 
     //     return ResponseApi::statusSuccess()
-    //         ->message('Data Fakultas berhasil dihapus')
+    //         ->message('Data Penelitian berhasil dihapus')
     //         ->json();
     // }
 }

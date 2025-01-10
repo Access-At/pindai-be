@@ -27,11 +27,11 @@ class PenelitianRequest extends CustomRequest
             ],
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            // 'jenis_penelitian' => ['required', new ExistsByHash(JenisPenelitian::class)],
-            // 'jenis_indeksasi' => [
-            //     'required',
-            //     new ExistsByHash(JenisIndeksasi::class)
-            // ],
+            'jenis_penelitian' => ['required', new ExistsByHash(JenisPenelitian::class)],
+            'jenis_indeksasi' => [
+                'required',
+                new ExistsByHash(JenisIndeksasi::class)
+            ],
             'anggota' => 'required|array',
             'anggota.*.nidn' => ['required'],
             'anggota.*.name' => ['required'],

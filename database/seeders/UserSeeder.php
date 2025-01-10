@@ -65,6 +65,7 @@ class UserSeeder extends Seeder
             'job_functional' => 'Dosen',
             'affiliate_campus' => 'Kampus A',
             'prodi_id' => 1,
+            'is_approved' => 1,
         ]);
 
         Dosen::create([

@@ -34,12 +34,41 @@ class ListController extends Controller
 
     public function getListDosen(Request $request)
     {
-        $name = $request->get('search') ?? '';
+        $perPage = $request->get('per_page', 10); // default 10
+        $page = $request->get('page', 1); // default halaman 1
+        $search = $request->get('search', '') ?? ''; // default filter kosong
 
-        $data = $this->service->getListDosen($name);
+        $data = $this->service->getListDosen($perPage, $page, $search);
 
         return ResponseApi::statusSuccess()
             ->message('Success get list dosen')
+            ->data($data)
+            ->json();
+    }
+
+    public function getListJenisIndeksasi()
+    {
+        $data = $this->service->getListJenisIndeksasi();
+        return ResponseApi::statusSuccess()
+            ->message('Success get list jenis indeksasi')
+            ->data($data)
+            ->json();
+    }
+
+    public function getListJenisPenelitian()
+    {
+        $data = $this->service->getListJenisPenelitian();
+        return ResponseApi::statusSuccess()
+            ->message('Success get list jenis penelitian')
+            ->data($data)
+            ->json();
+    }
+
+    public function getListJenisPengambdian()
+    {
+        $data = $this->service->getListJenisPengambdian();
+        return ResponseApi::statusSuccess()
+            ->message('Success get list jenis pengambdian')
             ->data($data)
             ->json();
     }

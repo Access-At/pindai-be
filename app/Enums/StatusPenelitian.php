@@ -4,16 +4,16 @@ namespace App\Enums;
 
 enum StatusPenelitian: string
 {
-    case Approval = 'Disetujui';
     case Pending = 'Menunggu';
+    case Approval = 'Disetujui';
     case Reject = 'Ditolak';
 
     public function label(): string
     {
         return match ($this) {
-            self::Approval => 'Disetujui',
-            self::Pending => 'Menunggu Persetujuan',
-            self::Reject => 'Ditolak'
+            self::Pending => 'Waiting for Approval',
+            self::Approval => 'Approved',
+            self::Reject => 'Rejected'
         };
     }
 }

@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('prodi');
             $table->string('name');
             $table->string('name_with_title')->nullable();
-            $table->string('schoolar_id')->nullable();
+            $table->string('scholar_id')->nullable();
             $table->string('scopus_id')->nullable();
             $table->string('job_functional')->nullable();
             $table->string('affiliate_campus')->nullable();
-            $table->boolean('is_leader');
+            $table->boolean('is_leader')->default(false);
             $table->timestamps();
         });
     }
