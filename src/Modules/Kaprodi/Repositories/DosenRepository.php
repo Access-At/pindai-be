@@ -12,9 +12,12 @@ class DosenRepository
     public static function getAllDosen($perPage, $page, $search)
     {
         return User::dosenRole()
-            ->with(['dosen.prodi', 'dosen.fakultas', 'dosen'])
+            ->with(['dosen' => function ($query) {
+                $query->with(['prodi', 'fakultas']);
+            }])
+            // ->with(['dosen.prodi', 'dosen.fakultas', 'dosen'])
             ->orderBy('name', 'asc')
-            ->where(function ($query) use ($search) {
+            ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%");
             })
@@ -24,7 +27,9 @@ class DosenRepository
     public static function getDosenById($id)
     {
         return User::dosenRole()
-            ->with(['dosen.prodi', 'dosen.fakultas', 'dosen'])
+            ->with(['dosen' => function ($query) {
+                $query->with(['prodi', 'fakultas']);
+            }])
             ->byHash($id)
             ->first();
     }

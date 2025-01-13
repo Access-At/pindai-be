@@ -17,11 +17,13 @@ return new class extends Migration
             $table->string('kode');
             $table->string('judul');
             $table->string('tahun_akademik');
+            $table->string('bidang');
             // $table->enum('semester', ['ganjil', 'genap']);
             $table->string('semester');
             $table->text('deskripsi');
             $table->string('status_kaprodi')->default(StatusPenelitian::Pending);
             $table->string('status_dppm')->default(StatusPenelitian::Pending);
+            $table->string('status_keuangan')->default(StatusPenelitian::Pending);
             $table->foreignId('jenis_penelitian_id')
                 ->nullable()->references(
                     'id'

@@ -2,6 +2,7 @@
 
 namespace Modules\Dosen\Interfaces;
 
+use Illuminate\Http\Request;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 
 interface PenelitianServiceInterface

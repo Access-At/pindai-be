@@ -22,11 +22,23 @@ class Penelitian extends Model
         'tahun_akademik',
         'semester',
         'deskripsi',
+        'bidang',
         'status_kaprodi',
         'status_dppm',
+        'status_keuangan',
         'jenis_penelitian_id',
         'jenis_indeksasi_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'semester' => Semester::class,
+            'status_kaprodi' => StatusPenelitian::class,
+            'status_dppm' => StatusPenelitian::class,
+            'status_keuangan' => StatusPenelitian::class,
+        ];
+    }
 
     protected static function boot()
     {
@@ -47,20 +59,6 @@ class Penelitian extends Model
         });
     }
 
-    protected function casts(): array
-    {
-        return [
-            'semester' => Semester::class,
-            'status_kaprodi' => StatusPenelitian::class,
-            'status_dppm' => StatusPenelitian::class,
-        ];
-    }
-
-    public function detail()
-    {
-        return $this->hasMany(DetailPenelitian::class);
-    }
-
 
     public function getAnggotaAttribute()
     {
@@ -69,11 +67,35 @@ class Penelitian extends Model
 
     public function getKetuaAttribute()
     {
-        // NOTE: change name with title or not
         $detail = $this->detail()->with(['anggotaPenelitian' => function ($q) {
             $q->where('is_leader', true);
         }])->first();
 
-        return $detail ? $detail->anggotaPenelitian->name_with_title ?? $detail->anggotaPenelitian->name  : null;
+        return $detail ? $detail->anggotaPenelitian  : null;
+    }
+
+    public function scopeMyPenelitian($query)
+    {
+        return $query->whereHas('detail', function ($query) {
+            // $query->where('detail.anggotaPenelitian', auth()->user()->email);
+            $query->whereHas('anggotaPenelitian', function ($q) {
+                $q->where('email', auth()->user()->email);
+            });
+        });
+    }
+
+    public function detail()
+    {
+        return $this->hasMany(DetailPenelitian::class);
+    }
+
+    public function jenisPenelitian()
+    {
+        return $this->belongsTo(JenisPenelitian::class, 'jenis_penelitian_id');
+    }
+
+    public function jenisIndex()
+    {
+        return $this->belongsTo(JenisIndeksasi::class, 'jenis_indeksasi_id');
     }
 }

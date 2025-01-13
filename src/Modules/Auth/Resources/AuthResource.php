@@ -11,12 +11,12 @@ class AuthResource extends CustomResource
 {
     public function data(Request $request): array
     {
-        $userData = $this->getBaseUserData();
+        $thisData = $this->getBaseUserData();
 
-        return match ($userData['role']) {
-            'kaprodi' => array_merge($userData, $this->getKaprodiData()),
-            'dosen' => array_merge($userData, $this->getDosenData()),
-            default => $userData
+        return match ($thisData['role']) {
+            'kaprodi' => array_merge($thisData, $this->getKaprodiData()),
+            'dosen' => array_merge($thisData, $this->getDosenData()),
+            default => $thisData
         };
     }
 
@@ -43,14 +43,14 @@ class AuthResource extends CustomResource
     private function getDosenData(): array
     {
         return [
-            'name_with_title' => $user->dosen->name_with_title ?? '',
-            'phone_number' => $user->dosen->phone_number ?? '',
-            'scholar_id' => $user->dosen->scholar_id ?? '',
-            'scopus_id' => $user->dosen->scopus_id ?? '',
-            'job_functional' => $user->dosen->job_functional ?? '',
-            'affiliate_campus' => $user->dosen->affiliate_campus ?? '',
-            'prodi_id' => $user->dosen->prodi->hash ?? '',
-            'prodi' => $user->dosen->prodi->name ?? '',
+            'name_with_title' => $this->dosen->name_with_title ?? '',
+            'phone_number' => $this->dosen->phone_number ?? '',
+            'scholar_id' => $this->dosen->scholar_id ?? '',
+            'scopus_id' => $this->dosen->scopus_id ?? '',
+            'job_functional' => $this->dosen->job_functional ?? '',
+            'affiliate_campus' => $this->dosen->affiliate_campus ?? '',
+            'prodi_id' => $this->dosen->prodi->hash ?? '',
+            'prodi' => $this->dosen->prodi->name ?? '',
         ];
     }
 }

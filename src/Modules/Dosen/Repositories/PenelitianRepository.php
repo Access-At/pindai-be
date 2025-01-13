@@ -13,7 +13,10 @@ class PenelitianRepository
 {
     public static function getAllPenelitian($perPage, $page, $search)
     {
-        return Penelitian::paginate($perPage, ['*'], 'page', $page);
+        return Penelitian::myPenelitian()
+            ->where('judul', 'like', "%{$search}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 
     public static function getPenelitianById($id)
@@ -31,12 +34,12 @@ class PenelitianRepository
             'semester' => $request->semester,
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
+            'bidang' => $request->bidang,
             'jenis_penelitian_id' => $getJenisPenelitian,
             'jenis_indeksasi_id' => $getJenisIndex,
         ]);
 
         foreach ($request->anggota as $key => $anggota) {
-
             $anggota = AnggotaPenelitian::create([
                 'nidn' => $anggota['nidn'],
                 'email' => $anggota['email'],
@@ -57,7 +60,7 @@ class PenelitianRepository
             ]);
         }
 
-        return $penelitian;
+        return self::getPenelitianById($penelitian->hash);
     }
 
     public static function updatePenelitian($id, PenelitianDto $request)

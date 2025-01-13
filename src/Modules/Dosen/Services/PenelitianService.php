@@ -38,10 +38,16 @@ class PenelitianService implements PenelitianServiceInterface
 
         // Ensure $anggota and $request->anggota are arrays
         $anggota = is_array($anggota) ? [$anggota] : [];
-        $requestAnggota = is_array($request->anggota) ? $request->anggota : [];
+
+        // remove is_leader if found, SECURITY BYPASS
+        array_walk($request->anggota, function (&$anggota) {
+            unset($anggota["is_leader"]);
+        });
+
+        $request->anggota = is_array($request->anggota) ? $request->anggota : [];
 
         // Merge the arrays
-        $request->anggota = array_merge($anggota, $requestAnggota);
+        $request->anggota = array_merge($anggota, $request->anggota);
 
         return new PenelitianResource(PenelitianRepository::insertPenelitian($request));
     }

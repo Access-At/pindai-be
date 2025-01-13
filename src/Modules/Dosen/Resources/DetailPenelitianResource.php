@@ -11,9 +11,20 @@ class DetailPenelitianResource extends CustomResource
 {
     public function data(Request $request): array
     {
+        $nameLeader = $this->ketua->name_with_title ?? $this->ketua->name;
+
         return [
-            'id' => $this->hash,
+            // 'id' => $this->hash,
             'title' => $this->judul,
+            'leader' => [
+                'name' => $nameLeader,
+                'prodi' => $this->ketua->prodi
+            ],
+            'bidang' => $this->bidang,
+            'jenis_penelitian' => $this->jenisPenelitian->jenis,
+            'semester' => $this->semester->label(),
+            "jenis_indeksasi" => $this->jenisIndex->jenis,
+            'academic_year' => Str::substr($this->tahun_akademik, 0, 4) . '/' . Str::substr($this->tahun_akademik, 4, 4),
             'anggota' => $this->anggota->map(function ($anggota) {
                 $anggota = $anggota->anggotaPenelitian;
                 return [
@@ -30,11 +41,11 @@ class DetailPenelitianResource extends CustomResource
                     'is_leader' => $anggota->is_leader,
                 ];
             }),
-            'academic_year' => Str::substr($this->tahun_akademik, 0, 4) . '/' . Str::substr($this->tahun_akademik, 4, 4),
-            'created_date' => Carbon::parse($this->created_at)->format('d F Y'),
+            // 'created_date' => Carbon::parse($this->created_at)->format('d F Y'),
             'status' => [
                 'kaprodi' => $this->status_kaprodi->label(),
                 'dppm' => $this->status_dppm->label(),
+                'keuangan' => $this->status_keuangan->label(),
             ]
         ];
     }

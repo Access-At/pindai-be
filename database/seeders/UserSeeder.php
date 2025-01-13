@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $roleDppm = Role::create(['name' => 'dppm']);
         $roleKaprodi = Role::create(['name' => 'kaprodi']);
         $roleDosen = Role::create(['name' => 'dosen']);
-        $roleKuangan =  Role::create(['name' => 'kuangan']);
+        $roleKuangan =  Role::create(['name' => 'keuangan']);
 
         $userDppm = User::factory()->create([
             'name' => 'Direktur Pembinaan Mahasiswa',
@@ -46,8 +46,8 @@ class UserSeeder extends Seeder
         ]);
 
         $userKuangan = User::factory()->create([
-            'name' => 'Kuangan',
-            'email' => 'kuangan@example.com',
+            'name' => 'Keuangan',
+            'email' => 'keuangan@example.com',
             'password' => Hash::make('password'),
         ]);
 

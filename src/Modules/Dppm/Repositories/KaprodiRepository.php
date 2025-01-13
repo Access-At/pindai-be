@@ -12,15 +12,23 @@ class KaprodiRepository
     public static function getAllKaprodi(int $perPage, int $page, string $search)
     {
         return User::kaprodiRole()
-            ->with(['kaprodi.faculty'])
-            ->where('name', 'like', "%{$search}%")
+            ->with(['kaprodi' => function ($query) {
+                $query->with('faculty');
+            }])
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy('name', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
     }
 
     public static function getKaprodiById(string $id)
     {
         return User::kaprodiRole()
-            ->with(['kaprodi.faculty', 'kaprodi'])
+            ->with(['kaprodi' => function ($query) {
+                $query->with('faculty');
+            }])
+            // ->with(['kaprodi.faculty', 'kaprodi'])
             ->byHash($id)
             ->first();
     }

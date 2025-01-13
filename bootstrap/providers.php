@@ -6,4 +6,5 @@ return [
     App\Providers\DosenServiceProvider::class,
     App\Providers\DppmServiceProvider::class,
     App\Providers\KaprodiServiceProvider::class,
+    App\Providers\TelescopeServiceProvider::class,
 ];
