@@ -33,8 +33,6 @@ class PenelitianRequest extends CustomRequest
                 new ExistsByHash(JenisIndeksasi::class)
             ],
             'bidang' => 'required|string',
-            // 'anggotas' => 'required',
-            // 'anggota' => 'required|string',
             'anggota' => 'required|array',
             'anggota.*.nidn' => ['required'],
             'anggota.*.name' => ['required'],

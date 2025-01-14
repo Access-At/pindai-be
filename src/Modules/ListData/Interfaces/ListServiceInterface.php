@@ -6,7 +6,7 @@ interface ListServiceInterface
 {
     public function getListFakultas();
     public function getListProdi(string $fakultas);
-    public function getListDosen(int $perPage, int $page, string $search);
+    public function getListDosen(array $options);
     public function getAuthorScholar(string $name);
     public function getAuthorProfileScholar(string $id);
     public function getListJenisIndeksasi();

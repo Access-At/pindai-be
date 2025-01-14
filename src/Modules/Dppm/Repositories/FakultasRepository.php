@@ -7,14 +7,9 @@ use Modules\Dppm\DataTransferObjects\FakultasDto;
 
 class FakultasRepository
 {
-    public static function getAllFakultas(int $perPage, int $page, string $search)
+    public static function getAllFakultas()
     {
-        return Faculty::query()
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', '%' . $search . '%');
-            })
-            ->orderBy('name', 'asc')
-            ->paginate($perPage, ['*'], 'page', $page);
+        return Faculty::query();
     }
 
     public static function getFakultasById(string $id)

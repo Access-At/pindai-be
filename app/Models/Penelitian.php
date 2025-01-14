@@ -77,9 +77,17 @@ class Penelitian extends Model
     public function scopeMyPenelitian($query)
     {
         return $query->whereHas('detail', function ($query) {
-            // $query->where('detail.anggotaPenelitian', auth()->user()->email);
             $query->whereHas('anggotaPenelitian', function ($q) {
                 $q->where('email', auth()->user()->email);
+            });
+        });
+    }
+
+    public function scopeProdiPenelitian($query, $prodi)
+    {
+        return $query->whereHas('detail', function ($query) use ($prodi) {
+            $query->whereHas('anggotaPenelitian', function ($q) use ($prodi) {
+                $q->whereIn('prodi', $prodi)->where('is_leader', true);
             });
         });
     }

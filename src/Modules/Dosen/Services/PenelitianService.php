@@ -2,6 +2,7 @@
 
 namespace Modules\Dosen\Services;
 
+use App\Helper\PaginateHelper;
 use App\Models\User;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 use Modules\Dosen\Interfaces\PenelitianServiceInterface;
@@ -13,9 +14,13 @@ use Modules\Dosen\Resources\PenelitianResource;
 
 class PenelitianService implements PenelitianServiceInterface
 {
-    public function getAllPenelitian(int $perPage, int $page, string $search)
+    public function getAllPenelitian(array $options)
     {
-        return new PenelitianPaginationCollection(PenelitianRepository::getAllPenelitian($perPage, $page, $search));
+        $data = PaginateHelper::paginate(
+            PenelitianRepository::getAllPenelitian(),
+            $options,
+        );
+        return new PenelitianPaginationCollection($data);
     }
 
     public function getPenelitianById(string $id)

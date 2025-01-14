@@ -7,27 +7,28 @@ use App\Models\DetailPenelitian;
 use App\Models\JenisIndeksasi;
 use App\Models\JenisPenelitian;
 use App\Models\Penelitian;
+use App\Models\User;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 
 class PenelitianRepository
 {
-    public static function getAllPenelitian($perPage, $page, $search)
+    public static function getAllPenelitian()
     {
-        return Penelitian::myPenelitian()
-            ->where('judul', 'like', "%{$search}%")
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage, ['*'], 'page', $page);
+        return Penelitian::myPenelitian();
     }
 
     public static function getPenelitianById($id)
     {
-        return Penelitian::byHash($id);
+        return Penelitian::with(['jenisPenelitian', 'jenisIndex', 'detail.anggotaPenelitian'])
+            ->byHash($id)
+            ->first();
     }
 
     public static function insertPenelitian(PenelitianDto $request)
     {
         $getJenisPenelitian = JenisPenelitian::byHash($request->jenis_penelitian)->id;
         $getJenisIndex = JenisIndeksasi::byHash($request->jenis_indeksasi)->id;
+
 
         $penelitian = Penelitian::create([
             'tahun_akademik' => $request->tahun_akademik,
@@ -39,8 +40,8 @@ class PenelitianRepository
             'jenis_indeksasi_id' => $getJenisIndex,
         ]);
 
-        foreach ($request->anggota as $key => $anggota) {
-            $anggota = AnggotaPenelitian::create([
+        $anggotaData = array_map(function ($anggota) use ($penelitian) {
+            $anggotaPenelitian = AnggotaPenelitian::create([
                 'nidn' => $anggota['nidn'],
                 'email' => $anggota['email'],
                 'phone_number' => $anggota['phone_number'],
@@ -54,11 +55,13 @@ class PenelitianRepository
                 'is_leader' => $anggota['is_leader'] ?? false,
             ]);
 
-            DetailPenelitian::create([
+            return [
                 'penelitian_id' => $penelitian->id,
-                'anggota_penelitian_id' => $anggota->id,
-            ]);
-        }
+                'anggota_penelitian_id' => $anggotaPenelitian->id,
+            ];
+        }, $request->anggota);
+
+        DetailPenelitian::insert($anggotaData);
 
         return self::getPenelitianById($penelitian->hash);
     }

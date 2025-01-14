@@ -6,6 +6,7 @@ use Throwable;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Faculty;
 use Modules\Dppm\DataTransferObjects\KaprodiDto;
 use Modules\Dppm\Requests\KaprodiRequest;
 use Modules\Dppm\Services\KaprodiService;
@@ -18,11 +19,21 @@ class KaprodiController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10); // default 10
-        $page = $request->get('page', 1); // default halaman 1
-        $search = $request->get('search', '') ?? ''; // default filter kosong
+        $options = [
+            'per_page' => $request->input('per_page', 10),
+            'page' => $request->input('page'),
+            'search' => $request->input('search'),
+            'search_fields' => ['name', 'email'],
+            'filters' => [
+                'kaprodi.is_active' => $request->input('is_active'),
+                'kaprodi.faculties_id' => Faculty::hashToId($request->input('fakultas_id')),
+            ],
+            'order_by' => $request->input('order_by', 'name'),
+            'order_direction' => $request->input('order_direction', 'asc'),
+            'with' => ['kaprodi.faculty'],
+        ];
 
-        $data = $this->service->getAllKaprodi($perPage, $page, $search);
+        $data = $this->service->getAllKaprodi($options);
 
         return ResponseApi::statusSuccess()
             ->message('Data Kaprodi berhasil diambil')

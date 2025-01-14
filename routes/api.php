@@ -9,6 +9,7 @@ use App\Http\Controllers\Dppm\DosenController;
 use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
 use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
+use App\Http\Controllers\Kaprodi\PenelitianController as KaprodiPenelitianController;
 use App\Http\Controllers\ProfileController;
 
 Route::group(['prefix' => 'v1', 'middleware' => [
@@ -71,6 +72,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('dosen', KaprodiDosenController::class)->only('index', 'show');
             Route::post('approved/dosen/{id}', [KaprodiDosenController::class, 'approved']);
             Route::post('active/dosen/{id}', [KaprodiDosenController::class, 'active']);
+
+            // penelitian
+            Route::apiResource('penelitian', KaprodiPenelitianController::class)->only('index', 'show');
+            Route::post('approved/penelitian/{id}', [KaprodiPenelitianController::class, 'approved']);
+            Route::post('canceled/penelitian/{id}', [KaprodiPenelitianController::class, 'canceled']);
         });
 
         // dosen

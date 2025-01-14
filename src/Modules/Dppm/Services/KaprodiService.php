@@ -2,6 +2,7 @@
 
 namespace Modules\Dppm\Services;
 
+use App\Helper\PaginateHelper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Modules\Dppm\DataTransferObjects\KaprodiDto;
@@ -15,9 +16,14 @@ use Modules\Dppm\Resources\Pagination\KaprodiPaginationCollection;
 
 class KaprodiService implements KaprodiServiceInterface
 {
-    public function getAllKaprodi(int $perPage, int $page, string $search)
+    public function getAllKaprodi(array $options)
     {
-        return new KaprodiPaginationCollection(KaprodiRepository::getAllKaprodi($perPage, $page, $search));
+        $data = PaginateHelper::paginate(
+            KaprodiRepository::getAllKaprodi(),
+            $options,
+        );
+        // return new FakultasPaginationCollection($data);
+        return new KaprodiPaginationCollection($data);
     }
 
     public function getKaprodiById(string $id)

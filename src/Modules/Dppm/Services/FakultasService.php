@@ -2,6 +2,7 @@
 
 namespace Modules\Dppm\Services;
 
+use App\Helper\PaginateHelper;
 use App\Models\Faculty;
 use Modules\Dppm\DataTransferObjects\FakultasDto;
 use Modules\Dppm\Exceptions\FakultasException;
@@ -12,9 +13,13 @@ use Modules\Dppm\Resources\Pagination\FakultasPaginationCollection;
 
 class FakultasService implements FakultasServiceInterface
 {
-    public function getAllFakultas(int $perPage, int $page, string $search)
+    public function getAllFakultas(array $options)
     {
-        return new FakultasPaginationCollection(FakultasRepository::getAllFakultas($perPage, $page, $search));
+        $data = PaginateHelper::paginate(
+            FakultasRepository::getAllFakultas(),
+            $options,
+        );
+        return new FakultasPaginationCollection($data);
     }
 
     public function getFakultasById(string $id)

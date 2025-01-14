@@ -4,10 +4,10 @@ namespace App\Enums;
 
 enum StatusPenelitian: string
 {
-    case Draft = "Draft";
-    case Pending = 'Menunggu';
-    case Approval = 'Disetujui';
-    case Reject = 'Ditolak';
+    case Draft = 'draft';
+    case Pending = 'pending';
+    case Approval = 'accepted';
+    case Reject = 'rejected';
 
     public function label(): string
     {

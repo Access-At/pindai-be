@@ -9,19 +9,9 @@ use Modules\Kaprodi\DataTransferObjects\DosenDto;
 
 class DosenRepository
 {
-    public static function getAllDosen($perPage, $page, $search)
+    public static function getAllDosen()
     {
-        return User::dosenRole()
-            ->with(['dosen' => function ($query) {
-                $query->with(['prodi', 'fakultas']);
-            }])
-            // ->with(['dosen.prodi', 'dosen.fakultas', 'dosen'])
-            ->orderBy('name', 'asc')
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->paginate($perPage, ['*'], 'page', $page);
+        return User::dosenRole();
     }
 
     public static function getDosenById($id)

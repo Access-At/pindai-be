@@ -6,18 +6,9 @@ use App\Models\User;
 
 class DosenRepository
 {
-    public static function getAllDosen($perPage, $page, $search)
+    public static function getAllDosen()
     {
-        return User::DosenRole()
-            ->with(['dosen' => function ($query) {
-                $query->with(['prodi', 'fakultas']);
-            }])
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->orderBy('name', 'asc')
-            ->paginate($perPage, ['*'], 'page', $page);
+        return User::DosenRole();
     }
 
     public static function getDosenById($id)

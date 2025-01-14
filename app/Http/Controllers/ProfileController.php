@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Helper\EncryptData;
 use App\Helper\ResponseApi;
 use Modules\Profile\DataTransferObjects\ProfileDto;
 use Modules\Profile\Interfaces\ProfileServiceInterface;
@@ -26,12 +26,17 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileRequest $request)
     {
-        $this->service->updateProfile(
+        $data = $this->service->updateProfile(
             ProfileDto::fromRequest($request)
         );
 
+        $data = $this->service->getProfile();
+
         return ResponseApi::statusSuccess()
             ->message('Berhasil ubah data profile')
+            ->data([
+                'user' => EncryptData::encrypt(json_encode($data)),
+            ])
             ->json();
     }
 

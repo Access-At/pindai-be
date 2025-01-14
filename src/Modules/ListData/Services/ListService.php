@@ -3,6 +3,7 @@
 namespace Modules\ListData\Services;
 
 use App\Helper\GoogleScholarScraper;
+use App\Helper\PaginateHelper;
 use Modules\ListData\Interfaces\ListServiceInterface;
 use Modules\ListData\Repositories\ListRepository;
 use Modules\ListData\Resources\FakultasResource;
@@ -25,19 +26,27 @@ class ListService implements ListServiceInterface
         return ProdiResource::collection(ListRepository::getListProdi($fakultas));
     }
 
-    public function getListDosen(int $perPage, int $page, string $search)
+    public function getListDosen(array $options)
     {
-        return new DosenPaginationCollection(ListRepository::getListDosen($perPage, $page, $search));
+        $data = PaginateHelper::paginate(
+            ListRepository::getListDosen(),
+            $options,
+        );
+        return new DosenPaginationCollection($data);
     }
 
     public function getAuthorScholar($name)
     {
-        return GoogleScholarScraper::searchAuthor($name);
+        return Cache::remember("author_scholar_$name", 10800, function () use ($name) { // 3 jam = 10800 detik
+            return GoogleScholarScraper::searchAuthor($name);
+        });
     }
 
     public function getAuthorProfileScholar($id)
     {
-        return Cache::remember("author_profile_$id", 60, function () use ($id) { // 5 jam = 18000 detik
+        // return GoogleScholarScraper::getAuthorProfile($id);
+
+        return Cache::remember("author_profile_$id", 18000, function () use ($id) { // 5 jam = 18000 detik
             return GoogleScholarScraper::getAuthorProfile($id);
         });
     }

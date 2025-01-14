@@ -2,6 +2,7 @@
 
 namespace Modules\Kaprodi\Services;
 
+use App\Helper\PaginateHelper;
 use Modules\Kaprodi\DataTransferObjects\DosenDto;
 use Modules\Kaprodi\Exceptions\DosenException;
 use Modules\Kaprodi\Interfaces\DosenServiceInterface;
@@ -13,10 +14,15 @@ use Illuminate\Support\Facades\Mail;
 
 class DosenService implements DosenServiceInterface
 {
-    public function getAllDosen(int $perPage, int $page, string $search)
+    public function getAllDosen(array $options)
     {
-        return new DosenPaginationCollection(DosenRepository::getAllDosen($perPage, $page, $search));
+        $data = PaginateHelper::paginate(
+            DosenRepository::getAllDosen(),
+            $options,
+        );
+        return new DosenPaginationCollection($data);
     }
+
     public function getDosenById(string $id)
     {
         $this->validateDosenExists($id);

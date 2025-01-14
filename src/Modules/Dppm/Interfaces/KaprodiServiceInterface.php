@@ -6,7 +6,7 @@ use Modules\Dppm\DataTransferObjects\KaprodiDto;
 
 interface KaprodiServiceInterface
 {
-    public function getAllKaprodi(int $perPage, int $page, string $search);
+    public function getAllKaprodi(array $options);
     public function getKaprodiById(string $id);
     public function insertKaprodi(KaprodiDto $requst);
     public function updateKaprodi(string $faculty, KaprodiDto $request);

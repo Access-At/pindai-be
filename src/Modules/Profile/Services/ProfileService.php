@@ -2,6 +2,9 @@
 
 namespace Modules\Profile\Services;
 
+use App\Helper\EncryptData;
+use App\Helper\ResponseApi;
+use Modules\Auth\Resources\AuthResource;
 use Modules\Profile\DataTransferObjects\ProfileDto;
 use Modules\Profile\Interfaces\ProfileServiceInterface;
 use Modules\Profile\Repositories\ProfileRepository;
@@ -16,6 +19,7 @@ class ProfileService implements ProfileServiceInterface
 
     public function updateProfile(ProfileDto $data)
     {
-        return ProfileRepository::updateProfile($data);
+        ProfileRepository::updateProfile($data);
+        return new AuthResource(auth('api')->user());
     }
 }

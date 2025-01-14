@@ -2,7 +2,9 @@
 
 namespace App\Helper;
 
+use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
 
 class GoogleScholarScraper
@@ -83,9 +85,17 @@ class GoogleScholarScraper
 
     private static function processAuthorPhoto(string $photo): string
     {
-        return str_contains($photo, 'scholar.googleusercontent.com')
-            ? str_replace('small', 'medium', $photo)
-            : self::GOOGLE_SCHOLAR_BASE_URL . self::DEFAULT_AVATAR;
+        // TODO: BENERIN
+
+        // Jika URL mengandung 'scholar.googleusercontent.com', ubah 'small' menjadi 'medium'
+        if (str_contains($photo, 'scholar.googleusercontent.com')) {
+            return str_replace('small', 'medium', $photo);
+        } elseif (str_contains($photo, 'view_photo')) {
+            return str_replace('view_photo', 'medium_photo', $photo);
+        } else {
+            // Jika tidak ada kecocokan, gunakan avatar default
+            return self::GOOGLE_SCHOLAR_BASE_URL . self::DEFAULT_AVATAR;
+        }
     }
 
     public static function getAuthorProfile(string $authorId): ?array
@@ -98,6 +108,7 @@ class GoogleScholarScraper
             $response = self::$client->get(self::GOOGLE_SCHOLAR_BASE_URL . '/citations?user=' . urlencode($authorId));
 
             if ($response->getStatusCode() !== 200) {
+                Log::warning("Failed to fetch profile for author ID: $authorId, status code: " . $response->getStatusCode());
                 return null;
             }
 
@@ -105,13 +116,17 @@ class GoogleScholarScraper
 
             return [
                 'name' => $crawler->filter('#gsc_prf_in')->text(),
+                // 'name_other' => $crawler->filter('#gsc_prf_in')->text(),
+                'profile_url' => "https://scholar.google.com/citations?user=$authorId",
+                'photo' => self::processAuthorPhoto($crawler->filter('#gsc_prf_pup-img')->attr('src')),
                 'affiliation' => $crawler->filter('.gsc_prf_il')->first()->text(),
                 'h_index' => $crawler->filter('td.gsc_rsb_std')->eq(2)->text(),
                 'i10_index' => $crawler->filter('td.gsc_rsb_std')->eq(4)->text(),
                 'total_citations' => $crawler->filter('td.gsc_rsb_std')->first()->text(),
                 'publications' => self::extractPublications($crawler),
             ];
-        } catch (\Exception) {
+        } catch (\Exception $e) {
+            Log::error('Error while fetching author profile', ['author_id' => $authorId, 'message' => $e->getMessage()]);
             return null;
         }
     }

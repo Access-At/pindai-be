@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dosen;
 
+use App\Enums\StatusPenelitian;
 use App\Helper\EncryptData;
 use App\Helper\ResponseApi;
 use App\Http\Controllers\Controller;
@@ -19,11 +20,23 @@ class PenelitianController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10); // default 10
-        $page = $request->get('page', 1); // default halaman 1
-        $search = $request->get('search', '') ?? ''; // default filter kosong
+        $options = [
+            'per_page' => $request->input('per_page', 10),
+            'page' => $request->input('page'),
+            'search' => $request->input('search'),
+            'search_fields' => ['judul'],
+            'filters' => [
+                'tahun_akademik' => $request->input('tahun_akademik'),
+                'status_kaprodi' => $request->input('status_kaprodi'),
+                'status_dppm' => $request->input('status_dppm'),
+                'status_keuangan' => $request->input('status_keuangan'),
+            ],
+            'order_by' => $request->input('order_by', 'created_at'),
+            'order_direction' => $request->input('order_direction', 'desc'),
+            'with' => [],
+        ];
 
-        $data = $this->service->getAllPenelitian($perPage, $page, $search);
+        $data = $this->service->getAllPenelitian($options);
 
         return ResponseApi::statusSuccess()
             ->message('Data Penelitian berhasil diambil')

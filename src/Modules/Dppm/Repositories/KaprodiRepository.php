@@ -9,17 +9,9 @@ use Modules\Dppm\DataTransferObjects\KaprodiDto;
 
 class KaprodiRepository
 {
-    public static function getAllKaprodi(int $perPage, int $page, string $search)
+    public static function getAllKaprodi()
     {
-        return User::kaprodiRole()
-            ->with(['kaprodi' => function ($query) {
-                $query->with('faculty');
-            }])
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->orderBy('name', 'asc')
-            ->paginate($perPage, ['*'], 'page', $page);
+        return User::kaprodiRole();
     }
 
     public static function getKaprodiById(string $id)
@@ -28,7 +20,6 @@ class KaprodiRepository
             ->with(['kaprodi' => function ($query) {
                 $query->with('faculty');
             }])
-            // ->with(['kaprodi.faculty', 'kaprodi'])
             ->byHash($id)
             ->first();
     }

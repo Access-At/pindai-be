@@ -24,22 +24,13 @@ class ListRepository
         return Prodi::where('faculties_id', $dataFakultas->id)->get();
     }
 
-    public static function getListDosen($perPage, $page, $search)
+    public static function getListDosen()
     {
         // NOTE: apakah sesuai fakultas atau prodi si dosen ?
-
         return User::dosenRole()
-            ->with(['dosen.prodi', 'dosen.fakultas'])
-            ->orderBy('name', 'asc')
-            ->where(function ($query) use ($search) {
-                $query
-                    ->where('name', 'like', "%{$search}%")
-                    ->orWhere('nidn', 'like', "%{$search}%");
-            })
             ->activeDosen(StatusDosen::Active)
             ->approvedDosen(ApprovedDosen::Approved)
-            ->whereNot('id', auth()->user()->id)
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->whereNot('id', auth()->user()->id);
     }
 
     public static function getListJenisIndeksasi()

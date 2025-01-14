@@ -34,14 +34,21 @@ class ListController extends Controller
 
     public function getListDosen(Request $request)
     {
-        $perPage = $request->get('per_page', 10); // default 10
-        $page = $request->get('page', 1); // default halaman 1
-        $search = $request->get('search', '') ?? ''; // default filter kosong
+        $options = [
+            'per_page' => $request->input('per_page', 10),
+            'page' => $request->input('page'),
+            'search' => $request->input('search'),
+            'search_fields' => ['name', 'nidn'],
+            'filters' => [],
+            'order_by' => $request->input('order_by', 'name'),
+            'order_direction' => $request->input('order_direction', 'asc'),
+            'with' => ['dosen.prodi', 'dosen.fakultas'],
+        ];
 
-        $data = $this->service->getListDosen($perPage, $page, $search);
+        $data = $this->service->getListDosen($options);
 
         return ResponseApi::statusSuccess()
-            ->message('Success get list dosen')
+            ->message('succes get list dosen')
             ->data($data)
             ->json();
     }
