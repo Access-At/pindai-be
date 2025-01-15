@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 
 class GenerateSecretKeys extends Command
 {
@@ -46,7 +46,7 @@ class GenerateSecretKeys extends Command
         // Display the keys in the console
         $this->info('Secret keys have been generated and saved to .env:');
         foreach ($keys as $key => $value) {
-            $this->line("$key=$value");
+            $this->line("{$key}={$value}");
         }
     }
 

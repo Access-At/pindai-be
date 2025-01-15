@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Kaprodi\Interfaces\DosenServiceInterface;
 use Modules\Kaprodi\Services\DosenService;
+use Modules\Kaprodi\Interfaces\DosenServiceInterface;
 
 class KaprodiServiceProvider extends ServiceProvider
 {
@@ -19,8 +19,5 @@ class KaprodiServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }

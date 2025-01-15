@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JenisIndeksasiSeeder extends Seeder
@@ -19,16 +18,16 @@ class JenisIndeksasiSeeder extends Seeder
                     'Scopus Q1 / WoS',
                     'Scopus Q2',
                     'Scopus Q3',
-                    'Scopus Q4'
+                    'Scopus Q4',
                 ],
-                'Keterangan' => 'Sesuai dengan ketentuan proposal'
+                'Keterangan' => 'Sesuai dengan ketentuan proposal',
             ],
             [
                 'jenis' => 'Jurnal International',
                 'kriteria' => [
-                    'Ketentuan Jurnal Internasional sesuai dengan Kepmendikbudristek No 384/P/2024'
+                    'Ketentuan Jurnal Internasional sesuai dengan Kepmendikbudristek No 384/P/2024',
                 ],
-                'Keterangan' => 'Semua Jabatan Fungsional'
+                'Keterangan' => 'Semua Jabatan Fungsional',
             ],
             [
                 'jenis' => 'Jurnal Nasional Terakreditasi SINTA',
@@ -36,35 +35,35 @@ class JenisIndeksasiSeeder extends Seeder
                     'S1',
                     'S2',
                     'S3',
-                    'S4'
+                    'S4',
                 ],
-                'Keterangan' => 'Semua Jabatan Fungsional'
+                'Keterangan' => 'Semua Jabatan Fungsional',
             ],
             [
                 'jenis' => 'Conference',
                 'kriteria' => [
                     'International Conference (Scopus Indexed)',
-                    'National Conference'
+                    'National Conference',
                 ],
-                'Keterangan' => 'Harus sesuai dengan tema bidang penelitian'
+                'Keterangan' => 'Harus sesuai dengan tema bidang penelitian',
             ],
             [
                 'jenis' => 'Jurnal Pengabdian',
                 'kriteria' => [
                     'Jurnal Nasional Terakreditasi SINTA',
-                    'Jurnal Non-Terakreditasi'
+                    'Jurnal Non-Terakreditasi',
                 ],
-                'Keterangan' => 'Dikhususkan untuk kegiatan pengabdian masyarakat'
+                'Keterangan' => 'Dikhususkan untuk kegiatan pengabdian masyarakat',
             ],
             [
                 'jenis' => 'Prosiding',
                 'kriteria' => [
                     'Indexed by Scopus',
                     'Indexed by WoS',
-                    'Non-Indexed'
+                    'Non-Indexed',
                 ],
-                'Keterangan' => 'Harus terindeks sesuai bidang penelitian'
-            ]
+                'Keterangan' => 'Harus terindeks sesuai bidang penelitian',
+            ],
         ];
 
         foreach ($data as $key => $value) {

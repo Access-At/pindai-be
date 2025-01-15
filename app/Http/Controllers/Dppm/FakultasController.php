@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Dppm;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Modules\Dppm\Requests\FakultasRequest;
 use Modules\Dppm\DataTransferObjects\FakultasDto;
 use Modules\Dppm\Interfaces\FakultasServiceInterface;
-use Modules\Dppm\Requests\FakultasRequest;
 
 class FakultasController extends Controller
 {

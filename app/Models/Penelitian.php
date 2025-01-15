@@ -10,7 +10,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class Penelitian extends Model
 {
-    use SoftDeletes, HashableId;
+    use HashableId, SoftDeletes;
 
     protected $table = 'penelitian';
 
@@ -28,37 +28,8 @@ class Penelitian extends Model
         'status_keuangan',
         'jenis_penelitian_id',
         'jenis_indeksasi_id',
+        'keterangan',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'semester' => Semester::class,
-            'status_kaprodi' => StatusPenelitian::class,
-            'status_dppm' => StatusPenelitian::class,
-            'status_keuangan' => StatusPenelitian::class,
-        ];
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $latestKode = static::withTrashed()->latest()->first();
-            $tahun = date('Y');
-
-            if (!$latestKode) {
-                $nextNumber = '001';
-            } else {
-                $lastNumber = intval(substr($latestKode->kode, -3));
-                $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
-            }
-
-            $model->kode = 'PEN-' . $tahun . '-' . $nextNumber;
-        });
-    }
-
 
     public function getAnggotaAttribute()
     {
@@ -71,7 +42,7 @@ class Penelitian extends Model
             $q->where('is_leader', true);
         }])->first();
 
-        return $detail ? $detail->anggotaPenelitian  : null;
+        return $detail ? $detail->anggotaPenelitian : null;
     }
 
     public function scopeMyPenelitian($query)
@@ -105,5 +76,34 @@ class Penelitian extends Model
     public function jenisIndex()
     {
         return $this->belongsTo(JenisIndeksasi::class, 'jenis_indeksasi_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $latestKode = static::withTrashed()->latest()->first();
+            $tahun = date('Y');
+
+            if (! $latestKode) {
+                $nextNumber = '001';
+            } else {
+                $lastNumber = (int) (mb_substr($latestKode->kode, -3));
+                $nextNumber = mb_str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+            }
+
+            $model->kode = 'PEN-' . $tahun . '-' . $nextNumber;
+        });
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'semester' => Semester::class,
+            'status_kaprodi' => StatusPenelitian::class,
+            'status_dppm' => StatusPenelitian::class,
+            'status_keuangan' => StatusPenelitian::class,
+        ];
     }
 }

@@ -3,9 +3,8 @@
 namespace Modules\Dppm\Resources\Pagination;
 
 use Illuminate\Http\Request;
-use Modules\CustomPaginationResourceResponse;
-use Modules\Dppm\Resources\DosenResource;
 use Modules\Dppm\Resources\FakultasResource;
+use Modules\CustomPaginationResourceResponse;
 
 class FakultasPaginationCollection extends CustomPaginationResourceResponse
 {

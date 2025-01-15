@@ -2,12 +2,11 @@
 
 namespace Modules\Dosen\Repositories;
 
-use App\Models\AnggotaPenelitian;
-use App\Models\DetailPenelitian;
+use App\Models\Penelitian;
 use App\Models\JenisIndeksasi;
 use App\Models\JenisPenelitian;
-use App\Models\Penelitian;
-use App\Models\User;
+use App\Models\DetailPenelitian;
+use App\Models\AnggotaPenelitian;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 
 class PenelitianRepository
@@ -28,7 +27,6 @@ class PenelitianRepository
     {
         $getJenisPenelitian = JenisPenelitian::byHash($request->jenis_penelitian)->id;
         $getJenisIndex = JenisIndeksasi::byHash($request->jenis_indeksasi)->id;
-
 
         $penelitian = Penelitian::create([
             'tahun_akademik' => $request->tahun_akademik,

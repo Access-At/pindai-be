@@ -2,16 +2,16 @@
 
 namespace Modules\Dppm\Services;
 
-use App\Helper\PaginateHelper;
 use Illuminate\Support\Str;
+use App\Helper\PaginateHelper;
 use Illuminate\Support\Facades\Mail;
-use Modules\Dppm\DataTransferObjects\KaprodiDto;
-use Modules\Dppm\Exceptions\FakultasException;
-use Modules\Dppm\Exceptions\KaprodiException;
-use Modules\Dppm\Interfaces\KaprodiServiceInterface;
-use Modules\Dppm\Repositories\FakultasRepository;
-use Modules\Dppm\Repositories\KaprodiRepository;
 use Modules\Dppm\Resources\KaprodiResource;
+use Modules\Dppm\Exceptions\KaprodiException;
+use Modules\Dppm\Exceptions\FakultasException;
+use Modules\Dppm\DataTransferObjects\KaprodiDto;
+use Modules\Dppm\Repositories\KaprodiRepository;
+use Modules\Dppm\Repositories\FakultasRepository;
+use Modules\Dppm\Interfaces\KaprodiServiceInterface;
 use Modules\Dppm\Resources\Pagination\KaprodiPaginationCollection;
 
 class KaprodiService implements KaprodiServiceInterface
@@ -22,7 +22,7 @@ class KaprodiService implements KaprodiServiceInterface
             KaprodiRepository::getAllKaprodi(),
             $options,
         );
-        // return new FakultasPaginationCollection($data);
+
         return new KaprodiPaginationCollection($data);
     }
 
@@ -62,12 +62,14 @@ class KaprodiService implements KaprodiServiceInterface
     public function updateKaprodi(string $id, KaprodiDto $request)
     {
         $this->validateKaprodiExists($id);
+
         return new KaprodiResource(KaprodiRepository::updateKaprodi($id, $request));
     }
 
     public function deleteKaprodi(string $id)
     {
         $this->validateKaprodiExists($id);
+
         return new KaprodiResource(KaprodiRepository::deleteKaprodi($id));
     }
 
@@ -75,7 +77,7 @@ class KaprodiService implements KaprodiServiceInterface
     {
         $kaprodi = KaprodiRepository::getKaprodiById($id);
 
-        if (!$kaprodi) {
+        if (! $kaprodi) {
             throw KaprodiException::kaprodiNotFound();
         }
     }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('status_kaprodi')->default(StatusPenelitian::Pending);
             $table->string('status_dppm')->default(StatusPenelitian::Pending);
             $table->string('status_keuangan')->default(StatusPenelitian::Pending);
+            $table->text('keterangan')->nullable();
             $table->foreignId('jenis_penelitian_id')
                 ->nullable()->references(
                     'id'

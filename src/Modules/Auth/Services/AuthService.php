@@ -2,19 +2,19 @@
 
 namespace Modules\Auth\Services;
 
+use Carbon\Carbon;
 use App\Enums\Role;
+use App\Models\User;
+use App\Models\Dosen;
 use App\Helper\EncryptData;
 use App\Helper\ResponseApi;
-use App\Models\Dosen;
-use Modules\Auth\DataTransferObjects\LoginDto;
-use Modules\Auth\Exceptions\AuthException;
-use Modules\Auth\Interfaces\AuthServiceInterface;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Modules\Auth\DataTransferObjects\RegisterDto;
-use Modules\Auth\Resources\AuthResource;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Modules\Auth\Resources\AuthResource;
+use Modules\Auth\Exceptions\AuthException;
+use Modules\Auth\DataTransferObjects\LoginDto;
+use Modules\Auth\DataTransferObjects\RegisterDto;
+use Modules\Auth\Interfaces\AuthServiceInterface;
 
 class AuthService implements AuthServiceInterface
 {
@@ -22,7 +22,9 @@ class AuthService implements AuthServiceInterface
     {
         $user = User::where('email', $data->email)->first();
 
-        if (!$user) throw AuthException::userNotFound();
+        if ( ! $user) {
+            throw AuthException::userNotFound();
+        }
 
         if ($user->hasRole(Role::Dosen) && ! $user->dosen->is_active) {
             throw AuthException::dosenNotActive();
@@ -42,7 +44,7 @@ class AuthService implements AuthServiceInterface
             $exp = $this->expires_in_remember();
         }
 
-        if (! $token = auth('api')->setTTL($exp)->attempt([
+        if ( ! $token = auth('api')->setTTL($exp)->attempt([
             'email' => $data->email,
             'password' => $data->password,
         ])) {
@@ -78,7 +80,7 @@ class AuthService implements AuthServiceInterface
 
     public function me(): JsonResponse
     {
-        if (! auth('api')->check()) {
+        if ( ! auth('api')->check()) {
             throw AuthException::userNotLogined();
         }
 

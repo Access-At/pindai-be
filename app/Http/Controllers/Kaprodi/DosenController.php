@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Kaprodi;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\Kaprodi\DataTransferObjects\DosenDto;
 use Modules\Kaprodi\Requests\DosenRequest;
 use Modules\Kaprodi\Services\DosenService;
+use Modules\Kaprodi\DataTransferObjects\DosenDto;
 
 class DosenController extends Controller
 {

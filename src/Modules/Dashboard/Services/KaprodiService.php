@@ -2,6 +2,13 @@
 
 namespace Modules\Dashboard\Services;
 
+use Modules\Dashboard\Repositories\KaprodiRepository;
 use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
 
-class KaprodiService implements KaprodiServiceInterface {}
+class KaprodiService implements KaprodiServiceInterface
+{
+    public function getNumberOfPenelitianByStatus()
+    {
+        return KaprodiRepository::getNumberOfPenelitianByStatus();
+    }
+}

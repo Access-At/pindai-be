@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Dppm\Interfaces\DosenServiceInterface;
-use Modules\Dppm\Interfaces\FakultasServiceInterface;
-use Modules\Dppm\Interfaces\KaprodiServiceInterface;
 use Modules\Dppm\Services\DosenService;
-use Modules\Dppm\Services\FakultasService;
 use Modules\Dppm\Services\KaprodiService;
+use Modules\Dppm\Services\FakultasService;
+use Modules\Dppm\Interfaces\DosenServiceInterface;
+use Modules\Dppm\Interfaces\KaprodiServiceInterface;
+use Modules\Dppm\Interfaces\FakultasServiceInterface;
 
 class DppmServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,5 @@ class DppmServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }

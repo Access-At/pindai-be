@@ -10,9 +10,10 @@ class JenisIndeksasi extends Model
     use HashableId;
 
     protected $table = 'jenis_indeksasi';
+
     protected $guarded = [];
 
     protected $casts = [
-        'kriteria' => 'array'
+        'kriteria' => 'array',
     ];
 }

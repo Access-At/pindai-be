@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JenisPenelitianSeeder extends Seeder
@@ -16,40 +15,40 @@ class JenisPenelitianSeeder extends Seeder
             [
                 'jenis' => 'Penelitian',
                 'kriteria' => [
-                    'Target Luaran Publikasi Jurnal Ter Akreditasi Sinta 1 s/d 4 atau International Conference terindeks'
+                    'Target Luaran Publikasi Jurnal Ter Akreditasi Sinta 1 s/d 4 atau International Conference terindeks',
                 ],
-                'Keterangan' => 'Semua Jabatan Fungsional'
+                'Keterangan' => 'Semua Jabatan Fungsional',
             ],
             [
                 'jenis' => 'Penelitian Internasional',
                 'kriteria' => [
-                    'Target Luaran Publikasi Jurnal Internasional Bereputasi'
+                    'Target Luaran Publikasi Jurnal Internasional Bereputasi',
                 ],
-                'Keterangan' => 'Minimal Lektor'
+                'Keterangan' => 'Minimal Lektor',
             ],
             [
                 'jenis' => 'Penelitian Kerjasama Luar Negeri',
                 'kriteria' => [
                     'Target Luaran Jurnal Internasional Bereputasi',
-                    'Memiliki MoU, MoA, dan IA Kerjasama'
+                    'Memiliki MoU, MoA, dan IA Kerjasama',
                 ],
-                'Keterangan' => 'Minimal Lektor'
+                'Keterangan' => 'Minimal Lektor',
             ],
             [
                 'jenis' => 'Penelitian Kerjasama Dalam Negeri',
                 'kriteria' => [
                     'Target Luaran Publikasi Sinta 1 s/d 3',
                     'Target Luaran Jurnal Internasional Bereputasi',
-                    'Jurnal International Bereputasi'
+                    'Jurnal International Bereputasi',
                 ],
-                'Keterangan' => 'Minimal Asisten Ahli'
+                'Keterangan' => 'Minimal Asisten Ahli',
             ],
             [
                 'jenis' => 'Penelitian Mandiri',
                 'kriteria' => [
-                    'Target Publikasi Jurnal Nasional Terakreditasi 5 dan 6'
+                    'Target Publikasi Jurnal Nasional Terakreditasi 5 dan 6',
                 ],
-                'Keterangan' => 'Tenaga Pengajar'
+                'Keterangan' => 'Tenaga Pengajar',
             ],
         ];
 

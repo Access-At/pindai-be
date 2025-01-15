@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Dppm;
 
-use Throwable;
+use App\Models\Faculty;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Faculty;
-use Modules\Dppm\DataTransferObjects\KaprodiDto;
 use Modules\Dppm\Requests\KaprodiRequest;
 use Modules\Dppm\Services\KaprodiService;
+use Modules\Dppm\DataTransferObjects\KaprodiDto;
 
 class KaprodiController extends Controller
 {

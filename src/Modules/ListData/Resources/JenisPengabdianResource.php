@@ -2,8 +2,8 @@
 
 namespace Modules\ListData\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class JenisPengabdianResource extends CustomResource
 {

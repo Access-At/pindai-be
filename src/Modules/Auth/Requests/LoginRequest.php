@@ -6,7 +6,6 @@ use Modules\CustomRequest;
 
 class LoginRequest extends CustomRequest
 {
-
     public function authorize(): bool
     {
         return true;

@@ -56,6 +56,7 @@ class ListController extends Controller
     public function getListJenisIndeksasi()
     {
         $data = $this->service->getListJenisIndeksasi();
+
         return ResponseApi::statusSuccess()
             ->message('Success get list jenis indeksasi')
             ->data($data)
@@ -65,6 +66,7 @@ class ListController extends Controller
     public function getListJenisPenelitian()
     {
         $data = $this->service->getListJenisPenelitian();
+
         return ResponseApi::statusSuccess()
             ->message('Success get list jenis penelitian')
             ->data($data)
@@ -74,6 +76,7 @@ class ListController extends Controller
     public function getListJenisPengambdian()
     {
         $data = $this->service->getListJenisPengambdian();
+
         return ResponseApi::statusSuccess()
             ->message('Success get list jenis pengambdian')
             ->data($data)
@@ -84,7 +87,7 @@ class ListController extends Controller
     {
         $name = $request->get('search');
 
-        if ($name == null) {
+        if ($name === null) {
             return ResponseApi::statusSuccess()
                 ->message('Success get list author')
                 ->data([])

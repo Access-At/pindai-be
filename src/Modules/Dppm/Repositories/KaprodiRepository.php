@@ -2,9 +2,9 @@
 
 namespace Modules\Dppm\Repositories;
 
+use App\Models\User;
 use App\Models\Faculty;
 use App\Models\Kaprodi;
-use App\Models\User;
 use Modules\Dppm\DataTransferObjects\KaprodiDto;
 
 class KaprodiRepository

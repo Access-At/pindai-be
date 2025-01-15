@@ -2,10 +2,8 @@
 
 namespace Modules\Auth\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
-use Modules\Settings\Models\Setting;
-
+use Illuminate\Http\Request;
 
 class AuthResource extends CustomResource
 {

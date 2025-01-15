@@ -2,9 +2,9 @@
 
 namespace Modules\Kaprodi\Repositories;
 
+use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Prodi;
-use App\Models\User;
 use Modules\Kaprodi\DataTransferObjects\DosenDto;
 
 class DosenRepository
@@ -81,12 +81,14 @@ class DosenRepository
     public static function approvedDosen($id)
     {
         $user = User::byHash($id);
+
         return $user->dosen->update(['is_approved' => true]);
     }
 
     public static function activeDosen($id, $active)
     {
         $user = User::byHash($id);
+
         return $user->dosen->update(['is_active' => $active]);
     }
 }

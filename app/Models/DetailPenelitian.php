@@ -8,7 +8,7 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class DetailPenelitian extends Model
 {
-    use SoftDeletes, HashableId;
+    use HashableId, SoftDeletes;
 
     protected $table = 'detail_penelitian';
 
@@ -16,7 +16,7 @@ class DetailPenelitian extends Model
 
     protected $fillable = [
         'penelitian_id',
-        'anggota_penelitian_id'
+        'anggota_penelitian_id',
     ];
 
     public function penelitian()

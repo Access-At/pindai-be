@@ -2,8 +2,8 @@
 
 namespace Modules\Dppm\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class DosenResource extends CustomResource
 {

@@ -2,14 +2,14 @@
 
 namespace Modules\ListData\Repositories;
 
-use App\Enums\ApprovedDosen;
-use App\Enums\StatusDosen;
+use App\Models\User;
+use App\Models\Prodi;
 use App\Models\Faculty;
+use App\Enums\StatusDosen;
+use App\Enums\ApprovedDosen;
 use App\Models\JenisIndeksasi;
 use App\Models\JenisPenelitian;
 use App\Models\JenisPengabdian;
-use App\Models\Prodi;
-use App\Models\User;
 
 class ListRepository
 {
@@ -21,6 +21,7 @@ class ListRepository
     public static function getListProdi($fakultas)
     {
         $dataFakultas = Faculty::byHash($fakultas);
+
         return Prodi::where('faculties_id', $dataFakultas->id)->get();
     }
 

@@ -26,7 +26,6 @@ class Kaprodi extends Model
         return $query->where('is_active', $type);
     }
 
-
     public function faculty()
     {
         return $this->belongsTo(Faculty::class, 'faculties_id');

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Dppm;
 
+use App\Models\Prodi;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Prodi;
-use Hashids\Hashids;
 use Modules\Dppm\Interfaces\DosenServiceInterface;
 
 class DosenController extends Controller

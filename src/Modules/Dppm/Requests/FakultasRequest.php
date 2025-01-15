@@ -6,7 +6,6 @@ use Modules\CustomRequest;
 
 class FakultasRequest extends CustomRequest
 {
-
     public function authorize(): bool
     {
         return true;

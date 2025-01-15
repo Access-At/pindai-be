@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helper\EncryptData;
 use App\Helper\ResponseApi;
+use Modules\Profile\Requests\ProfileRequest;
 use Modules\Profile\DataTransferObjects\ProfileDto;
 use Modules\Profile\Interfaces\ProfileServiceInterface;
-use Modules\Profile\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {

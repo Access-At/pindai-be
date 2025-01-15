@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helper\ResponseApi;
-use Modules\Dashboard\Interfaces\DosenServiceInterface;
 use Modules\Dashboard\Interfaces\DppmServiceInterface;
+use Modules\Dashboard\Interfaces\DosenServiceInterface;
 use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
 
 class DashboardController extends Controller
@@ -37,7 +37,9 @@ class DashboardController extends Controller
     {
         return ResponseApi::statusSuccess()
             ->message('Data Dashboard berhasil diambil')
-            ->data([])
+            ->data([
+                'penelitian' => $this->serviceKaprodi->getNumberOfPenelitianByStatus(),
+            ])
             ->json();
     }
 }

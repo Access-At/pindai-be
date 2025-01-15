@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Random\Engine\Secure;
 // use App\Helper\SecureCommunication;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
@@ -30,7 +29,7 @@ class SignatureHeaderMiddleware
         $secretKey = env('SECURE_API_KEY');
 
         // Periksa header wajib
-        if (!$signature && !$timestamp && !$salt) {
+        if ( ! $signature && ! $timestamp && ! $salt) {
             return ResponseApi::statusFatalError()
                 // ->error('Unauthorized: Missing required headers.')
                 ->message('Unauthorized: Missing required headers.')
@@ -55,7 +54,7 @@ class SignatureHeaderMiddleware
         //     'key' => $secretKey
         // ]);
 
-        if (!hash_equals($serverSignature, $signature)) {
+        if ( ! hash_equals($serverSignature, $signature)) {
             return ResponseApi::statusQueryError()
                 ->message('Unauthorized: Invalid signature.')
                 ->json();

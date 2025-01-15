@@ -20,7 +20,7 @@ class FakultasRepository
     public static function insertFakultas(FakultasDto $data)
     {
         return Faculty::create([
-            'name' => $data->name
+            'name' => $data->name,
         ]);
     }
 
@@ -28,7 +28,7 @@ class FakultasRepository
     {
         $fakultas = Faculty::byHash($id);
         $fakultas->update([
-            'name' => $data->name
+            'name' => $data->name,
         ]);
 
         return $fakultas;

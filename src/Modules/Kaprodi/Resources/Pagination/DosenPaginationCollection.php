@@ -3,8 +3,8 @@
 namespace Modules\Kaprodi\Resources\Pagination;
 
 use Illuminate\Http\Request;
-use Modules\CustomPaginationResourceResponse;
 use Modules\Dppm\Resources\DosenResource;
+use Modules\CustomPaginationResourceResponse;
 
 class DosenPaginationCollection extends CustomPaginationResourceResponse
 {

@@ -3,14 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Dosen\PenelitianController;
+use App\Http\Controllers\Dosen\DokumentController;
 use App\Http\Controllers\Dppm\DosenController;
 use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
+use App\Http\Controllers\Dosen\PenelitianController;
+use App\Http\Controllers\Dppm\PenelitianController as DppmPenelitianController;
 use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
 use App\Http\Controllers\Kaprodi\PenelitianController as KaprodiPenelitianController;
-use App\Http\Controllers\ProfileController;
 
 Route::group(['prefix' => 'v1', 'middleware' => [
     // 'signature',
@@ -59,6 +61,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('fakultas', FakultasController::class);
             Route::apiResource('kaprodi', KaprodiController::class);
             Route::apiResource('dosen', DosenController::class)->only('index', 'show');
+
+            // penelitian
+            Route::apiResource('penelitian', DppmPenelitianController::class)->only('index', 'show');
+            Route::post('approved/penelitian/{id}', [DppmPenelitianController::class, 'approved']);
+            Route::post('canceled/penelitian/{id}', [DppmPenelitianController::class, 'canceled']);
         });
 
         // Kaprodi
@@ -86,6 +93,7 @@ Route::group(['prefix' => 'v1', 'middleware' => [
         ], function () {
             // main menu
             Route::apiResource('penelitian', PenelitianController::class)->except('destroy');
+            Route::post('penelitian/download/{id}', [DokumentController::class, 'download']);
 
             Route::get('/dashboard', [DashboardController::class, 'getDashboardDosen']);
         });

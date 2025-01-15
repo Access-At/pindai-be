@@ -3,11 +3,11 @@
 namespace Modules\Dppm\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Dppm\Exceptions\DosenException;
-use Modules\Dppm\Resources\Pagination\DosenPaginationCollection;
-use Modules\Dppm\Interfaces\DosenServiceInterface;
-use Modules\Dppm\Repositories\DosenRepository;
 use Modules\Dppm\Resources\DosenResource;
+use Modules\Dppm\Exceptions\DosenException;
+use Modules\Dppm\Repositories\DosenRepository;
+use Modules\Dppm\Interfaces\DosenServiceInterface;
+use Modules\Dppm\Resources\Pagination\DosenPaginationCollection;
 
 class DosenService implements DosenServiceInterface
 {
@@ -17,6 +17,7 @@ class DosenService implements DosenServiceInterface
             DosenRepository::getAllDosen(),
             $options,
         );
+
         return new DosenPaginationCollection($data);
     }
 
@@ -24,7 +25,7 @@ class DosenService implements DosenServiceInterface
     {
         $user = DosenRepository::getDosenById($id);
 
-        if (!$user) {
+        if ( ! $user) {
             throw DosenException::dosenNotFound();
         }
 

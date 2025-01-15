@@ -3,15 +3,15 @@
 namespace Modules\Kaprodi\Resources;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Modules\CustomResource;
 use Illuminate\Support\Str;
+use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class PenelitianResource extends CustomResource
 {
     public function data(Request $request): array
     {
-        $nameLeader = $this->ketua->name_with_title ?? $this->ketua->name ?? "";
+        $nameLeader = $this->ketua->name_with_title ?? $this->ketua->name ?? '';
 
         return [
             'id' => $this->hash,
@@ -23,7 +23,7 @@ class PenelitianResource extends CustomResource
                 'kaprodi' => $this->status_kaprodi->label(),
                 'dppm' => $this->status_dppm->label(),
                 'keuangan' => $this->status_keuangan->label(),
-            ]
+            ],
         ];
     }
 }

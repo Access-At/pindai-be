@@ -2,11 +2,11 @@
 
 namespace Modules\Profile\Requests;
 
-use App\Models\Faculty;
-use App\Models\Prodi;
 use App\Models\User;
-use Illuminate\Validation\Rule;
+use App\Models\Prodi;
+use App\Models\Faculty;
 use Modules\CustomRequest;
+use Illuminate\Validation\Rule;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class ProfileRequest extends CustomRequest

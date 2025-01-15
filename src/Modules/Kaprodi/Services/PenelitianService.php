@@ -3,10 +3,11 @@
 namespace Modules\Kaprodi\Services;
 
 use App\Helper\PaginateHelper;
+use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 use Modules\Kaprodi\Exceptions\PenelitianException;
-use Modules\Kaprodi\Interfaces\PenelitianServiceInterface;
 use Modules\Kaprodi\Repositories\PenelitianRepository;
 use Modules\Kaprodi\Resources\DetailPenelitianResource;
+use Modules\Kaprodi\Interfaces\PenelitianServiceInterface;
 use Modules\Kaprodi\Resources\Pagination\PenelitianPaginationCollection;
 
 class PenelitianService implements PenelitianServiceInterface
@@ -17,6 +18,7 @@ class PenelitianService implements PenelitianServiceInterface
             PenelitianRepository::getAllPenelitian(),
             $options,
         );
+
         return new PenelitianPaginationCollection($data);
     }
 
@@ -24,7 +26,7 @@ class PenelitianService implements PenelitianServiceInterface
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
 
-        if (!$penelitian) {
+        if (! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
@@ -36,9 +38,9 @@ class PenelitianService implements PenelitianServiceInterface
         return new DetailPenelitianResource(PenelitianRepository::approvedPenelitian($id));
     }
 
-    public function canceledPenelitian(string $id)
+    public function canceledPenelitian(PenelitianDto $request, string $id)
     {
-        return new DetailPenelitianResource(PenelitianRepository::canceledPenelitian($id));
+        return new DetailPenelitianResource(PenelitianRepository::canceledPenelitian($request->keterangan, $id));
     }
 
     // public function insertPenelitian(PenelitianDto $request) {}

@@ -2,15 +2,15 @@
 
 namespace Modules\Kaprodi\Services;
 
-use App\Helper\PaginateHelper;
-use Modules\Kaprodi\DataTransferObjects\DosenDto;
-use Modules\Kaprodi\Exceptions\DosenException;
-use Modules\Kaprodi\Interfaces\DosenServiceInterface;
-use Modules\Kaprodi\Repositories\DosenRepository;
-use Modules\Kaprodi\Resources\DosenResource;
-use Modules\Kaprodi\Resources\Pagination\DosenPaginationCollection;
 use Illuminate\Support\Str;
+use App\Helper\PaginateHelper;
 use Illuminate\Support\Facades\Mail;
+use Modules\Kaprodi\Resources\DosenResource;
+use Modules\Kaprodi\Exceptions\DosenException;
+use Modules\Kaprodi\DataTransferObjects\DosenDto;
+use Modules\Kaprodi\Repositories\DosenRepository;
+use Modules\Kaprodi\Interfaces\DosenServiceInterface;
+use Modules\Kaprodi\Resources\Pagination\DosenPaginationCollection;
 
 class DosenService implements DosenServiceInterface
 {
@@ -20,12 +20,14 @@ class DosenService implements DosenServiceInterface
             DosenRepository::getAllDosen(),
             $options,
         );
+
         return new DosenPaginationCollection($data);
     }
 
     public function getDosenById(string $id)
     {
         $this->validateDosenExists($id);
+
         return new DosenResource(DosenRepository::getDosenById($id));
     }
 
@@ -54,24 +56,28 @@ class DosenService implements DosenServiceInterface
     public function updateDosen(string $id, DosenDto $request)
     {
         $this->validateDosenExists($id);
+
         return new DosenResource(DosenRepository::updateDosen($id, $request));
     }
 
     public function deleteDosen(string $id)
     {
         $this->validateDosenExists($id);
+
         return new DosenResource(DosenRepository::deleteDosen($id));
     }
 
     public function approvedDosen(string $id)
     {
         $this->validateDosenExists($id);
+
         return new DosenResource(DosenRepository::approvedDosen($id));
     }
 
     public function activeDosen(string $id, bool $active)
     {
         $this->validateDosenExists($id);
+
         return new DosenResource(DosenRepository::activeDosen($id, $active));
     }
 
@@ -79,7 +85,7 @@ class DosenService implements DosenServiceInterface
     {
         $dosen = DosenRepository::getDosenById($id);
 
-        if (!$dosen) {
+        if ( ! $dosen) {
             throw DosenException::dosenNotFound();
         }
     }

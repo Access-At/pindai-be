@@ -9,8 +9,8 @@ class PaginateHelper
     /**
      * Paginate data with search, filtering, ordering, and relationships.
      *
-     * @param Builder $query The query builder instance.
-     * @param array $options Options for pagination, search, filters, sorting, and relationships.
+     * @param  Builder  $query  The query builder instance.
+     * @param  array  $options  Options for pagination, search, filters, sorting, and relationships.
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public static function paginate(Builder $query, array $options = [])
@@ -25,21 +25,21 @@ class PaginateHelper
         $relationships = $options['with'] ?? [];
 
         // Apply relationships
-        if (!empty($relationships)) {
+        if ( ! empty($relationships)) {
             $query->with($relationships);
         }
 
         // Apply search
-        if ($search && !empty($searchFields)) {
+        if ($search && ! empty($searchFields)) {
             $query->where(function ($q) use ($search, $searchFields) {
                 foreach ($searchFields as $field) {
                     if (str_contains($field, '.')) {
                         [$relation, $relatedField] = explode('.', $field, 2);
                         $q->orWhereHas($relation, function ($subQuery) use ($search, $relatedField) {
-                            $subQuery->where($relatedField, 'like', "%$search%");
+                            $subQuery->where($relatedField, 'like', "%{$search}%");
                         });
                     } else {
-                        $q->orWhere($field, 'like', "%$search%");
+                        $q->orWhere($field, 'like', "%{$search}%");
                     }
                 }
             });

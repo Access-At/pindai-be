@@ -3,8 +3,8 @@
 namespace Modules\Dashboard\Services;
 
 use Illuminate\Support\Collection;
-use Modules\Dashboard\Interfaces\DppmServiceInterface;
 use Modules\Dashboard\Repositories\DppmRepository;
+use Modules\Dashboard\Interfaces\DppmServiceInterface;
 
 class DppmService implements DppmServiceInterface
 {

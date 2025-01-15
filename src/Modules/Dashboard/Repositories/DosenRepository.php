@@ -2,4 +2,9 @@
 
 namespace Modules\Dashboard\Repositories;
 
-class DosenRepository {}
+use Illuminate\Support\Collection;
+
+class DosenRepository
+{
+    public static function getNumberOfPenelitianByStatus(): Collection {}
+}

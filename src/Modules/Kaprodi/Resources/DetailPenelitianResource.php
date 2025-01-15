@@ -2,9 +2,9 @@
 
 namespace Modules\Kaprodi\Resources;
 
-use Illuminate\Http\Request;
-use Modules\CustomResource;
 use Illuminate\Support\Str;
+use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class DetailPenelitianResource extends CustomResource
 {
@@ -17,15 +17,17 @@ class DetailPenelitianResource extends CustomResource
             'title' => $this->judul,
             'leader' => [
                 'name' => $nameLeader,
-                'prodi' => $this->ketua->prodi
+                'prodi' => $this->ketua->prodi,
             ],
             'bidang' => $this->bidang,
             'jenis_penelitian' => $this->jenisPenelitian->jenis,
             'semester' => $this->semester->label(),
-            "jenis_indeksasi" => $this->jenisIndex->jenis,
+            'jenis_indeksasi' => $this->jenisIndex->jenis,
             'academic_year' => Str::substr($this->tahun_akademik, 0, 4) . '/' . Str::substr($this->tahun_akademik, 4, 4),
+            'keterangan' => $this->keterangan,
             'anggota' => $this->anggota->map(function ($anggota) {
                 $anggota = $anggota->anggotaPenelitian;
+
                 return [
                     'nidn' => $anggota->nidn,
                     'name' => $anggota->name,
@@ -45,7 +47,7 @@ class DetailPenelitianResource extends CustomResource
                 'kaprodi' => $this->status_kaprodi->label(),
                 'dppm' => $this->status_dppm->label(),
                 'keuangan' => $this->status_keuangan->label(),
-            ]
+            ],
         ];
     }
 }

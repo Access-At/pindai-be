@@ -3,12 +3,11 @@
 namespace Modules\Dppm\Services;
 
 use App\Helper\PaginateHelper;
-use App\Models\Faculty;
-use Modules\Dppm\DataTransferObjects\FakultasDto;
-use Modules\Dppm\Exceptions\FakultasException;
-use Modules\Dppm\Interfaces\FakultasServiceInterface;
-use Modules\Dppm\Repositories\FakultasRepository;
 use Modules\Dppm\Resources\FakultasResource;
+use Modules\Dppm\Exceptions\FakultasException;
+use Modules\Dppm\DataTransferObjects\FakultasDto;
+use Modules\Dppm\Repositories\FakultasRepository;
+use Modules\Dppm\Interfaces\FakultasServiceInterface;
 use Modules\Dppm\Resources\Pagination\FakultasPaginationCollection;
 
 class FakultasService implements FakultasServiceInterface
@@ -19,6 +18,7 @@ class FakultasService implements FakultasServiceInterface
             FakultasRepository::getAllFakultas(),
             $options,
         );
+
         return new FakultasPaginationCollection($data);
     }
 
@@ -38,12 +38,14 @@ class FakultasService implements FakultasServiceInterface
     public function updateFakultas(string $id, FakultasDto $request)
     {
         $this->validateFakultasExists($id);
+
         return new FakultasResource(FakultasRepository::updateFakultas($id, $request));
     }
 
     public function deleteFakultas(string $id)
     {
         $this->validateFakultasExists($id);
+
         return new FakultasResource(FakultasRepository::deleteFakultas($id));
     }
 
@@ -51,7 +53,7 @@ class FakultasService implements FakultasServiceInterface
     {
         $fakultas = FakultasRepository::getFakultasById($id);
 
-        if (!$fakultas) {
+        if ( ! $fakultas) {
             throw FakultasException::fakultasNotFound();
         }
     }

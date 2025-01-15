@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Modules\Auth\Interfaces\AuthServiceInterface;
 use Modules\Auth\Services\AuthService;
-use Modules\ListData\Interfaces\ListServiceInterface;
+use Illuminate\Support\ServiceProvider;
 use Modules\ListData\Services\ListService;
-use Modules\Profile\Interfaces\ProfileServiceInterface;
 use Modules\Profile\Services\ProfileService;
+use Modules\Auth\Interfaces\AuthServiceInterface;
+use Modules\ListData\Interfaces\ListServiceInterface;
+use Modules\Profile\Interfaces\ProfileServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {

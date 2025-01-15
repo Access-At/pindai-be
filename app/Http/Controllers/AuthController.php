@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Modules\Auth\Requests\LoginRequest;
+use Modules\Auth\Requests\RegisterRequest;
 use Modules\Auth\DataTransferObjects\LoginDto;
 use Modules\Auth\DataTransferObjects\RegisterDto;
 use Modules\Auth\Interfaces\AuthServiceInterface;
-use Modules\Auth\Requests\LoginRequest;
-use Modules\Auth\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {

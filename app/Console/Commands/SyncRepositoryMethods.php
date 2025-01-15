@@ -2,13 +2,15 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
+use Illuminate\Console\Command;
 
 class SyncRepositoryMethods extends Command
 {
     protected $signature = 'sync:repository-methods';
+
     protected $description = 'Check and sync methods between Repositories and their Interfaces';
 
     public function handle()
@@ -16,7 +18,7 @@ class SyncRepositoryMethods extends Command
         $repositoryPath = app_path('Repositories');
         $interfacePath = app_path('RepositoriesInterface');
 
-        $repositoryFiles = glob("$repositoryPath/*.php");
+        $repositoryFiles = glob("{$repositoryPath}/*.php");
         $updated = false;
 
         // dd($repositoryFiles);
@@ -25,26 +27,27 @@ class SyncRepositoryMethods extends Command
             $repositoryClass = $this->getClassFromFile($repositoryFile);
             $interfaceClass = $this->getInterfaceFromRepository($repositoryClass, $interfacePath);
 
-            if (!$interfaceClass) {
-                $this->warn("No interface found for $repositoryClass");
+            if ( ! $interfaceClass) {
+                $this->warn("No interface found for {$repositoryClass}");
+
                 continue;
             }
 
             $missingMethods = $this->getMissingMethods($repositoryClass, $interfaceClass);
 
-            if (!empty($missingMethods)) {
-                $this->info("Syncing methods for $interfaceClass...");
+            if ( ! empty($missingMethods)) {
+                $this->info("Syncing methods for {$interfaceClass}...");
                 $this->addMethodsToInterface($interfaceClass, $repositoryClass, $missingMethods);
                 $updated = true;
             } else {
-                $this->info("No missing methods for $repositoryClass");
+                $this->info("No missing methods for {$repositoryClass}");
             }
         }
 
         if ($updated) {
-            $this->info("All missing methods have been added to their respective interfaces.");
+            $this->info('All missing methods have been added to their respective interfaces.');
         } else {
-            $this->info("No updates were necessary. Everything is in sync.");
+            $this->info('No updates were necessary. Everything is in sync.');
         }
     }
 
@@ -81,8 +84,8 @@ class SyncRepositoryMethods extends Command
         $repositoryReflection = new ReflectionClass($repositoryClass);
         $interfaceReflection = new ReflectionClass($interfaceClass);
 
-        $repositoryMethods = array_map(fn($method) => $method->getName(), $repositoryReflection->getMethods(ReflectionMethod::IS_PUBLIC));
-        $interfaceMethods = array_map(fn($method) => $method->getName(), $interfaceReflection->getMethods());
+        $repositoryMethods = array_map(fn ($method) => $method->getName(), $repositoryReflection->getMethods(ReflectionMethod::IS_PUBLIC));
+        $interfaceMethods = array_map(fn ($method) => $method->getName(), $interfaceReflection->getMethods());
 
         return array_diff($repositoryMethods, $interfaceMethods);
     }
@@ -95,11 +98,11 @@ class SyncRepositoryMethods extends Command
 
         $methodSignatures = array_map(function ($method) use ($repositoryReflection) {
             $reflectionMethod = $repositoryReflection->getMethod($method);
-            $parameters = array_map(fn($param) => $this->formatParameter($param), $reflectionMethod->getParameters());
+            $parameters = array_map(fn ($param) => $this->formatParameter($param), $reflectionMethod->getParameters());
 
             $parameterString = implode(', ', $parameters);
 
-            return "    public static function $method($parameterString);";
+            return "    public static function {$method}({$parameterString});";
         }, $methods);
 
         $methodSignaturesString = implode("\n", $methodSignatures);
@@ -115,7 +118,7 @@ class SyncRepositoryMethods extends Command
         file_put_contents($interfaceFile, $newContents);
     }
 
-    private function formatParameter(\ReflectionParameter $param): string
+    private function formatParameter(ReflectionParameter $param): string
     {
         $type = $param->getType();
         $typeString = $type ? $type->getName() . ' ' : '';

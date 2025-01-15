@@ -2,15 +2,14 @@
 
 namespace Modules\Dppm\Requests;
 
-use Modules\CustomRequest;
 use App\Models\User;
 use App\Models\Faculty;
+use Modules\CustomRequest;
 use Illuminate\Validation\Rule;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class KaprodiRequest extends CustomRequest
 {
-
     public function authorize(): bool
     {
         return true;

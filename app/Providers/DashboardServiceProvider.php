@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Dashboard\Interfaces\DosenServiceInterface;
-use Modules\Dashboard\Interfaces\DppmServiceInterface;
-use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
-use Modules\Dashboard\Services\DosenService;
 use Modules\Dashboard\Services\DppmService;
+use Modules\Dashboard\Services\DosenService;
 use Modules\Dashboard\Services\KaprodiService;
+use Modules\Dashboard\Interfaces\DppmServiceInterface;
+use Modules\Dashboard\Interfaces\DosenServiceInterface;
+use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
 
 class DashboardServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,5 @@ class DashboardServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }

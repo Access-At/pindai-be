@@ -2,8 +2,8 @@
 
 namespace Modules;
 
-use Illuminate\Http\Resources\Json\ResourceResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\ResourceResponse;
 
 class CustomResourceResponse extends ResourceResponse
 {
@@ -13,7 +13,7 @@ class CustomResourceResponse extends ResourceResponse
      */
     protected function wrap($data, $with = [], $additionalData = [])
     {
-        $isEmpty = is_null($this->resource->resource);
+        $isEmpty = $this->resource->resource === null;
 
         if ($data instanceof Collection) {
             $data = $data->all();
@@ -26,7 +26,7 @@ class CustomResourceResponse extends ResourceResponse
         }
 
         foreach ($additionalData as &$additional) {
-            if ($additional instanceof CustomResource && is_null($additional->resource)) {
+            if ($additional instanceof CustomResource && $additional->resource === null) {
                 $additional = null;
             }
         }

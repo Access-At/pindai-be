@@ -2,8 +2,8 @@
 
 namespace Modules\Dosen\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class DosenResource extends CustomResource
 {
@@ -20,7 +20,7 @@ class DosenResource extends CustomResource
             'job_functional' => $this->dosen->job_functional ?? '',
             'scholar_id' => $this->dosen->scholar_id ?? '',
             'scopus_id' => $this->dosen->scopus_id ?? '',
-            'is_leader' => true
+            'is_leader' => true,
         ];
     }
 }

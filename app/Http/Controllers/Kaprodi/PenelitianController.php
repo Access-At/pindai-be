@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Kaprodi;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\Kaprodi\DataTransferObjects\DosenDto;
-use Modules\Kaprodi\Requests\DosenRequest;
+use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
+use Modules\Kaprodi\Requests\PenelitianRequest;
 use Modules\Kaprodi\Services\PenelitianService;
 
 class PenelitianController extends Controller
@@ -23,7 +23,7 @@ class PenelitianController extends Controller
             'search' => $request->input('search'),
             'search_fields' => ['judul'],
             'filters' => [
-                'tahun_akademik' => $request->input('tahun_akademik')
+                'tahun_akademik' => $request->input('tahun_akademik'),
             ],
             'order_by' => $request->input('order_by', 'created_at'),
             'order_direction' => $request->input('order_direction', 'desc'),
@@ -58,9 +58,12 @@ class PenelitianController extends Controller
             ->json();
     }
 
-    public function canceled($id)
+    public function canceled(PenelitianRequest $request, $id)
     {
-        $data = $this->service->canceledPenelitian($id);
+        $data = $this->service->canceledPenelitian(
+            PenelitianDto::fromRequest($request),
+            $id
+        );
 
         return ResponseApi::statusSuccess()
             ->message('Penelitian telah ditolak')
@@ -68,9 +71,9 @@ class PenelitianController extends Controller
             ->json();
     }
 
-    public function store(DosenRequest $request) {}
+    // public function store(DosenRequest $request) {}
 
-    public function update(DosenRequest $request, $id) {}
+    // public function update(DosenRequest $request, $id) {}
 
-    public function destroy($id) {}
+    // public function destroy($id) {}
 }

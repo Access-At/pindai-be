@@ -2,8 +2,8 @@
 
 namespace Modules\Profile\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class ProfileResource extends CustomResource
 {
@@ -14,7 +14,7 @@ class ProfileResource extends CustomResource
             'role' => $this->roles->first()->name ?? false,
             'email' => $this->email,
             'nidn' => $this->nidn,
-            'address' => $this->address
+            'address' => $this->address,
         ];
 
         if ($this->roles->first()->name === 'dosen') {

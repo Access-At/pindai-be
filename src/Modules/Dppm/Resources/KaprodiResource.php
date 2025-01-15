@@ -2,12 +2,11 @@
 
 namespace Modules\Dppm\Resources;
 
-use Illuminate\Http\Request;
 use Modules\CustomResource;
+use Illuminate\Http\Request;
 
 class KaprodiResource extends CustomResource
 {
-
     public function data(Request $request): array
     {
         return [

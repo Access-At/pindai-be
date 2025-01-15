@@ -10,9 +10,10 @@ class JenisPenelitian extends Model
     use HashableId;
 
     protected $table = 'jenis_penelitian';
+
     protected $guarded = [];
 
     protected $casts = [
-        'kriteria' => 'array'
+        'kriteria' => 'array',
     ];
 }

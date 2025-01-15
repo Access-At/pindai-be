@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class JenisPengabdianSeeder extends Seeder
@@ -17,42 +16,42 @@ class JenisPengabdianSeeder extends Seeder
                 'jenis' => 'Pengabdian Masyarakat',
                 'kriteria' => [
                     'Target Luaran Publikasi Jurnal Nasional Terakreditasi Sinta 1 s/d 6',
-                    'Pelaksanaan kegiatan berbasis masyarakat'
+                    'Pelaksanaan kegiatan berbasis masyarakat',
                 ],
-                'Keterangan' => 'Semua Jabatan Fungsional'
+                'Keterangan' => 'Semua Jabatan Fungsional',
             ],
             [
                 'jenis' => 'Pengabdian Berbasis Internasional',
                 'kriteria' => [
                     'Target Luaran Publikasi Jurnal Internasional Bereputasi',
-                    'Melibatkan kolaborasi dengan mitra internasional'
+                    'Melibatkan kolaborasi dengan mitra internasional',
                 ],
-                'Keterangan' => 'Minimal Lektor'
+                'Keterangan' => 'Minimal Lektor',
             ],
             [
                 'jenis' => 'Pengabdian Kerjasama Luar Negeri',
                 'kriteria' => [
                     'Target Luaran Publikasi Jurnal Internasional Bereputasi',
-                    'Memiliki MoU, MoA, dan IA Kerjasama'
+                    'Memiliki MoU, MoA, dan IA Kerjasama',
                 ],
-                'Keterangan' => 'Minimal Lektor'
+                'Keterangan' => 'Minimal Lektor',
             ],
             [
                 'jenis' => 'Pengabdian Kerjasama Dalam Negeri',
                 'kriteria' => [
                     'Target Luaran Publikasi Sinta 1 s/d 3',
-                    'Melibatkan mitra lokal atau institusi pemerintah'
+                    'Melibatkan mitra lokal atau institusi pemerintah',
                 ],
-                'Keterangan' => 'Minimal Asisten Ahli'
+                'Keterangan' => 'Minimal Asisten Ahli',
             ],
             [
                 'jenis' => 'Pengabdian Mandiri',
                 'kriteria' => [
                     'Target Luaran Publikasi Jurnal Nasional Terakreditasi Sinta 4 s/d 6',
-                    'Pelaksanaan berbasis inisiatif individu atau kelompok'
+                    'Pelaksanaan berbasis inisiatif individu atau kelompok',
                 ],
-                'Keterangan' => 'Tenaga Pengajar'
-            ]
+                'Keterangan' => 'Tenaga Pengajar',
+            ],
         ];
 
         foreach ($jenis as $key => $value) {

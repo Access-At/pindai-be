@@ -2,8 +2,8 @@
 
 namespace Modules;
 
-use App\Helper\ResponseApi;
 use Exception;
+use App\Helper\ResponseApi;
 
 class CustomException extends Exception
 {

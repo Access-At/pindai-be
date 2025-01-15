@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $roleDppm = Role::create(['name' => 'dppm']);
         $roleKaprodi = Role::create(['name' => 'kaprodi']);
         $roleDosen = Role::create(['name' => 'dosen']);
-        $roleKuangan =  Role::create(['name' => 'keuangan']);
+        $roleKuangan = Role::create(['name' => 'keuangan']);
 
         $userDppm = User::factory()->create([
             'name' => 'Direktur Pembinaan Mahasiswa',

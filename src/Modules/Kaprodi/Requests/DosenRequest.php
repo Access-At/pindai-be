@@ -4,8 +4,8 @@ namespace Modules\Kaprodi\Requests;
 
 use App\Models\User;
 use App\Models\Prodi;
-use Illuminate\Validation\Rule;
 use Modules\CustomRequest;
+use Illuminate\Validation\Rule;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
 class DosenRequest extends CustomRequest

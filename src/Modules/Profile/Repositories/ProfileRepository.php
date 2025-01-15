@@ -2,9 +2,9 @@
 
 namespace Modules\Profile\Repositories;
 
-use App\Models\Faculty;
-use App\Models\Prodi;
 use App\Models\User;
+use App\Models\Prodi;
+use App\Models\Faculty;
 use Modules\Profile\DataTransferObjects\ProfileDto;
 
 class ProfileRepository
