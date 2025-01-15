@@ -21,6 +21,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'fakultas' => $this->serviceDppm->getNumberOfLecturersByFaculty(),
+                'penelitian' => $this->serviceDppm->getOfPenelitian(),
             ])
             ->json();
     }

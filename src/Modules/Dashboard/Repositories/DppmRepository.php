@@ -2,7 +2,9 @@
 
 namespace Modules\Dashboard\Repositories;
 
+use App\Enums\StatusPenelitian;
 use App\Models\Faculty;
+use App\Models\Penelitian;
 use Illuminate\Support\Collection;
 
 class DppmRepository
@@ -19,5 +21,20 @@ class DppmRepository
                     'dosen_count' => $fakultas->dosen_count,
                 ];
             });
+    }
+
+    public static function getNumberOfPenelitianByStatus(): Collection
+    {
+        return Penelitian::whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
+            ->selectRaw('status_kaprodi as status, COUNT(*) as count')
+            ->groupBy('status_kaprodi')
+            ->get();
+    }
+
+    public static function getNewsPenelitian(): Collection
+    {
+        return Penelitian::orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
     }
 }

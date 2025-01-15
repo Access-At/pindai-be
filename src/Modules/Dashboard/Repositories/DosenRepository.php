@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 class DosenRepository
 {
-    public static function getNumberOfPenelitianByStatus(): Collection {}
+    public static function getNumberOfPenelitianByStatus() {}
 }

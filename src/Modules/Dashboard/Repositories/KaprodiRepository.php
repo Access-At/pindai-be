@@ -2,6 +2,7 @@
 
 namespace Modules\Dashboard\Repositories;
 
+use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Penelitian;
@@ -21,6 +22,7 @@ class KaprodiRepository
             ->pluck('name');
 
         return Penelitian::ProdiPenelitian($prodi)
+            ->whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
             ->selectRaw('status_kaprodi as status, COUNT(*) as count')
             ->groupBy('status_kaprodi')
             ->get();

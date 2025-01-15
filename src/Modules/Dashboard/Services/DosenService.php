@@ -8,7 +8,7 @@ use Modules\Dashboard\Interfaces\DosenServiceInterface;
 
 class DosenService implements DosenServiceInterface
 {
-    public function getNumberOfPenelitianByStatus(): Collection
+    public function getNumberOfPenelitianByStatus()
     {
         return DosenRepository::getNumberOfPenelitianByStatus();
     }
