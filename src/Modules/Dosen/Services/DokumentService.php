@@ -2,89 +2,92 @@
 
 namespace Modules\Dosen\Services;
 
+use App\Helper\DocumentGenerator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Modules\Dosen\DataTransferObjects\DokumentDto;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Modules\Dosen\Repositories\PenelitianRepository;
+use Illuminate\Support\Str;
 
 class DokumentService implements DokumentServiceInterface
 {
     public function download(DokumentDto $request, string $id)
     {
-        $template = storage_path('app/public/doc/template.docx');
-        $phpWord = new \PhpOffice\PhpWord\TemplateProcessor($template);
-        $title = strtoupper("Surat Pengajuan Ke PRODI");
+        if ($request->jenis_dokumen == 'surat_pengajuan') {
+            $file = self::generatePermohonan($id);
+        }
 
-        $phpWord->setValues([
-            'title' => $title,
-            'prodi' => 'Sistem Informasi',
+        $pathFile = Storage::disk('public')->path($file);
+
+        return [
+            'path' => $pathFile,
+            'name' => str_replace('out/', '', $file),
+        ];
+    }
+
+    protected static function generatePermohonan(string $id)
+    {
+        $penelitian = PenelitianRepository::getPenelitianById($id);
+        $ketua = $penelitian->ketua;
+        $name = $ketua->name_with_title ?? $ketua->name;
+
+        // Inisialisasi generator dengan path template
+        $generator = new DocumentGenerator('doc/template_surat_pengajuan.docx');
+
+        // Set nilai untuk placeholders di template
+        $generator->setValues([
+            'title' => strtoupper("Surat Pengajuan Ke PRODI"),
+            'prodi' => $ketua->prodi,
             'perihal' => 'Pengajuan Pelaksanaan Penelitian Dosen',
-            'ketua.nama' => 'si kontol',
-            'ketua.nidn' => '1234567890',
-            'ketua.prodi' => 'Sistem Informasi',
-            'ketua.jf' => 'Dosen Ganteng',
-            'semester' => 'Genap',
-            'tahun_ajaran' => '2023/2024',
-            'judul_penelitian' => 'Judul Penelitian',
+            'ketua.nama' => $name,
+            'ketua.nidn' => $ketua->nidn,
+            'ketua.prodi' => $ketua->prodi,
+            'ketua.jf' => $ketua->job_functional,
+            'semester' => $penelitian->semester->label(),
+            'tahun_ajaran' => Str::substr($penelitian->tahun_akademik, 0, 4) . '/' . Str::substr($penelitian->tahun_akademik, 4, 4),
+            'judul_penelitian' => $penelitian->judul,
+            'created_at' => Carbon::now()->locale('id')->isoFormat('D MMMM Y'),
         ]);
 
-        $phpWord->saveAs('surat.docx');
+        $anggotaTable = $penelitian->anggota->map(function ($anggota) {
+            $anggota = $anggota->anggotaPenelitian;
+            $label = $anggota->is_leader ? 'Ketua Penelitian' : 'Anggota';
 
-        // $section = $phpWord->addSection();
+            return [
+                $label,
+                $anggota->name_with_title ?? $anggota->name,
+                $anggota->nidn,
+                $anggota->job_functional,
+                $anggota->prodi,
+            ];
+        });
 
-        // Menambahkan teks dengan font Times New Roman, ukuran 12, bold, dan rata tengah
-        // $section->addText(
-        //     "Surat Pengajuan Ke PRODI",
-        //     [
-        //         'size' => 12,
-        //         'bold' => true,
-        //         'name' => 'Times New Roman', // Properti name digunakan untuk font
-        //         'allCaps' => true, // Menggunakan huruf besar (uppercase)
-        //     ],
-        //     [
-        //         'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-        //     ]
-        // );
+        // Tambahkan tabel ke dalam dokumen
+        $generator->addTable(
+            ['Susunan Anggota', 'Nama', 'NIDN', 'JAFUNG', 'PRODI'],
+            $anggotaTable->toArray()
+        );
 
-        // Adding Text element with font customized using explicitly created font style object...
-        // $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-        // $fontStyle->setBold(true);
-        // $fontStyle->setName('Times New Roman');
-        // $fontStyle->setSize(12);
-        // $fontStyle->setAllCaps(true);
-        // $myTextElement = $section->addText('Surat Pengajuan Ke PRODI');
-        // $myTextElement->setFontStyle($fontStyle);
-        // $myTextElement->setParagraphStyle(
-        //     [
-        //         'alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER,
-        //     ]
-        // );
+        // Generate QR code
+        $imageContent = QrCode::size(300)->format('png')->generate(
+            "Tanda tangan digital: {$name} - " . Carbon::now()->locale('id')->isoFormat('D MMMM Y H:mm'),
+        );
 
-        // $header = $section->addHeader();
-        // $bg_image = Storage::disk('public')->get('images/LOGO_UNIVERSITAS_PELITA_BANGSA.png');
+        $tempImagePath = storage_path('app/public/out/temp_image.png');
+        file_put_contents($tempImagePath, $imageContent);
 
-        // $header->addWatermark($bg_image, [
-        //     'marginTop' => 1000,
-        //     'positioning' => 'relative',
-        //     'wrappingStyle' => 'behind',
-        // 'width' => 250,
-        // 'height' => 250,
-        // ]);
+        $generator->setImageValue('barcode', [
+            'path' => $tempImagePath,
+            'width' => 50,
+            'height' => 50,
+            'ratio' => false,
+        ]);
 
-        // $header->addWatermark($bg_image, [
-        //     'width' => 250,
-        //     'height' => 250,
-        //     'marginTop' => 1000,
-        //     'marginLeft' => 1000,
-        //     'positioning' => 'absolute', // Posisi absolut
-        //     'posHorizontal' => \PhpOffice\PhpWord\Style\Image::POSITION_HORIZONTAL_CENTER, // Posisi horizontal center
-        //     'posVertical' => \PhpOffice\PhpWord\Style\Image::POSITION_VERTICAL_CENTER, // Posisi vertikal center
-        //     'wrappingStyle' => 'behind', // Letakkan di belakang teks
-        // ]);
+        // Simpan dokumen ke lokasi yang diinginkan
+        $generator->save(storage_path('app/public/out/surat_pengajuan.docx'));
 
-
-        // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        // $objWriter->save('helloWorld.docx');
-
-        dd($request, $id);
+        return 'out/surat_pengajuan.docx';
     }
 }
