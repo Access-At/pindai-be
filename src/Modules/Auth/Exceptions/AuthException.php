@@ -13,17 +13,17 @@ class AuthException extends CustomException
 
     public static function dosenNotApproved(): self
     {
-        return new self('Akun anda belum di approval. tolong hubungi Kaprodi', 401, 'Login gagal');
+        return new self('Akun anda belum di approval. tolong hubungi Kaprodi masing-masing', 401, 'Login gagal');
     }
 
     public static function dosenNotActive(): self
     {
-        return new self('Akun anda telah dinonaktifkan. tolong hubungi Kaprodi', 401, 'Login gagal');
+        return new self('Akun anda telah dinonaktifkan. tolong hubungi Kaprodi masing-masing', 401, 'Login gagal');
     }
 
     public static function kaprodiNotActive(): self
     {
-        return new self('Akun anda telah dinonaktifkan. tolong hubungi DPPM', 401, 'Login gagal');
+        return new self('Akun anda telah dinonaktifkan. tolong hubungi DPPM masing-masing', 401, 'Login gagal');
     }
 
     public static function unauthorized(): self
