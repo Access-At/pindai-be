@@ -23,7 +23,7 @@ class AuthException extends CustomException
 
     public static function kaprodiNotActive(): self
     {
-        return new self('Akun anda telah dinonaktifkan. tolong hubungi DPPM masing-masing', 401, 'Login gagal');
+        return new self('Akun anda telah dinonaktifkan. tolong hubungi DPPM', 401, 'Login gagal');
     }
 
     public static function unauthorized(): self
