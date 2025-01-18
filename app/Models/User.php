@@ -115,6 +115,21 @@ class User extends Authenticatable implements JWTSubject
         });
     }
 
+    public function scopeDosenNotNullProfile($query)
+    {
+        return $query->whereHas('dosen', function ($query) {
+            $query->whereNotNull([
+                'name',
+                'nidn',
+                'phone_number',
+                'scholar_id',
+                'scopus_id',
+                'job_functional',
+                'affiliate_campus',
+            ]);
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *

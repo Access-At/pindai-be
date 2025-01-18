@@ -18,7 +18,6 @@ class ProfileService implements ProfileServiceInterface
     public function updateProfile(ProfileDto $data)
     {
         ProfileRepository::updateProfile($data);
-
-        return new AuthResource(auth('api')->user());
+        return $this->getProfile();
     }
 }

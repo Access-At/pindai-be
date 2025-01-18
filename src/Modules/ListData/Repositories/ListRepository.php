@@ -15,7 +15,8 @@ class ListRepository
 {
     public static function getListFakultas()
     {
-        return Faculty::orderBy('name', 'asc')->get();
+        return Faculty::orderBy('name', 'asc')
+            ->get();
     }
 
     public static function getListProdi($fakultas)
@@ -27,11 +28,11 @@ class ListRepository
 
     public static function getListDosen()
     {
-        // NOTE: apakah sesuai fakultas atau prodi si dosen ?
         return User::dosenRole()
             ->activeDosen(StatusDosen::Active)
             ->approvedDosen(ApprovedDosen::Approved)
-            ->whereNot('id', auth()->user()->id);
+            ->whereNot('id', auth()->user()->id)
+            ->dosenNotNullProfile();
     }
 
     public static function getListJenisIndeksasi()

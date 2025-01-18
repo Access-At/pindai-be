@@ -28,17 +28,4 @@ class DetailPenelitian extends Model
     {
         return $this->belongsTo(AnggotaPenelitian::class, 'anggota_penelitian_id');
     }
-
-    // public function dosen()
-    // {
-    //     return $this->belongsTo(Dosen::class, 'anggota_penelitian_id');
-    //     // return $this->hasManyThrough(
-    //     //     AnggotaPenelitian::class,
-    //     //     DetailPenelitian::class,
-    //     //     'anggota_penelitian_id',
-    //     //     'id',
-    //     //     'id',
-    //     //     'penelitian_id',
-    //     // );
-    // }
 }

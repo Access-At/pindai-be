@@ -1,2 +1,4 @@
-*
 !.gitignore
+!doc/
+!images/
+!out/

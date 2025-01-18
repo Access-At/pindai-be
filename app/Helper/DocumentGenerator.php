@@ -77,9 +77,4 @@ class DocumentGenerator
             unlink($tempImagePath);
         }
     }
-
-    public function getDocumentContent(): string
-    {
-        return $this->templateProcessor->getTempDocumentFilename();
-    }
 }

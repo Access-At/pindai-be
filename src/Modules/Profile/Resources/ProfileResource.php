@@ -9,36 +9,48 @@ class ProfileResource extends CustomResource
 {
     public function data(Request $request): array
     {
-        $userData = [
+        $thisData = $this->getBaseUserData();
+
+        return match ($thisData['role']) {
+            'kaprodi' => array_merge($thisData, $this->getKaprodiData()),
+            'dosen' => array_merge($thisData, $this->getDosenData()),
+            default => $thisData
+        };
+    }
+
+    private function getBaseUserData(): array
+    {
+        return [
+            'id' => $this->hash,
             'name' => $this->name,
-            'role' => $this->roles->first()->name ?? false,
             'email' => $this->email,
             'nidn' => $this->nidn,
             'address' => $this->address,
+            'role' => $this->roles->first()->name ?? false,
         ];
+    }
 
-        if ($this->roles->first()->name === 'dosen') {
-            $userData = array_merge($userData, [
-                'name_with_title' => $this->dosen->name_with_title,
-                'phone_number' => $this->dosen->phone_number,
-                'scholar_id' => $this->dosen->scholar_id,
-                'scopus_id' => $this->dosen->scopus_id,
-                'job_functional' => $this->dosen->job_functional,
-                'affiliate_campus' => $this->dosen->affiliate_campus,
-                'prodi' => $this->dosen->prodi->name,
-                'prodi_id' => $this->dosen->prodi->hash,
-                'fakultas' => $this->dosen->fakultas->name,
-                'fakultas_id' => $this->dosen->fakultas->hash,
-            ]);
-        }
+    private function getKaprodiData(): array
+    {
+        return [
+            'fakultas_id' => $this->kaprodi->faculty->hash ?? '',
+            'fakultas' => $this->kaprodi->faculty->name ?? '',
+        ];
+    }
 
-        if ($this->roles->first()->name === 'kaprodi') {
-            $userData = array_merge($userData, [
-                'fakultas' => $this->kaprodi->faculty->name,
-                'fakultas_id' => $this->kaprodi->faculty->hash,
-            ]);
-        }
-
-        return $userData;
+    private function getDosenData(): array
+    {
+        return [
+            'name_with_title' => $this->dosen->name_with_title ?? '',
+            'phone_number' => $this->dosen->phone_number ?? '',
+            'scholar_id' => $this->dosen->scholar_id ?? '',
+            'scopus_id' => $this->dosen->scopus_id ?? '',
+            'job_functional' => $this->dosen->job_functional ?? '',
+            'affiliate_campus' => $this->dosen->affiliate_campus ?? '',
+            'prodi_id' => $this->dosen->prodi->hash ?? '',
+            'prodi' => $this->dosen->prodi->name ?? '',
+            'fakultas_id' => $this->dosen->fakultas->hash ?? '',
+            'fakultas' => $this->dosen->fakultas->name ?? '',
+        ];
     }
 }

@@ -3,6 +3,9 @@
 namespace Modules\Dosen\Services;
 
 use App\Helper\DocumentGenerator;
+use App\Models\Faculty;
+use App\Models\Prodi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Modules\Dosen\DataTransferObjects\DokumentDto;
@@ -13,12 +16,19 @@ use Illuminate\Support\Str;
 
 class DokumentService implements DokumentServiceInterface
 {
-    public function download(DokumentDto $request, string $id)
+    private const DOCUMENT_TYPES = [
+        'surat_pengajuan' => 'generatePermohonan',
+        'surat_rekomendasi' => 'generateRekomendasi'
+    ];
+
+    public function download(DokumentDto $request, string $id): array
     {
-        if ($request->jenis_dokumen == 'surat_pengajuan') {
-            $file = self::generatePermohonan($id);
+        $method = self::DOCUMENT_TYPES[$request->jenis_dokumen] ?? null;
+        if (!$method) {
+            throw new \InvalidArgumentException('Invalid document type');
         }
 
+        $file = self::$method($id);
         $pathFile = Storage::disk('public')->path($file);
 
         return [
@@ -27,17 +37,62 @@ class DokumentService implements DokumentServiceInterface
         ];
     }
 
-    protected static function generatePermohonan(string $id)
+    protected static function generatePermohonan(string $id): string
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
         $ketua = $penelitian->ketua;
         $name = $ketua->name_with_title ?? $ketua->name;
 
-        // Inisialisasi generator dengan path template
         $generator = new DocumentGenerator('doc/template_surat_pengajuan.docx');
+        $generator->setValues(self::getPengajuanValues($penelitian, $ketua, $name));
 
-        // Set nilai untuk placeholders di template
-        $generator->setValues([
+        $anggotaTable = self::generateAnggotaTable($penelitian->anggota);
+        $generator->addTable(
+            ['Susunan Anggota', 'Nama', 'NIDN', 'JAFUNG', 'PRODI'],
+            $anggotaTable->toArray()
+        );
+
+        self::addQrCode($generator, $name);
+        $nameFile = self::formatNameFile("surat-pengajuan-$penelitian->judul");
+        $generator->save(storage_path("app/public/out/$nameFile"));
+
+        return "out/$nameFile";
+    }
+
+    protected static function generateRekomendasi(string $id): string
+    {
+        $penelitian = PenelitianRepository::getPenelitianById($id);
+        $ketua = $penelitian->ketua;
+        $name = $ketua->name_with_title ?? $ketua->name;
+
+        $fakultasData = self::getFakultasData($ketua->prodi);
+        $kaprodi = self::getKaprodi($fakultasData['fakultasId']);
+
+        $generator = new DocumentGenerator('doc/template_surat_rekomendasi.docx');
+        $generator->setValues(self::getRekomendasiValues($penelitian, $fakultasData, $kaprodi));
+
+        $anggotaTable = self::generateAnggotaTable($penelitian->anggota, false);
+        $generator->addTable(
+            ['Susunan Anggota', 'Nama', 'NIDN', 'JAFUNG'],
+            $anggotaTable->toArray()
+        );
+
+        self::addQrCode($generator, $name);
+
+        $nameFile = self::formatNameFile("surat-rekomendasi-$penelitian->judul");
+        $generator->save(storage_path("app/public/out/$nameFile"));
+
+        return "out/$nameFile";
+    }
+
+    private static function formatNameFile(string $nameFile): string
+    {
+        return Str::slug($nameFile, '-') . '.docx';
+    }
+
+    private static function getPengajuanValues($penelitian, $ketua, $name): array
+    {
+        return [
             'title' => strtoupper("Surat Pengajuan Ke PRODI"),
             'prodi' => $ketua->prodi,
             'perihal' => 'Pengajuan Pelaksanaan Penelitian Dosen',
@@ -46,33 +101,73 @@ class DokumentService implements DokumentServiceInterface
             'ketua.prodi' => $ketua->prodi,
             'ketua.jf' => $ketua->job_functional,
             'semester' => $penelitian->semester->label(),
-            'tahun_ajaran' => Str::substr($penelitian->tahun_akademik, 0, 4) . '/' . Str::substr($penelitian->tahun_akademik, 4, 4),
+            'tahun_ajaran' => self::formatTahunAjaran($penelitian->tahun_akademik),
             'judul_penelitian' => $penelitian->judul,
             'created_at' => Carbon::now()->locale('id')->isoFormat('D MMMM Y'),
-        ]);
+        ];
+    }
 
-        $anggotaTable = $penelitian->anggota->map(function ($anggota) {
+    private static function getRekomendasiValues($penelitian, $fakultasData, $kaprodi): array
+    {
+        return [
+            'nomor' => $penelitian->kode,
+            'perihal' => 'Surat Rekomendasi Pelaksanaan Penelitian Dosen',
+            'fakultas' => str_replace('Fakultas', '', $fakultasData['fakultas']),
+            'prodi' => $penelitian->ketua->prodi,
+            'tahun_ajaran' => self::formatTahunAjaran($penelitian->tahun_akademik),
+            'semester' => $penelitian->semester->label(),
+            'judul_penelitian' => $penelitian->judul,
+            'created_at' => Carbon::now()->locale('id')->isoFormat('D MMMM Y'),
+            'kaprodi.nama' => $kaprodi->name_with_title ?? $kaprodi->name,
+            'kaprodi.nidn' => $kaprodi->nidn,
+            'kaprodi.email' => $kaprodi->email,
+        ];
+    }
+
+    private static function generateAnggotaTable($anggota, $includeProdi = true): \Illuminate\Support\Collection
+    {
+        return $anggota->map(function ($anggota) use ($includeProdi) {
             $anggota = $anggota->anggotaPenelitian;
             $label = $anggota->is_leader ? 'Ketua Penelitian' : 'Anggota';
-
-            return [
+            $data = [
                 $label,
                 $anggota->name_with_title ?? $anggota->name,
                 $anggota->nidn,
                 $anggota->job_functional,
-                $anggota->prodi,
             ];
+            if ($includeProdi) {
+                $data[] = $anggota->prodi;
+            }
+            return $data;
         });
+    }
 
-        // Tambahkan tabel ke dalam dokumen
-        $generator->addTable(
-            ['Susunan Anggota', 'Nama', 'NIDN', 'JAFUNG', 'PRODI'],
-            $anggotaTable->toArray()
-        );
+    private static function getFakultasData(string $prodiName): array
+    {
+        $fakultasId = Prodi::where('name', $prodiName)->first()->faculties_id;
+        return [
+            'fakultasId' => $fakultasId,
+            'fakultas' => Faculty::where('id', $fakultasId)->first()->name
+        ];
+    }
 
-        // Generate QR code
+    private static function getKaprodi(int $fakultasId): User
+    {
+        return User::kaprodiRole()
+            ->whereHas('kaprodi', function ($q) use ($fakultasId) {
+                $q->where('faculties_id', $fakultasId);
+            })->first();
+    }
+
+    private static function formatTahunAjaran(string $tahunAkademik): string
+    {
+        return Str::substr($tahunAkademik, 0, 4) . '/' . Str::substr($tahunAkademik, 4, 4);
+    }
+
+    private static function addQrCode(DocumentGenerator $generator, string $name): void
+    {
         $imageContent = QrCode::size(300)->format('png')->generate(
-            "Tanda tangan digital: {$name} - " . Carbon::now()->locale('id')->isoFormat('D MMMM Y H:mm'),
+            "Tanda tangan digital: {$name} - " . Carbon::now()->locale('id')->isoFormat('D MMMM Y H:mm')
         );
 
         $tempImagePath = storage_path('app/public/out/temp_image.png');
@@ -84,10 +179,5 @@ class DokumentService implements DokumentServiceInterface
             'height' => 50,
             'ratio' => false,
         ]);
-
-        // Simpan dokumen ke lokasi yang diinginkan
-        $generator->save(storage_path('app/public/out/surat_pengajuan.docx'));
-
-        return 'out/surat_pengajuan.docx';
     }
 }
