@@ -4,10 +4,11 @@ namespace App\Helper;
 
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\ListItem;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Http;
+use PhpOffice\PhpWord\Style\ListItem as StyleListItem;
 
 class DocumentGenerator
 {
@@ -57,6 +58,16 @@ class DocumentGenerator
         }
 
         $this->templateProcessor->setComplexBlock('table', $table);
+    }
+
+    public function addListItems(string $placeholder, array $items): void
+    {
+        $listString = '';
+        foreach ($items as $index => $item) {
+            $listString .= ($index + 1) . '. ' . $item . "\n";
+        }
+
+        $this->templateProcessor->setValue($placeholder, $listString);
     }
 
     public function setImageValue(string $placeholder, array $imageData): void

@@ -13,6 +13,7 @@ use App\Http\Controllers\Dosen\PenelitianController;
 use App\Http\Controllers\Dppm\PenelitianController as DppmPenelitianController;
 use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
 use App\Http\Controllers\Kaprodi\PenelitianController as KaprodiPenelitianController;
+use App\Http\Controllers\Keuangan\PenelitianController as KeuanganPenelitianController;
 
 Route::group(['prefix' => 'v1', 'middleware' => [
     // 'signature',
@@ -66,6 +67,17 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('penelitian', DppmPenelitianController::class)->only('index', 'show');
             Route::post('approved/penelitian/{id}', [DppmPenelitianController::class, 'approved']);
             Route::post('canceled/penelitian/{id}', [DppmPenelitianController::class, 'canceled']);
+        });
+
+        Route::group([
+            'prefix' => 'keuangan',
+            'middleware' => ['role:keuangan'],
+        ], function () {
+
+            // penelitian
+            Route::apiResource('penelitian', KeuanganPenelitianController::class)->only('index', 'show');
+            Route::post('approved/penelitian/{id}', [KeuanganPenelitianController::class, 'approved']);
+            Route::post('canceled/penelitian/{id}', [KeuanganPenelitianController::class, 'canceled']);
         });
 
         // Kaprodi

@@ -26,11 +26,15 @@ class DashboardController extends Controller
             ->json();
     }
 
+    public function getDashboardKeuangan() {}
+
     public function getDashboardDosen()
     {
         return ResponseApi::statusSuccess()
             ->message('Data Dashboard berhasil diambil')
-            ->data([])
+            ->data([
+                'penelitian' => $this->serviceDosen->getNumberOfPenelitianByStatus(),
+            ])
             ->json();
     }
 

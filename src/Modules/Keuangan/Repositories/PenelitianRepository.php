@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Dppm\Repositories;
+namespace Modules\Keuangan\Repositories;
 
 use App\Models\Penelitian;
 use App\Enums\StatusPenelitian;
-use Modules\Dppm\Exceptions\PenelitianException;
+use Modules\Keuangan\Exceptions\PenelitianException;
 
 class PenelitianRepository
 {
@@ -28,21 +28,24 @@ class PenelitianRepository
             throw PenelitianException::penelitianNotFound();
         }
 
-        if ($penelitian->status_kaprodi === StatusPenelitian::Pending) {
+        if (
+            $penelitian->status_kaprodi === StatusPenelitian::Pending ||
+            $penelitian->status_dppm === StatusPenelitian::Pending
+        ) {
             throw PenelitianException::penelitianCantApproved(
-                "Menunggu persetujuan kaprodi."
+                "Penelitian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
             );
         }
 
         if (
-            $penelitian->status_dppm->value === StatusPenelitian::Approval->value ||
-            $penelitian->status_dppm->value === StatusPenelitian::Reject->value
+            $penelitian->status_keuangan->value === StatusPenelitian::Approval->value ||
+            $penelitian->status_keuangan->value === StatusPenelitian::Reject->value
         ) {
-            throw PenelitianException::penelitianCantApproved("penelitian sudah {$penelitian->status_dppm->name}.");
+            throw PenelitianException::penelitianCantApproved("Penelitian {$penelitian->status_dppm->message()}.");
         }
 
         $penelitian->update([
-            'status_dppm' => StatusPenelitian::Approval,
+            'status_keuangan' => StatusPenelitian::Approval,
         ]);
 
         return self::getPenelitianById($id);
@@ -56,21 +59,23 @@ class PenelitianRepository
             throw PenelitianException::penelitianNotFound();
         }
 
-        if ($penelitian->status_kaprodi === StatusPenelitian::Pending) {
-            throw PenelitianException::penelitianCantCanceled(
-                "Menunggu persetujuan kaprodi."
+        if (
+            $penelitian->status_kaprodi === StatusPenelitian::Pending ||
+            $penelitian->status_dppm === StatusPenelitian::Pending
+        ) {
+            throw PenelitianException::penelitianCantApproved(
+                "Penelitian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
             );
         }
 
         if (
-            $penelitian->status_dppm->value === StatusPenelitian::Approval->value ||
-            $penelitian->status_dppm->value === StatusPenelitian::Reject->value
+            $penelitian->status_keuangan->value === StatusPenelitian::Approval->value ||
+            $penelitian->status_keuangan->value === StatusPenelitian::Reject->value
         ) {
-            throw PenelitianException::penelitianCantCanceled("penelitian sudah {$penelitian->status_dppm->name}.");
+            throw PenelitianException::penelitianCantApproved("Penelitian {$penelitian->status_dppm->message()}.");
         }
 
         $penelitian->update([
-            'status_dppm' => StatusPenelitian::Reject,
             'status_keuangan' => StatusPenelitian::Reject,
             'keterangan' => $keterangan,
         ]);

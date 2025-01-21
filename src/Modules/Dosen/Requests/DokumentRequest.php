@@ -2,6 +2,7 @@
 
 namespace Modules\Dosen\Requests;
 
+use Illuminate\Validation\Rule;
 use Modules\CustomRequest;
 
 class DokumentRequest extends CustomRequest
@@ -14,7 +15,15 @@ class DokumentRequest extends CustomRequest
     public function rules(): array
     {
         return [
-            'jenis_dokumen' => ['required', 'in:cover,surat_pengajuan,surat_rekomendasi'],
+            'jenis_dokumen' => [
+                'required',
+                Rule::in([
+                    'cover',
+                    'surat_pengajuan',
+                    'surat_rekomendasi',
+                    'proposal'
+                ])
+            ],
         ];
     }
 }

@@ -300,12 +300,11 @@ class ResponseApi
         $base64Content = base64_encode($fileContent);
         $status = $this->getStatus();
 
-        if (file_exists($filePath)) {
-            unlink($filePath);
-        }
+        // if (file_exists($filePath)) {
+        //     unlink($filePath);
+        // }
 
         $responseData = [
-            'status' => Response::HTTP_OK,
             'file_name' => $fileName,
             'base64' => $base64Content,
         ];

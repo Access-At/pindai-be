@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             JenisIndeksasiSeeder::class,
             JenisPenelitianSeeder::class,
             JenisPengabdianSeeder::class,
+            NomorDokumenSeeder::class,
         ]);
     }
 }

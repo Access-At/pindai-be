@@ -6,6 +6,7 @@ use App\Enums\StatusPenelitian;
 use App\Models\Faculty;
 use App\Models\Penelitian;
 use Illuminate\Support\Collection;
+use sbamtr\LaravelQueryEnrich\QE;
 
 class DppmRepository
 {
@@ -25,9 +26,13 @@ class DppmRepository
 
     public static function getNumberOfPenelitianByStatus(): Collection
     {
-        return Penelitian::whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
-            ->selectRaw('status_kaprodi as status, COUNT(*) as count')
-            ->groupBy('status_kaprodi')
+        return Penelitian::whereIn('status_dppm', [StatusPenelitian::Approval, StatusPenelitian::Reject])
+            ->select(
+                QE::c('status_dppm')->as('status'),
+                QE::count()->as('count'),
+            )
+            // ->selectRaw('status_dppm as status, COUNT(*) as count')
+            ->groupBy('status_dppm')
             ->get();
     }
 

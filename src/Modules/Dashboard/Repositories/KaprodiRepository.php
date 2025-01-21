@@ -6,6 +6,7 @@ use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Penelitian;
+use sbamtr\LaravelQueryEnrich\QE;
 
 class KaprodiRepository
 {
@@ -23,7 +24,11 @@ class KaprodiRepository
 
         return Penelitian::ProdiPenelitian($prodi)
             ->whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
-            ->selectRaw('status_kaprodi as status, COUNT(*) as count')
+            ->select(
+                QE::c('status_kaprodi')->as('status'),
+                QE::count()->as('count'),
+            )
+            // ->selectRaw('status_kaprodi as status, COUNT(*) as count')
             ->groupBy('status_kaprodi')
             ->get();
     }

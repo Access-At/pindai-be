@@ -18,4 +18,14 @@ enum StatusPenelitian: string
             self::Reject => 'rejected'
         };
     }
+
+    public function message(): string
+    {
+        return match ($this) {
+            self::Draft => 'sedang dalam penyusunan',
+            self::Pending => 'menunggu konfirmasi',
+            self::Approval => 'telah disetujui',
+            self::Reject => 'telah ditolak'
+        };
+    }
 }
