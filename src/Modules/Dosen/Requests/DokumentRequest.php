@@ -21,7 +21,9 @@ class DokumentRequest extends CustomRequest
                     'cover',
                     'surat_pengajuan',
                     'surat_rekomendasi',
-                    'proposal'
+                    'proposal',
+                    "kontrak_penelitian",
+                    "surat_keterangan_selesai"
                 ])
             ],
         ];

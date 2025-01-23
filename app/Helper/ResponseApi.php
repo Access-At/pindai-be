@@ -309,7 +309,6 @@ class ResponseApi
             'base64' => $base64Content,
         ];
 
-
         return response()->json($responseData, $status);
     }
 }
