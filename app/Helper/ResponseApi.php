@@ -300,9 +300,9 @@ class ResponseApi
         $base64Content = base64_encode($fileContent);
         $status = $this->getStatus();
 
-        // if (file_exists($filePath)) {
-        //     unlink($filePath);
-        // }
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
 
         $responseData = [
             'file_name' => $fileName,

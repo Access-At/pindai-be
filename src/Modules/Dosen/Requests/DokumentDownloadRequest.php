@@ -5,7 +5,7 @@ namespace Modules\Dosen\Requests;
 use Illuminate\Validation\Rule;
 use Modules\CustomRequest;
 
-class DokumentRequest extends CustomRequest
+class DokumentDownloadRequest extends CustomRequest
 {
     public function authorize(): bool
     {

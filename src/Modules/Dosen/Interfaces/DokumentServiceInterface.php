@@ -2,10 +2,11 @@
 
 namespace Modules\Dosen\Interfaces;
 
-use App\Models\Penelitian;
-use Modules\Dosen\DataTransferObjects\DokumentDto;
+use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
+use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 
 interface DokumentServiceInterface
 {
-    public function download(DokumentDto $request, string $id);
+    public function download(DokumentDownloadDto $request, string $id);
+    public function upload(DokumentUploadDto $request, string $id);
 }

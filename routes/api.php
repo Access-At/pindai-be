@@ -106,6 +106,7 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             // main menu
             Route::apiResource('penelitian', PenelitianController::class)->except('destroy');
             Route::post('penelitian/download/{id}', [DokumentController::class, 'download']);
+            Route::post('penelitian/upload/{id}', [DokumentController::class, 'upload']);
 
             Route::get('/dashboard', [DashboardController::class, 'getDashboardDosen']);
         });

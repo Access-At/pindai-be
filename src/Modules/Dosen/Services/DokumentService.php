@@ -9,7 +9,8 @@ use App\Models\User;
 use App\Utils\DocumentUtils;
 use App\Utils\ValidationUtils;
 use Illuminate\Support\Facades\Storage;
-use Modules\Dosen\DataTransferObjects\DokumentDto;
+use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
+use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 use Modules\Dosen\Repositories\PenelitianRepository;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
 
@@ -24,7 +25,7 @@ class DokumentService implements DokumentServiceInterface
         'surat_keterangan_selesai' => 'generateKeteranganSelesai',
     ];
 
-    public function download(DokumentDto $request, string $id): array
+    public function download(DokumentDownloadDto $request, string $id): array
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
         ValidationUtils::validatePenelitian($penelitian, $request->jenis_dokumen);
@@ -41,6 +42,19 @@ class DokumentService implements DokumentServiceInterface
             'path' => $pathFile,
             'name' => basename($file),
         ];
+    }
+
+    public function upload(DokumentUploadDto $request, string $id)
+    {
+        $penelitian = PenelitianRepository::getPenelitianById($id);
+        $contentFile =  base64_decode($request->file['base64'], true);
+
+        $pathFile = Storage::disk('public')->put(
+            "penelitian/{$penelitian->kode}.pdf",
+            $contentFile
+        );
+
+        return $pathFile;
     }
 
     private function generateCover($penelitian): string

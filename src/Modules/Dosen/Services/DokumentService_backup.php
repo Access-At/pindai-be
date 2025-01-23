@@ -11,7 +11,7 @@ use App\Models\Prodi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Modules\Dosen\DataTransferObjects\DokumentDto;
+use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Modules\Dosen\Repositories\PenelitianRepository;
@@ -29,7 +29,7 @@ class DokumentServiceBackup implements DokumentServiceInterface
         'surat_keterangan_selesai' => 'generateKeteranganSelesai'
     ];
 
-    public function download(DokumentDto $request, string $id): array
+    public function download(DokumentDownloadDto $request, string $id): array
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
         $this->validatePenelitian($penelitian, $request->jenis_dokumen);
