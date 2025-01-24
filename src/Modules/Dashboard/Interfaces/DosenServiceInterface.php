@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 
 interface DosenServiceInterface
 {
-    // TODO: Staticstic PENGABDIAN STATUS: SETUJUI, DITOLAK
-
     public function getNumberOfPenelitianByStatus();
+    public function getNumberOfPengbdianByStatus();
 }

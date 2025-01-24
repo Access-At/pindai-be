@@ -10,10 +10,14 @@ use App\Http\Controllers\Dppm\DosenController;
 use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
 use App\Http\Controllers\Dosen\PenelitianController;
+use App\Http\Controllers\Dosen\PengabdianController;
 use App\Http\Controllers\Dppm\PenelitianController as DppmPenelitianController;
+use App\Http\Controllers\Dppm\PengabdianController as DppmPengabdianController;
 use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
 use App\Http\Controllers\Kaprodi\PenelitianController as KaprodiPenelitianController;
+use App\Http\Controllers\Kaprodi\PengabdianController as KaprodiPengabdianController;
 use App\Http\Controllers\Keuangan\PenelitianController as KeuanganPenelitianController;
+use App\Http\Controllers\Keuangan\PengabdianController as KeuanganPengabdianController;
 
 Route::group(['prefix' => 'v1', 'middleware' => [
     // 'signature',
@@ -67,17 +71,28 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('penelitian', DppmPenelitianController::class)->only('index', 'show');
             Route::post('approved/penelitian/{id}', [DppmPenelitianController::class, 'approved']);
             Route::post('canceled/penelitian/{id}', [DppmPenelitianController::class, 'canceled']);
+
+            // pengabdian
+            Route::apiResource('pengabdian', DppmPengabdianController::class)->only('index', 'show');
+            Route::post('approved/pengabdian/{id}', [DppmPengabdianController::class, 'approved']);
+            Route::post('canceled/pengabdian/{id}', [DppmPengabdianController::class, 'canceled']);
         });
 
         Route::group([
             'prefix' => 'keuangan',
             'middleware' => ['role:keuangan'],
         ], function () {
+            Route::get('/dashboard', [DashboardController::class, 'getDashboardKeuangan']);
 
             // penelitian
             Route::apiResource('penelitian', KeuanganPenelitianController::class)->only('index', 'show');
             Route::post('approved/penelitian/{id}', [KeuanganPenelitianController::class, 'approved']);
             Route::post('canceled/penelitian/{id}', [KeuanganPenelitianController::class, 'canceled']);
+
+            // pengabdian
+            Route::apiResource('pengabdian', KeuanganPengabdianController::class)->only('index', 'show');
+            Route::post('approved/pengabdian/{id}', [KeuanganPengabdianController::class, 'approved']);
+            Route::post('canceled/pengabdian/{id}', [KeuanganPengabdianController::class, 'canceled']);
         });
 
         // Kaprodi
@@ -96,6 +111,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('penelitian', KaprodiPenelitianController::class)->only('index', 'show');
             Route::post('approved/penelitian/{id}', [KaprodiPenelitianController::class, 'approved']);
             Route::post('canceled/penelitian/{id}', [KaprodiPenelitianController::class, 'canceled']);
+
+            // pengabdian
+            Route::apiResource('pengabdian', KaprodiPengabdianController::class)->only('index', 'show');
+            Route::post('approved/pengabdian/{id}', [KaprodiPengabdianController::class, 'approved']);
+            Route::post('canceled/pengabdian/{id}', [KaprodiPengabdianController::class, 'canceled']);
         });
 
         // dosen
@@ -103,12 +123,16 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             'prefix' => 'dosen',
             'middleware' => ['role:dosen'],
         ], function () {
+            Route::get('/dashboard', [DashboardController::class, 'getDashboardDosen']);
+
             // main menu
-            Route::apiResource('penelitian', PenelitianController::class)->except('destroy');
+            Route::apiResource('penelitian', PenelitianController::class)->except(['destroy', 'update']);
             Route::post('penelitian/download/{id}', [DokumentController::class, 'download']);
             Route::post('penelitian/upload/{id}', [DokumentController::class, 'upload']);
 
-            Route::get('/dashboard', [DashboardController::class, 'getDashboardDosen']);
+            Route::apiResource('pengabdian', PengabdianController::class)->except(['destroy', 'update']);
+            Route::post('pengabdian/download/{id}', [DokumentController::class, 'download']);
+            Route::post('pengabdian/upload/{id}', [DokumentController::class, 'upload']);
         });
     });
 });

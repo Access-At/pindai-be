@@ -12,4 +12,9 @@ class DosenService implements DosenServiceInterface
     {
         return DosenRepository::getNumberOfPenelitianByStatus();
     }
+
+    public function getNumberOfPengbdianByStatus()
+    {
+        return DosenRepository::getNumberOfPengbdianByStatus();
+    }
 }

@@ -38,7 +38,7 @@ class DokumentController extends Controller
 
         return ResponseApi::statusSuccess()
             ->message('Dokumen berhasil diunggah')
-            ->data($data)
+            ->data([])
             ->json();
     }
 }

@@ -16,16 +16,14 @@ class DokumentUploadRequest extends CustomRequest
     public function rules(): array
     {
         return [
-            'file' => ['required', 'array'],
-            'file.base64' => [
+            'file' => ['required', 'string', new Base64PdfValidation()],
+            'category' => [
                 'required',
-                'string',
-                new Base64PdfValidation(),
-            ],
-            // 'file.type' => [
-            //     'required',
-            //     // Rule::in(['pdf', 'image']),
-            // ]
+                Rule::in([
+                    'pengabdian',
+                    'penelitian',
+                ])
+            ]
         ];
     }
 }

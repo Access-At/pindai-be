@@ -24,7 +24,7 @@ class DosenController extends Controller
             'filters' => [
                 'dosen.is_approved' => $request->input('is_approved'),
                 'dosen.is_active' => $request->input('is_active'),
-                'dosen.prodi_id' => Prodi::hashToId($request->input('prodi_id')),
+                // 'dosen.prodi_id' => Prodi::hashToId($request->input('prodi_id')),
             ],
             'order_by' => $request->input('order_by', 'name'),
             'order_direction' => $request->input('order_direction', 'asc'),

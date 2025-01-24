@@ -11,4 +11,9 @@ class KaprodiService implements KaprodiServiceInterface
     {
         return KaprodiRepository::getNumberOfPenelitianByStatus();
     }
+
+    public function getNumberOfPengbdianByStatus()
+    {
+        return KaprodiRepository::getNumberOfPengbdianByStatus();
+    }
 }

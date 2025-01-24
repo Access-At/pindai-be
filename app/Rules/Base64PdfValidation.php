@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 class Base64PdfValidation implements Rule
 {
     private $maxSizeInBytes; // Maksimal ukuran file dalam byte
+    private $errorMessage;
 
     public function __construct($maxSizeInMB = 2)
     {
@@ -20,11 +21,13 @@ class Base64PdfValidation implements Rule
         $decoded = base64_decode($value, true);
 
         if ($decoded === false) {
+            $this->errorMessage = 'Format base64 tidak valid.';
             return false; // Jika decoding gagal
         }
 
         // Validasi ukuran file
         if (strlen($decoded) > $this->maxSizeInBytes) {
+            $this->errorMessage = 'Ukuran file melebihi batas maksimal ' . ($this->maxSizeInBytes / 1024 / 1024) . ' MB.';
             return false; // File melebihi batas ukuran
         }
 
@@ -33,12 +36,14 @@ class Base64PdfValidation implements Rule
         $mimeType = $finfo->buffer($decoded);
 
         if ($mimeType !== 'application/pdf') {
+            $this->errorMessage = 'File harus berformat PDF.';
             return false; // MIME type bukan PDF
         }
 
         // (Opsional) Validasi header PDF
         $pdfHeader = '%PDF-';
         if (substr($decoded, 0, strlen($pdfHeader)) !== $pdfHeader) {
+            $this->errorMessage = 'File bukan merupakan file PDF yang valid.';
             return false; // Header file bukan PDF
         }
 
@@ -53,15 +58,13 @@ class Base64PdfValidation implements Rule
             $pdf = $parser->parseContent($decoded);
             return true; // File PDF aman
         } catch (\Exception $e) {
+            $this->errorMessage = 'File PDF rusak atau tidak dapat dibaca.';
             return false; // Parsing gagal
         }
-
-        // Jika sanitasi belum digunakan, default-nya dianggap aman
-        return true;
     }
 
     public function message()
     {
-        return 'The file must be a valid PDF.';
+        return $this->errorMessage ?? 'File PDF tidak valid.';
     }
 }

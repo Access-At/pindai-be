@@ -128,6 +128,7 @@ class GoogleScholarScraper
         if (str_contains($photo, 'scholar.googleusercontent.com')) {
             return str_replace('small', 'medium', $photo);
         }
+
         if (str_contains($photo, 'view_photo')) {
             return str_replace('view_photo', 'medium_photo', $photo);
         }

@@ -6,6 +6,7 @@ use App\Helper\ResponseApi;
 use Modules\Dashboard\Interfaces\DppmServiceInterface;
 use Modules\Dashboard\Interfaces\DosenServiceInterface;
 use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
+use Modules\Dashboard\Interfaces\KeuanganServiceInterface;
 
 class DashboardController extends Controller
 {
@@ -13,6 +14,7 @@ class DashboardController extends Controller
         protected DosenServiceInterface $serviceDosen,
         protected DppmServiceInterface $serviceDppm,
         protected KaprodiServiceInterface $serviceKaprodi,
+        protected KeuanganServiceInterface $serviceKeuangan,
     ) {}
 
     public function getDashboardDppm()
@@ -22,11 +24,21 @@ class DashboardController extends Controller
             ->data([
                 'fakultas' => $this->serviceDppm->getNumberOfLecturersByFaculty(),
                 'penelitian' => $this->serviceDppm->getOfPenelitian(),
+                'pengabdian' => $this->serviceDppm->getOfPengabdian()
             ])
             ->json();
     }
 
-    public function getDashboardKeuangan() {}
+    public function getDashboardKeuangan()
+    {
+        return ResponseApi::statusSuccess()
+            ->message('Data Dashboard berhasil diambil')
+            ->data([
+                'penelitian' => $this->serviceKeuangan->getOfPenelitian(),
+                'pengabdian' => $this->serviceKeuangan->getOfPengabdian()
+            ])
+            ->json();
+    }
 
     public function getDashboardDosen()
     {
@@ -34,6 +46,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'penelitian' => $this->serviceDosen->getNumberOfPenelitianByStatus(),
+                'pengabdian' => $this->serviceDosen->getNumberOfPengbdianByStatus()
             ])
             ->json();
     }
@@ -44,6 +57,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'penelitian' => $this->serviceKaprodi->getNumberOfPenelitianByStatus(),
+                'pengabdian' => $this->serviceKaprodi->getNumberOfPengbdianByStatus()
             ])
             ->json();
     }

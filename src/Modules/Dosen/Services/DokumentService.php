@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
 use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 use Modules\Dosen\Repositories\PenelitianRepository;
+use Modules\Dosen\Repositories\PengabdianRepository;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
 
 class DokumentService implements DokumentServiceInterface
@@ -22,20 +23,21 @@ class DokumentService implements DokumentServiceInterface
         'surat_rekomendasi' => 'generateRekomendasi',
         'proposal' => 'generateProposal',
         'kontrak_penelitian' => 'generateKontrak',
+        'kontrak_pengabdian' => 'generateKontrak',
         'surat_keterangan_selesai' => 'generateKeteranganSelesai',
     ];
 
     public function download(DokumentDownloadDto $request, string $id): array
     {
-        $penelitian = PenelitianRepository::getPenelitianById($id);
-        ValidationUtils::validatePenelitian($penelitian, $request->jenis_dokumen);
+        $penelitian = PenelitianRepository::getPenelitianById($id) ?? PengabdianRepository::getPengabdianById($id);
+        ValidationUtils::validatePenelitian($penelitian, $request->jenis_dokumen, $request->category);
 
         $method = self::DOCUMENT_TYPES[$request->jenis_dokumen] ?? null;
         if (!$method) {
             throw new \InvalidArgumentException('Invalid document type');
         }
 
-        $file = $this->{$method}($penelitian);
+        $file = $this->{$method}($penelitian, $request->category);
         $pathFile = Storage::disk('public')->path($file);
 
         return [
@@ -44,20 +46,20 @@ class DokumentService implements DokumentServiceInterface
         ];
     }
 
-    public function upload(DokumentUploadDto $request, string $id)
+    public function upload(DokumentUploadDto $request, string $id): string
     {
-        $penelitian = PenelitianRepository::getPenelitianById($id);
-        $contentFile =  base64_decode($request->file['base64'], true);
+        $penelitian = PenelitianRepository::getPenelitianById($id) ?? PengabdianRepository::getPengabdianById($id);
+        $contentFile =  base64_decode($request->file, true);
 
         $pathFile = Storage::disk('public')->put(
-            "penelitian/{$penelitian->kode}.pdf",
+            "{$request->category}/{$penelitian->kode}.pdf",
             $contentFile
         );
 
         return $pathFile;
     }
 
-    private function generateCover($penelitian): string
+    private function generateCover($penelitian, $category): string
     {
         $ketua = $penelitian->ketua;
         $fakultasData = self::getFakultasData($ketua->prodi);
@@ -65,22 +67,26 @@ class DokumentService implements DokumentServiceInterface
         return DocumentUtils::generateDocument(
             'doc/template_cover.docx',
             DocumentUtils::getCoverValues($penelitian, $fakultasData),
-            "cover-{$penelitian->judul}"
+            "cover-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 
-    private function generatePermohonan($penelitian): string
+    private function generatePermohonan($penelitian, $category): string
     {
         $ketua = $penelitian->ketua;
 
         return DocumentUtils::generateDocument(
             'doc/template_surat_pengajuan.docx',
             DocumentUtils::getPengajuanValues($penelitian, $ketua),
-            "surat-pengajuan-{$penelitian->judul}"
+            "surat-pengajuan-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 
-    private function generateRekomendasi($penelitian): string
+    private function generateRekomendasi($penelitian, $category): string
     {
         $ketua = $penelitian->ketua;
         $fakultasData = self::getFakultasData($ketua->prodi);
@@ -93,20 +99,24 @@ class DokumentService implements DokumentServiceInterface
         return DocumentUtils::generateDocument(
             'doc/template_surat_rekomendasi.docx',
             DocumentUtils::getRekomendasiValues($penelitian, $fakultasData, $kaprodi, $no),
-            "surat-rekomendasi-{$penelitian->judul}"
+            "surat-rekomendasi-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 
-    private function generateProposal($penelitian): string
+    private function generateProposal($penelitian, $category): string
     {
         return DocumentUtils::generateDocument(
             'doc/template_proposal.docx',
             [],
-            "proposal-{$penelitian->judul}"
+            "proposal-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 
-    private function generateKontrak($penelitian): string
+    private function generateKontrak($penelitian, $category): string
     {
         $nomorDokumen = NomorDokumen::where('jenis_dokumen', 'surat_rekomendasi')->first();
         $tahun = date('Y');
@@ -118,11 +128,13 @@ class DokumentService implements DokumentServiceInterface
         return DocumentUtils::generateDocument(
             'doc/template_kontrak_penelitian.docx',
             DocumentUtils::getKontrakValues($penelitian, $no, $dppm, $ketua, $tahun),
-            "kontrak-penelitian-{$penelitian->judul}"
+            "kontrak-penelitian-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 
-    private function generateKeteranganSelesai($penelitian): string
+    private function generateKeteranganSelesai($penelitian, $category): string
     {
         $nomorDokumen = NomorDokumen::where('jenis_dokumen', 'surat_keterangan')->first();
         $tahun = date('Y');
@@ -137,7 +149,9 @@ class DokumentService implements DokumentServiceInterface
         return DocumentUtils::generateDocument(
             'doc/template_keterangan_selesai.docx',
             DocumentUtils::getKeteranganSelesaiValues($penelitian, $no, $dppm, $ketua, $kaprodi),
-            "surat-keterangan-selesai-{$penelitian->judul}"
+            "surat-keterangan-selesai-{$penelitian->judul}",
+            $category,
+            $penelitian
         );
     }
 

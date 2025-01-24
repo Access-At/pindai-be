@@ -6,30 +6,58 @@ use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Penelitian;
+use App\Models\Pengabdian;
 use sbamtr\LaravelQueryEnrich\QE;
 
 class KaprodiRepository
 {
-    public static function getNumberOfPenelitianByStatus()
+    private static function getUserProdi()
     {
         $user = auth('api')->user();
-
         $userLogin = User::where('id', $user->id)
             ->with('kaprodi.faculty')
             ->first();
 
-        $prodi = Prodi::where('faculties_id', $userLogin->kaprodi->faculty->id)
+        return Prodi::where('faculties_id', $userLogin->kaprodi->faculty->id)
             ->get()
             ->pluck('name');
+    }
 
-        return Penelitian::ProdiPenelitian($prodi)
+    private static function formatStatusCounts($result)
+    {
+        $statuses = ['accepted', 'rejected'];
+        return collect($statuses)->map(function ($status) use ($result) {
+            $found = $result->firstWhere('status', $status);
+            return [
+                'status' => $status,
+                'count' => $found ? $found->count : 0
+            ];
+        });
+    }
+
+    private static function getStatusCount($query, $prodi)
+    {
+        return $query::prodiPengabdian($prodi)
             ->whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
             ->select(
                 QE::c('status_kaprodi')->as('status'),
                 QE::count()->as('count'),
             )
-            // ->selectRaw('status_kaprodi as status, COUNT(*) as count')
             ->groupBy('status_kaprodi')
             ->get();
+    }
+
+    public static function getNumberOfPenelitianByStatus()
+    {
+        $prodi = self::getUserProdi();
+        $result = self::getStatusCount(Penelitian::class, $prodi);
+        return self::formatStatusCounts($result);
+    }
+
+    public static function getNumberOfPengbdianByStatus()
+    {
+        $prodi = self::getUserProdi();
+        $result = self::getStatusCount(Pengabdian::class, $prodi);
+        return self::formatStatusCounts($result);
     }
 }

@@ -8,4 +8,5 @@ interface DppmServiceInterface
 {
     public function getNumberOfLecturersByFaculty(): Collection;
     public function getOfPenelitian();
+    public function getOfPengabdian();
 }

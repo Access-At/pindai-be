@@ -9,6 +9,8 @@ use Modules\Dashboard\Services\KaprodiService;
 use Modules\Dashboard\Interfaces\DppmServiceInterface;
 use Modules\Dashboard\Interfaces\DosenServiceInterface;
 use Modules\Dashboard\Interfaces\KaprodiServiceInterface;
+use Modules\Dashboard\Interfaces\KeuanganServiceInterface;
+use Modules\Dashboard\Services\KeuanganService;
 
 class DashboardServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class DashboardServiceProvider extends ServiceProvider
         $this->app->bind(DosenServiceInterface::class, DosenService::class);
         $this->app->bind(DppmServiceInterface::class, DppmService::class);
         $this->app->bind(KaprodiServiceInterface::class, KaprodiService::class);
+        $this->app->bind(KeuanganServiceInterface::class, KeuanganService::class);
     }
 
     /**

@@ -25,7 +25,7 @@ class KaprodiController extends Controller
             'search_fields' => ['name', 'email'],
             'filters' => [
                 'kaprodi.is_active' => $request->input('is_active'),
-                'kaprodi.faculties_id' => Faculty::hashToId($request->input('fakultas_id')),
+                // 'kaprodi.faculties_id' => Faculty::hashToId($request->input('fakultas_id')),
             ],
             'order_by' => $request->input('order_by', 'name'),
             'order_direction' => $request->input('order_direction', 'asc'),

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('judul');
             $table->string('tahun_akademik');
             $table->string('bidang');
-            // $table->enum('semester', ['ganjil', 'genap']);
             $table->string('semester');
             $table->text('deskripsi');
             $table->string('status_kaprodi')->default(StatusPenelitian::Pending);

@@ -2,18 +2,35 @@
 
 namespace App\Utils;
 
-use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Carbon\Carbon;
 use App\Helper\DocumentGenerator;
+use App\Models\Penelitian;
+use App\Models\Pengabdian;
 
 class DocumentUtils
 {
-    public static function generateDocument(string $templatePath, array $values, string $filename): string
-    {
+    public static function generateDocument(
+        string $templatePath,
+        array $values,
+        string $filename,
+        string $category,
+        Penelitian|Pengabdian $penelitian
+    ): string {
         $generator = new DocumentGenerator($templatePath);
+
+        $values = array_merge($values, [
+            'category' => strtoupper($category),
+            'category_content' => ucwords($category),
+        ]);
+
         $generator->setValues($values);
+
+        self::addQrCode($generator, $penelitian);
+        self::addAnggotaTable($generator, $penelitian->anggota);
+        self::addAnggotaList($generator, $penelitian->anggota);
+
         $nameFile = self::formatNameFile($filename);
         $path = "out/$nameFile";
         $generator->save(storage_path("app/public/$path"));
@@ -24,7 +41,7 @@ class DocumentUtils
     {
         return [
             'nomor' => $no,
-            'perihal' => 'Surat Rekomendasi Pelaksanaan Penelitian Dosen',
+            // 'perihal' => 'Surat Rekomendasi Pelaksanaan Penelitian Dosen',
             'fakultas' => str_replace('Fakultas', '', $fakultasData['fakultas']),
             'prodi' => $penelitian->ketua->prodi,
             'tahun_ajaran' => DateFormatter::formatTahunAjaran($penelitian->tahun_akademik),
@@ -42,7 +59,7 @@ class DocumentUtils
         return [
             'title' => strtoupper("Surat Pengajuan Ke PRODI"),
             'prodi' => $ketua->prodi,
-            'perihal' => 'Pengajuan Pelaksanaan Penelitian Dosen',
+            // 'perihal' => 'Pengajuan Pelaksanaan Penelitian Dosen',
             'ketua.nama' => ($ketua->name_with_title ?? $ketua->name),
             'ketua.nidn' => $ketua->nidn,
             'ketua.prodi' => $ketua->prodi,
@@ -95,8 +112,6 @@ class DocumentUtils
             'tahun_ajaran' => DateFormatter::formatTahunAjaran($penelitian->tahun_akademik),
             'tanggal' => Carbon::now()->locale('id')->isoFormat('dddd, D MMMM Y'),
             'kaprodi.nama' => $kaprodi->name_with_title ?? $kaprodi->name,
-            // 'kaprodi.nidn' => $kaprodi->nidn,
-            // 'kaprodi.email' => $kaprodi->email,
         ];
     }
 
@@ -105,8 +120,11 @@ class DocumentUtils
         return Str::slug($nameFile, '-') . '.docx';
     }
 
-    public static function addQrCode(DocumentGenerator $generator, string $name): void
+    private static function addQrCode(DocumentGenerator $generator, Penelitian|Pengabdian $penelitian): void
     {
+        $ketua = $penelitian->ketua;
+        $name = $ketua->name_with_title ?? $ketua->name;
+
         $timestamp = Carbon::now()->locale('id')->isoFormat('D MMMM Y H:mm');
         $imageContent = QrCode::size(300)
             ->format('png')
@@ -121,5 +139,48 @@ class DocumentUtils
             'height' => 50,
             'ratio' => false,
         ]);
+    }
+
+    private static function generateAnggotaTable($anggota, bool $includeProdi = true): \Illuminate\Support\Collection
+    {
+        return $anggota->map(function ($anggota) use ($includeProdi) {
+            $anggota = $anggota->anggotaPenelitian;
+            $label = $anggota->is_leader ? 'Ketua Penelitian' : 'Anggota';
+            $data = [
+                $label,
+                $anggota->name_with_title ?? $anggota->name,
+                $anggota->nidn,
+                $anggota->job_functional,
+            ];
+            if ($includeProdi) {
+                $data[] = $anggota->prodi;
+            }
+            return $data;
+        });
+    }
+
+    private static function addAnggotaTable(DocumentGenerator $generator, $anggota, bool $includeProdi = true): void
+    {
+        $headers = ['Susunan Anggota', 'Nama', 'NIDN', 'JAFUNG'];
+        if ($includeProdi) {
+            $headers[] = 'PRODI';
+        }
+
+        $anggotaTable = self::generateAnggotaTable($anggota, $includeProdi);
+        $generator->addTable($headers, $anggotaTable->toArray());
+    }
+
+    private static function generateAnggotaList($anggota): array
+    {
+        return $anggota->map(
+            fn($anggota) =>
+            $anggota->anggotaPenelitian->name_with_title ?? $anggota->anggotaPenelitian->name
+        )->toArray();
+    }
+
+    private static function addAnggotaList(DocumentGenerator $generator, $anggota): void
+    {
+        $anggotaList = self::generateAnggotaList($anggota);
+        $generator->addListItems('tim', $anggotaList);
     }
 }
