@@ -9,7 +9,7 @@ use Modules\ListData\Resources\ProdiResource;
 use Modules\ListData\Resources\FakultasResource;
 use Modules\ListData\Repositories\ListRepository;
 use Modules\ListData\Interfaces\ListServiceInterface;
-use Modules\ListData\Resources\JenisIndeksasiResource;
+use Modules\ListData\Resources\JenisPublikasiResource;
 use Modules\ListData\Resources\JenisPenelitianResource;
 use Modules\ListData\Resources\JenisPengabdianResource;
 use Modules\ListData\Resources\Pagination\DosenPaginationCollection;
@@ -52,9 +52,9 @@ class ListService implements ListServiceInterface
         });
     }
 
-    public function getListJenisIndeksasi()
+    public function getListJenisPublikasi()
     {
-        return JenisIndeksasiResource::collection(ListRepository::getListJenisIndeksasi());
+        return JenisPublikasiResource::collection(ListRepository::getListJenisPublikasi());
     }
 
     public function getListJenisPenelitian()
@@ -62,7 +62,7 @@ class ListService implements ListServiceInterface
         return JenisPenelitianResource::collection(ListRepository::getListJenisPenelitian());
     }
 
-    public function getListJenisPengambdian()
+    public function getListJenisPengabdian()
     {
         return JenisPengabdianResource::collection(ListRepository::getListJenisPengambdian());
     }

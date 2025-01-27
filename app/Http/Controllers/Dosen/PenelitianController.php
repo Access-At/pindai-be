@@ -61,22 +61,22 @@ class PenelitianController extends Controller
             ->json();
     }
 
-    // public function update(PenelitianRequest $request, $id)
-    // {
-    //     $data = $this->service->updatePenelitian($id, PenelitianDto::fromRequest($request));
+    public function update(PenelitianRequest $request, $id)
+    {
+        $data = $this->service->updatePenelitian($id, PenelitianDto::fromRequest($request));
 
-    //     return ResponseApi::statusSuccess()
-    //         ->message('Data Penelitian berhasil diubah')
-    //         ->data($data)
-    //         ->json();
-    // }
+        return ResponseApi::statusSuccess()
+            ->message('Data Penelitian berhasil diubah')
+            ->data($data)
+            ->json();
+    }
 
-    // public function destroy($id)
-    // {
-    //     $this->service->deletePenelitian($id);
+    public function destroy($id)
+    {
+        $this->service->deletePenelitian($id);
 
-    //     return ResponseApi::statusSuccess()
-    //         ->message('Data Penelitian berhasil dihapus')
-    //         ->json();
-    // }
+        return ResponseApi::statusSuccess()
+            ->message('Data Penelitian berhasil dihapus')
+            ->json();
+    }
 }

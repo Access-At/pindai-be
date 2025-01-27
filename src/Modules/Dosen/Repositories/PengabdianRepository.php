@@ -3,10 +3,9 @@
 namespace Modules\Dosen\Repositories;
 
 use App\Models\Pengabdian;
-use App\Models\JenisIndeksasi;
-use App\Models\JenisPengabdian;
 use App\Models\DetailPengabdian;
 use App\Models\AnggotaPengabdian;
+use App\Models\LuaranKriteria;
 use Modules\Dosen\DataTransferObjects\PengabdianDto;
 
 class PengabdianRepository
@@ -18,15 +17,13 @@ class PengabdianRepository
 
     public static function getPengabdianById($id)
     {
-        return Pengabdian::with(['jenisPengabdian', 'jenisIndex', 'detail.anggotaPengabdian'])
-            ->byHash($id)
-            ->first();
+        return Pengabdian::with(['kriteria', 'kriteria.luaran', 'detail.anggotaPengabdian'])
+            ->byHash($id)->first();
     }
 
     public static function insertPengabdian(PengabdianDto $request)
     {
-        $getJenisPengabdian = JenisPengabdian::byHash($request->jenis_pengabdian)->id;
-        $getJenisIndex = JenisIndeksasi::byHash($request->jenis_indeksasi)->id;
+        $getLuaranPenelitian = LuaranKriteria::byHash($request->luaran_kriteria)->id;
 
         $Pengabdian = Pengabdian::create([
             'tahun_akademik' => $request->tahun_akademik,
@@ -34,8 +31,7 @@ class PengabdianRepository
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'bidang' => $request->bidang,
-            'jenis_pengabdian_id' => $getJenisPengabdian,
-            'jenis_indeksasi_id' => $getJenisIndex,
+            'luaran_kriteria_id' => $getLuaranPenelitian,
         ]);
 
         $anggotaData = array_map(function ($anggota) use ($Pengabdian) {
@@ -67,5 +63,15 @@ class PengabdianRepository
     public static function updatePengabdian($id, PengabdianDto $request)
     {
         // TODO: Implement updatePengabdian() method.
+    }
+
+    public static function deletePengabdian($id)
+    {
+        $pengabdian = Pengabdian::byHash($id);
+
+        $pengabdian->detail()->delete();
+        $pengabdian->delete();
+
+        return $pengabdian;
     }
 }

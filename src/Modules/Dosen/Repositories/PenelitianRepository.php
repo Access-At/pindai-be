@@ -3,10 +3,12 @@
 namespace Modules\Dosen\Repositories;
 
 use App\Models\Penelitian;
-use App\Models\JenisIndeksasi;
+use App\Models\getListJenisPublikasi;
 use App\Models\JenisPenelitian;
 use App\Models\DetailPenelitian;
 use App\Models\AnggotaPenelitian;
+use App\Models\Luaran;
+use App\Models\LuaranKriteria;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 
 class PenelitianRepository
@@ -18,15 +20,13 @@ class PenelitianRepository
 
     public static function getPenelitianById($id)
     {
-        return Penelitian::with(['jenisPenelitian', 'jenisIndex', 'detail.anggotaPenelitian'])
-            ->byHash($id)
-            ->first();
+        return Penelitian::with(['detail.anggotaPenelitian', 'kriteria', 'kriteria.luaran'])
+            ->byHash($id)->first();
     }
 
     public static function insertPenelitian(PenelitianDto $request)
     {
-        $getJenisPenelitian = JenisPenelitian::byHash($request->jenis_penelitian)->id;
-        $getJenisIndex = JenisIndeksasi::byHash($request->jenis_indeksasi)->id;
+        $getLuaranPenelitian = LuaranKriteria::byHash($request->luaran_kriteria)->id;
 
         $penelitian = Penelitian::create([
             'tahun_akademik' => $request->tahun_akademik,
@@ -34,8 +34,7 @@ class PenelitianRepository
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'bidang' => $request->bidang,
-            'jenis_penelitian_id' => $getJenisPenelitian,
-            'jenis_indeksasi_id' => $getJenisIndex,
+            'luaran_kriteria_id' => $getLuaranPenelitian,
         ]);
 
         $anggotaData = array_map(function ($anggota) use ($penelitian) {
@@ -67,5 +66,15 @@ class PenelitianRepository
     public static function updatePenelitian($id, PenelitianDto $request)
     {
         // TODO: Implement updatePenelitian() method.
+    }
+
+    public static function deletePenelitian($id)
+    {
+        $penelitian = Penelitian::byHash($id);
+
+        $penelitian->detail()->delete();
+        $penelitian->delete();
+
+        return $penelitian;
     }
 }

@@ -11,6 +11,8 @@ use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
 use App\Http\Controllers\Dosen\PenelitianController;
 use App\Http\Controllers\Dosen\PengabdianController;
+use App\Http\Controllers\Dosen\PublikasiController;
+use App\Http\Controllers\Dppm\LuaranController;
 use App\Http\Controllers\Dppm\PenelitianController as DppmPenelitianController;
 use App\Http\Controllers\Dppm\PengabdianController as DppmPengabdianController;
 use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
@@ -47,12 +49,15 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::get('/fakultas', [ListController::class, 'getListFakultas']);
             Route::get('/prodi/{fakultas}', [ListController::class, 'getListProdi']);
             Route::get('/dosen', [ListController::class, 'getListDosen']);
+
             Route::get('/author-scholar', [ListController::class, 'getAuthorScholar']);
             Route::get('/author-scholar/{id}', [ListController::class, 'getAuthorProfileScholar']);
 
-            Route::get('/jenis-indeksasi', [ListController::class, 'getListJenisIndeksasi']);
+            Route::get('/jenis-publikasi', [ListController::class, 'getListJenisPublikasi']);
             Route::get('/jenis-penelitian', [ListController::class, 'getListJenisPenelitian']);
-            Route::get('/jenis-pengabdian', [ListController::class, 'getListJenisPengambdian']);
+            Route::get('/jenis-pengabdian', [ListController::class, 'getListJenisPengabdian']);
+
+            // Route::get('/jenis-luaran/{jenis_penelitian}', [ListController::class, 'getListJenisLuaran']);
         });
 
         // DPPM
@@ -65,6 +70,8 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             // master data
             Route::apiResource('fakultas', FakultasController::class);
             Route::apiResource('kaprodi', KaprodiController::class);
+            Route::apiResource('luaran', LuaranController::class);
+
             Route::apiResource('dosen', DosenController::class)->only('index', 'show');
 
             // penelitian
@@ -126,13 +133,15 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::get('/dashboard', [DashboardController::class, 'getDashboardDosen']);
 
             // main menu
-            Route::apiResource('penelitian', PenelitianController::class)->except(['destroy', 'update']);
+            Route::apiResource('penelitian', PenelitianController::class)->except('update');
             Route::post('penelitian/download/{id}', [DokumentController::class, 'download']);
             Route::post('penelitian/upload/{id}', [DokumentController::class, 'upload']);
 
-            Route::apiResource('pengabdian', PengabdianController::class)->except(['destroy', 'update']);
+            Route::apiResource('pengabdian', PengabdianController::class)->except('update');
             Route::post('pengabdian/download/{id}', [DokumentController::class, 'download']);
             Route::post('pengabdian/upload/{id}', [DokumentController::class, 'upload']);
+
+            Route::apiResource('publikasi', PublikasiController::class);
         });
     });
 });

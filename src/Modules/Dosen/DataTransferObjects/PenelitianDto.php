@@ -12,8 +12,7 @@ class PenelitianDto
         public string $judul,
         public string $deskripsi,
         public string $bidang,
-        public string $jenis_penelitian,
-        public string $jenis_indeksasi,
+        public string $luaran_kriteria,
         public array $anggota,
     ) {}
 
@@ -25,8 +24,7 @@ class PenelitianDto
             $request->validated('judul'),
             $request->validated('deskripsi'),
             $request->validated('bidang'),
-            $request->validated('jenis_penelitian'),
-            $request->validated('jenis_indeksasi'),
+            $request->validated('luaran_kriteria'),
             $request->validated('anggota')
         );
     }

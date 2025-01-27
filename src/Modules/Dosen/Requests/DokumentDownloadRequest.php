@@ -32,9 +32,6 @@ class DokumentDownloadRequest extends CustomRequest
                 Rule::in([
                     'pengabdian',
                     'penelitian',
-                    // 'pkm',
-                    // 'pengabdian_pkm',
-                    // 'pkm_pengabdian',
                 ])
             ]
         ];

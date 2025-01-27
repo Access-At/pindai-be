@@ -20,9 +20,9 @@ class DetailPenelitianResource extends CustomResource
                 'prodi' => $this->ketua->prodi,
             ],
             'bidang' => $this->bidang,
-            'jenis_penelitian' => $this->jenisPenelitian->jenis,
+            'jenis_penelitian' => $this->kriteria->luaran->name,
+            'jenis_kriteria' => $this->kriteria->name,
             'semester' => $this->semester->label(),
-            'jenis_indeksasi' => $this->jenisIndex->jenis,
             'academic_year' => Str::substr($this->tahun_akademik, 0, 4) . '/' . Str::substr($this->tahun_akademik, 4, 4),
             'keterangan' => $this->keterangan,
             'anggota' => $this->anggota->map(function ($anggota) {

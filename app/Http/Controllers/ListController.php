@@ -53,9 +53,9 @@ class ListController extends Controller
             ->json();
     }
 
-    public function getListJenisIndeksasi()
+    public function getListJenisPublikasi()
     {
-        $data = $this->service->getListJenisIndeksasi();
+        $data = $this->service->getListJenisPublikasi();
 
         return ResponseApi::statusSuccess()
             ->message('Success get list jenis indeksasi')
@@ -73,9 +73,9 @@ class ListController extends Controller
             ->json();
     }
 
-    public function getListJenisPengambdian()
+    public function getListJenisPengabdian()
     {
-        $data = $this->service->getListJenisPengambdian();
+        $data = $this->service->getListJenisPengabdian();
 
         return ResponseApi::statusSuccess()
             ->message('Success get list jenis pengambdian')

@@ -2,6 +2,7 @@
 
 namespace Modules\Dosen\Services;
 
+use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Helper\PaginateHelper;
 use Modules\Dosen\Resources\DosenResource;
@@ -39,12 +40,12 @@ class PenelitianService implements PenelitianServiceInterface
     public function insertPenelitian(PenelitianDto $request)
     {
         $user = auth('api')->user();
+        $dosen = User::dosenRole()
+            ->where('id', $user->id)
+            ->with('dosen.prodi', 'dosen.fakultas')
+            ->first();
 
-        $userLogin = new DosenResource(
-            User::where('id', $user->id)
-                ->with('dosen.prodi', 'dosen.fakultas')
-                ->first()
-        );
+        $userLogin = new DosenResource($dosen);
 
         // ubah menjadi array
         $anggota = $userLogin->resolve();
@@ -68,5 +69,28 @@ class PenelitianService implements PenelitianServiceInterface
     public function updatePenelitian(string $id, PenelitianDto $request)
     {
         // TODO: Implement updatePenelitian() method.
+    }
+
+    public function deletePenelitian(string $id)
+    {
+        $this->validatePenelitianExists($id);
+
+        return new PenelitianResource(PenelitianRepository::deletePenelitian($id));
+    }
+
+    private function validatePenelitianExists(string $id): void
+    {
+        $penelitian = PenelitianRepository::getPenelitianById($id);
+
+        if (! $penelitian) {
+            throw PenelitianException::penelitianNotFound();
+        }
+
+        if (
+            $penelitian->status_dppm === StatusPenelitian::Approval &&
+            $penelitian->status_kaprodi === StatusPenelitian::Approval
+        ) {
+            throw PenelitianException::penelitianNotDelete();
+        }
     }
 }

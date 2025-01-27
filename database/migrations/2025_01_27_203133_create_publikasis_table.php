@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\StatusPenelitian;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -12,28 +12,31 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penelitian', function (Blueprint $table) {
+        Schema::create('publikasi', function (Blueprint $table) {
             $table->id();
-            $table->string('kode');
             $table->string('judul');
-            $table->string('tahun_akademik');
-            $table->string('bidang');
-            $table->string('semester');
-            $table->text('deskripsi');
+            $table->foreignId('jenis_publikasi')
+                ->nullable()->references(
+                    'id'
+                )->on('luaran')
+                ->noActionOnDelete();
+            $table->date('tanggal_publikasi');
+            $table->string('tahun');
+            $table->string('authors');
+            $table->text('jurnal');
+            $table->text('link_publikasi');
             $table->string('status_kaprodi')->default(StatusPenelitian::Pending);
             $table->string('status_dppm')->default(StatusPenelitian::Pending);
             $table->string('status_keuangan')->default(StatusPenelitian::Pending);
-            $table->text('keterangan')->nullable();
-            $table->foreignId('jenis_penelitian_id')
+            $table->foreignId('luaran_kriteria_id')
                 ->nullable()->references(
                     'id'
-                )->on('jenis_penelitian')
+                )->on('luaran_kriteria')
                 ->noActionOnDelete();
-            $table->foreignId('jenis_indeksasi_id')
-                ->nullable()->references(
+            $table->foreignId('user_id')
+                ->references(
                     'id'
-                )->on('jenis_indeksasi')
-                ->noActionOnDelete();
+                )->on('users');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -44,6 +47,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penelitian');
+        Schema::dropIfExists('publikasi');
     }
 };

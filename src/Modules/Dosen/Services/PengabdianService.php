@@ -2,6 +2,7 @@
 
 namespace Modules\Dosen\Services;
 
+use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Helper\PaginateHelper;
 use Modules\Dosen\Resources\DosenResource;
@@ -68,5 +69,28 @@ class PengabdianService implements PengabdianServiceInterface
     public function updatePengabdian(string $id, PengabdianDto $request)
     {
         // TODO: Implement updatePengabdian() method.
+    }
+
+    public function deletePengabdian(string $id)
+    {
+        $this->validatePengabdianExists($id);
+
+        return new PengabdianResource(PengabdianRepository::deletePengabdian($id));
+    }
+
+    private function validatePengabdianExists(string $id): void
+    {
+        $pengabdian = PengabdianRepository::getPengabdianById($id);
+
+        if (!$pengabdian) {
+            throw PengabdianException::PengabdianNotFound();
+        }
+
+        if (
+            $pengabdian->status_dppm === StatusPenelitian::Approval &&
+            $pengabdian->status_kaprodi === StatusPenelitian::Approval
+        ) {
+            throw PengabdianException::PengabdianNotDelete();
+        }
     }
 }

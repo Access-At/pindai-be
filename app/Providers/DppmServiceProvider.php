@@ -9,6 +9,8 @@ use Modules\Dppm\Services\FakultasService;
 use Modules\Dppm\Interfaces\DosenServiceInterface;
 use Modules\Dppm\Interfaces\KaprodiServiceInterface;
 use Modules\Dppm\Interfaces\FakultasServiceInterface;
+use Modules\Dppm\Interfaces\LuaranServiceInterface;
+use Modules\Dppm\Services\LuaranService;
 
 class DppmServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class DppmServiceProvider extends ServiceProvider
         $this->app->bind(DosenServiceInterface::class, DosenService::class);
         $this->app->bind(FakultasServiceInterface::class, FakultasService::class);
         $this->app->bind(KaprodiServiceInterface::class, KaprodiService::class);
+        $this->app->bind(LuaranServiceInterface::class, LuaranService::class);
     }
 
     /**

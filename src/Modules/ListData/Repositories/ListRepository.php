@@ -7,9 +7,8 @@ use App\Models\Prodi;
 use App\Models\Faculty;
 use App\Enums\StatusDosen;
 use App\Enums\ApprovedDosen;
-use App\Models\JenisIndeksasi;
-use App\Models\JenisPenelitian;
-use App\Models\JenisPengabdian;
+use App\Models\getListJenisPublikasi;
+use App\Models\Luaran;
 
 class ListRepository
 {
@@ -35,18 +34,18 @@ class ListRepository
             ->dosenNotNullProfile();
     }
 
-    public static function getListJenisIndeksasi()
+    public static function getListJenisPublikasi()
     {
-        return JenisIndeksasi::get();
+        return Luaran::with('kriteria')->where('category', 'publikasi')->get();
     }
 
     public static function getListJenisPenelitian()
     {
-        return JenisPenelitian::get();
+        return Luaran::with('kriteria')->where('category', 'penelitian')->get();
     }
 
     public static function getListJenisPengambdian()
     {
-        return JenisPengabdian::get();
+        return Luaran::with('kriteria')->where('category', 'pengabdian')->get();
     }
 }

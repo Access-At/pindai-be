@@ -15,9 +15,8 @@ class PenelitianRepository
 
     public static function getPenelitianById($id)
     {
-        return Penelitian::with(['jenisPenelitian', 'jenisIndex', 'detail.anggotaPenelitian'])
-            ->byHash($id)
-            ->first();
+        return Penelitian::with(['detail.anggotaPenelitian', 'kriteria', 'kriteria.luaran'])
+            ->byHash($id)->first();
     }
 
     public static function approvedPenelitian(string $id)
@@ -43,6 +42,7 @@ class PenelitianRepository
 
         $penelitian->update([
             'status_dppm' => StatusPenelitian::Approval,
+            // 'deadline_dppm' => now()->addDays(30)
         ]);
 
         return self::getPenelitianById($id);

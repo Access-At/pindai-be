@@ -15,9 +15,8 @@ class PengabdianRepository
 
     public static function getPengabdianById($id)
     {
-        return Pengabdian::with(['jenisPengabdian', 'jenisIndex', 'detail.anggotaPengabdian'])
-            ->byHash($id)
-            ->first();
+        return Pengabdian::with(['kriteria', 'kriteria.luaran', 'detail.anggotaPengabdian'])
+            ->byHash($id)->first();
     }
 
     public static function approvedPengabdian(string $id)

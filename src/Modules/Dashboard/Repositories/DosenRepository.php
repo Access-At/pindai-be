@@ -30,7 +30,10 @@ class DosenRepository
                         StatusPenelitian::Approval->value,
                     )
                 )->then('accepted')
-                ->else('rejected')
+                ->when(
+                    QE::raw("
+                    (status_dppm = 'rejected' or status_kaprodi = 'rejected' or status_keuangan = 'rejected')"),
+                )->then('rejected')
                 ->as('status'),
             QE::count()->as('count'),
         )

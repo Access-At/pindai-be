@@ -4,8 +4,7 @@ namespace Modules\Dosen\Requests;
 
 use App\Enums\Semester;
 use Modules\CustomRequest;
-use App\Models\JenisIndeksasi;
-use App\Models\JenisPengabdian;
+use App\Models\LuaranKriteria;
 use Illuminate\Validation\Rule;
 use Veelasky\LaravelHashId\Rules\ExistsByHash;
 
@@ -26,10 +25,9 @@ class PengabdianRequest extends CustomRequest
             ],
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'jenis_pengabdian' => ['required', new ExistsByHash(JenisPengabdian::class)],
-            'jenis_indeksasi' => [
+            'luaran_kriteria' => [
                 'required',
-                new ExistsByHash(JenisIndeksasi::class),
+                new ExistsByHash(LuaranKriteria::class),
             ],
             'bidang' => 'required|string',
             'anggota' => 'required|array',

@@ -26,8 +26,8 @@ class Penelitian extends Model
         'status_kaprodi',
         'status_dppm',
         'status_keuangan',
-        'jenis_penelitian_id',
-        'jenis_indeksasi_id',
+        'luaran_kriteria_id',
+        'deadline_dppm',
         'keterangan',
     ];
 
@@ -68,14 +68,9 @@ class Penelitian extends Model
         return $this->hasMany(DetailPenelitian::class);
     }
 
-    public function jenisPenelitian()
+    public function kriteria()
     {
-        return $this->belongsTo(JenisPenelitian::class, 'jenis_penelitian_id');
-    }
-
-    public function jenisIndex()
-    {
-        return $this->belongsTo(JenisIndeksasi::class, 'jenis_indeksasi_id');
+        return $this->belongsTo(LuaranKriteria::class, 'luaran_kriteria_id');
     }
 
     protected static function boot()

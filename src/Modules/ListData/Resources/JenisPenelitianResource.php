@@ -2,6 +2,7 @@
 
 namespace Modules\ListData\Resources;
 
+use App\Models\LuaranKriteria;
 use Modules\CustomResource;
 use Illuminate\Http\Request;
 
@@ -11,9 +12,8 @@ class JenisPenelitianResource extends CustomResource
     {
         return [
             'id' => $this->hash,
-            'name' => $this->jenis,
-            'kriteria' => $this->kriteria,
-            'keterangan' => $this->keterangan,
+            'name' => $this->name,
+            'kriteria' => LuaranKriteriaResource::collection($this->kriteria),
         ];
     }
 }

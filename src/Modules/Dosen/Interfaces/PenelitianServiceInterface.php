@@ -13,5 +13,6 @@ interface PenelitianServiceInterface
     public function insertPenelitian(PenelitianDto $request);
 
     public function updatePenelitian(string $id, PenelitianDto $request);
-    // public function deletePenelitian(string $id);
+
+    public function deletePenelitian(string $id);
 }

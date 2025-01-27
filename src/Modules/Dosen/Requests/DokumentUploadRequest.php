@@ -23,7 +23,21 @@ class DokumentUploadRequest extends CustomRequest
                     'pengabdian',
                     'penelitian',
                 ])
-            ]
+            ],
+            'jenis_dokumen' => [
+                'sometimes',
+                Rule::in([
+                    'cover',
+                    'surat_pengajuan',
+                    'surat_rekomendasi',
+                    'proposal',
+                    "kontrak_penelitian",
+                    "kontrak_pengabdian",
+                    "surat_keterangan_selesai",
+                    'laporan_kemajuan',
+                    'laporan'
+                ])
+            ],
         ];
     }
 }

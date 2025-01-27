@@ -12,8 +12,10 @@ class PengabdianDto
         public string $judul,
         public string $deskripsi,
         public string $bidang,
-        public string $jenis_pengabdian,
-        public string $jenis_indeksasi,
+        public string $luaran_kriteria,
+
+        // public string $jenis_pengabdian,
+        // public string $jenis_indeksasi,
         public array $anggota,
     ) {}
 
@@ -25,8 +27,11 @@ class PengabdianDto
             $request->validated('judul'),
             $request->validated('deskripsi'),
             $request->validated('bidang'),
-            $request->validated('jenis_pengabdian'),
-            $request->validated('jenis_indeksasi'),
+            $request->validated('luaran_kriteria'),
+
+            // $request->validated('jenis_pengabdian'),
+            // $request->validated('jenis_indeksasi'),
+            // $request->validated('jenis_luaran'),
             $request->validated('anggota')
         );
     }

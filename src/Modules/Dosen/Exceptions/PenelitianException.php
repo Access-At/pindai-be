@@ -15,4 +15,9 @@ class PenelitianException extends CustomException
     {
         return new self('Penelitian tidak ditemukan.', 404, 'Get Penelitian');
     }
+
+    public static function penelitianNotDelete(): self
+    {
+        return new self('Penelitian tidak bisa dihapus. Dikarenakan kaprodi dan dppm sudah mensetujui penelitian ini', 422, 'Delete Penelitian');
+    }
 }

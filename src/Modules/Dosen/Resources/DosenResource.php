@@ -12,7 +12,7 @@ class DosenResource extends CustomResource
         return [
             'nidn' => $this->nidn,
             'name' => $this->name,
-            'name_with_title' => $this->name_with_title,
+            'name_with_title' => $this->dosen->name_with_title,
             'email' => $this->email,
             'phone_number' => $this->dosen->phone_number ?? '',
             'prodi' => $this->dosen->prodi->name ?? '',

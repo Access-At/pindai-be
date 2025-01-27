@@ -26,9 +26,12 @@ class Pengabdian extends Model
         'status_kaprodi',
         'status_dppm',
         'status_keuangan',
-        'jenis_pengabdian_id',
-        'jenis_indeksasi_id',
         'keterangan',
+        'luaran_kriteria_id',
+
+        // 'jenis_pengabdian_id',
+        // 'jenis_indeksasi_id',
+        // 'luaran_id'
     ];
 
     public function getAnggotaAttribute()
@@ -68,14 +71,9 @@ class Pengabdian extends Model
         return $this->hasMany(DetailPengabdian::class);
     }
 
-    public function jenisPengabdian()
+    public function kriteria()
     {
-        return $this->belongsTo(JenisPengabdian::class, 'jenis_pengabdian_id');
-    }
-
-    public function jenisIndex()
-    {
-        return $this->belongsTo(JenisIndeksasi::class, 'jenis_indeksasi_id');
+        return $this->belongsTo(LuaranKriteria::class, 'luaran_kriteria_id');
     }
 
     protected static function boot()

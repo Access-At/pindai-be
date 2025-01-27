@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
 
         Kaprodi::create([
             'user_id' => $userKaprodi->id,
-            'faculties_id' => 2,
+            'faculties_id' => 1,
         ]);
 
         Dosen::create([

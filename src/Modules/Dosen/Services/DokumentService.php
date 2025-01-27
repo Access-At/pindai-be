@@ -14,6 +14,7 @@ use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 use Modules\Dosen\Repositories\PenelitianRepository;
 use Modules\Dosen\Repositories\PengabdianRepository;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
+use Illuminate\Support\Str;
 
 class DokumentService implements DokumentServiceInterface
 {
@@ -49,10 +50,14 @@ class DokumentService implements DokumentServiceInterface
     public function upload(DokumentUploadDto $request, string $id): string
     {
         $penelitian = PenelitianRepository::getPenelitianById($id) ?? PengabdianRepository::getPengabdianById($id);
-        $contentFile =  base64_decode($request->file, true);
+        $contentFile = base64_decode($request->file, true);
+
+        $formatJudul =  Str::slug($penelitian->judul, '-') . '.pdf';
+        $formatDokumen = Str::replace('_', '-', $request->jenis_dokumen);
+        $nameFile = "{$formatDokumen}-{$formatJudul}";
 
         $pathFile = Storage::disk('public')->put(
-            "{$request->category}/{$penelitian->kode}.pdf",
+            "{$request->category}/$penelitian->kode/{$nameFile}",
             $contentFile
         );
 

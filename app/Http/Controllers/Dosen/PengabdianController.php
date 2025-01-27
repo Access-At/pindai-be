@@ -60,4 +60,24 @@ class PengabdianController extends Controller
             ->data($data)
             ->json();
     }
+
+
+    public function update(PengabdianRequest $request, $id)
+    {
+        $data = $this->service->updatePengabdian($id, PengabdianDto::fromRequest($request));
+
+        return ResponseApi::statusSuccess()
+            ->message('Data Pengabdian berhasil diubah')
+            ->data($data)
+            ->json();
+    }
+
+    public function destroy($id)
+    {
+        $this->service->deletePengabdian($id);
+
+        return ResponseApi::statusSuccess()
+            ->message('Data Pengabdian berhasil dihapus')
+            ->json();
+    }
 }

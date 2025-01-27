@@ -14,9 +14,11 @@ interface ListServiceInterface
 
     public function getAuthorProfileScholar(string $id);
 
-    public function getListJenisIndeksasi();
+    public function getListJenisPublikasi();
 
     public function getListJenisPenelitian();
 
-    public function getListJenisPengambdian();
+    public function getListJenisPengabdian();
+
+    // public function getListJenisLuaran($id);
 }
