@@ -2,7 +2,6 @@
 
 namespace Modules\ListData\Resources;
 
-use App\Models\LuaranKriteria;
 use Modules\CustomResource;
 use Illuminate\Http\Request;
 

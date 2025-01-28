@@ -3,8 +3,8 @@
 namespace Modules\Dppm\Resources\Pagination;
 
 use Illuminate\Http\Request;
-use Modules\CustomPaginationResourceResponse;
 use Modules\Dppm\Resources\LuaranResource;
+use Modules\CustomPaginationResourceResponse;
 
 class LuaranPaginationCollection extends CustomPaginationResourceResponse
 {

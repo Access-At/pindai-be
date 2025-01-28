@@ -2,13 +2,13 @@
 
 namespace Modules\Dosen\Services;
 
-use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Helper\PaginateHelper;
+use App\Enums\StatusPenelitian;
 use Modules\Dosen\Resources\DosenResource;
 use Modules\Dosen\Resources\PenelitianResource;
-use Modules\Dosen\DataTransferObjects\PenelitianDto;
 use Modules\Dosen\Exceptions\PenelitianException;
+use Modules\Dosen\DataTransferObjects\PenelitianDto;
 use Modules\Dosen\Repositories\PenelitianRepository;
 use Modules\Dosen\Resources\DetailPenelitianResource;
 use Modules\Dosen\Interfaces\PenelitianServiceInterface;
@@ -30,7 +30,7 @@ class PenelitianService implements PenelitianServiceInterface
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
 
-        if (!$penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
@@ -82,7 +82,7 @@ class PenelitianService implements PenelitianServiceInterface
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 

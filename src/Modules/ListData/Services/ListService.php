@@ -2,6 +2,7 @@
 
 namespace Modules\ListData\Services;
 
+use Carbon\CarbonInterval;
 use App\Helper\PaginateHelper;
 use App\Helper\GoogleScholarScraper;
 use Illuminate\Support\Facades\Cache;
@@ -38,16 +39,14 @@ class ListService implements ListServiceInterface
 
     public function getAuthorScholar($name)
     {
-        return Cache::remember("author_scholar_{$name}", 10800, function () use ($name) { // 3 jam = 10800 detik
+        return Cache::remember("author_scholar_{$name}", CarbonInterval::hours(3)->totalSeconds, function () use ($name) {
             return GoogleScholarScraper::searchAuthor($name);
         });
     }
 
     public function getAuthorProfileScholar($id)
     {
-        // return GoogleScholarScraper::getAuthorProfile($id);
-
-        return Cache::remember("author_profile_{$id}", 18000, function () use ($id) { // 5 jam = 18000 detik
+        return Cache::remember("author_profile_{$id}", CarbonInterval::hours(5)->totalSeconds, function () use ($id) {
             return GoogleScholarScraper::getAuthorProfile($id);
         });
     }

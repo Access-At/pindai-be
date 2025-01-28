@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Dosen\Interfaces\DokumentServiceInterface;
+use Modules\Dosen\Services\DokumentService;
+use Modules\Dosen\Services\PublikasiService;
 use Modules\Dosen\Services\PenelitianService;
+use Modules\Dosen\Services\PengabdianService;
+use Modules\Dosen\Interfaces\DokumentServiceInterface;
+use Modules\Dosen\Interfaces\PublikasiServiceInterface;
 use Modules\Dosen\Interfaces\PenelitianServiceInterface;
 use Modules\Dosen\Interfaces\PengabdianServiceInterface;
-use Modules\Dosen\Interfaces\PublikasiServiceInterface;
-use Modules\Dosen\Services\DokumentService;
-use Modules\Dosen\Services\PengabdianService;
-use Modules\Dosen\Services\PublikasiService;
 
 class DosenServiceProvider extends ServiceProvider
 {

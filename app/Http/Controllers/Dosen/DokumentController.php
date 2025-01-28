@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Dosen;
 
 use App\Helper\ResponseApi;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
-use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
-use Modules\Dosen\Interfaces\DokumentServiceInterface;
-use Modules\Dosen\Requests\DokumentDownloadRequest;
 use Modules\Dosen\Requests\DokumentUploadRequest;
+use Modules\Dosen\Requests\DokumentDownloadRequest;
+use Modules\Dosen\Interfaces\DokumentServiceInterface;
+use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
+use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
 
 class DokumentController extends Controller
 {
@@ -26,7 +25,7 @@ class DokumentController extends Controller
 
         return ResponseApi::statusSuccess()
             ->message('Dokumen berhasil diunduh')
-            ->download($data["path"], $data["name"]);
+            ->download($data['path'], $data['name']);
     }
 
     public function upload(DokumentUploadRequest $request, string $id)

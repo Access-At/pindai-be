@@ -2,15 +2,31 @@
 
 namespace Modules\Dashboard\Repositories;
 
-use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Models\Prodi;
 use App\Models\Penelitian;
 use App\Models\Pengabdian;
+use App\Enums\StatusPenelitian;
 use sbamtr\LaravelQueryEnrich\QE;
 
 class KaprodiRepository
 {
+    public static function getNumberOfPenelitianByStatus()
+    {
+        $prodi = self::getUserProdi();
+        $result = self::getStatusCount(Penelitian::class, $prodi);
+
+        return self::formatStatusCounts($result);
+    }
+
+    public static function getNumberOfPengbdianByStatus()
+    {
+        $prodi = self::getUserProdi();
+        $result = self::getStatusCount(Pengabdian::class, $prodi);
+
+        return self::formatStatusCounts($result);
+    }
+
     private static function getUserProdi()
     {
         $user = auth('api')->user();
@@ -26,11 +42,13 @@ class KaprodiRepository
     private static function formatStatusCounts($result)
     {
         $statuses = ['accepted', 'rejected'];
+
         return collect($statuses)->map(function ($status) use ($result) {
             $found = $result->firstWhere('status', $status);
+
             return [
                 'status' => $status,
-                'count' => $found ? $found->count : 0
+                'count' => $found ? $found->count : 0,
             ];
         });
     }
@@ -45,19 +63,5 @@ class KaprodiRepository
             )
             ->groupBy('status_kaprodi')
             ->get();
-    }
-
-    public static function getNumberOfPenelitianByStatus()
-    {
-        $prodi = self::getUserProdi();
-        $result = self::getStatusCount(Penelitian::class, $prodi);
-        return self::formatStatusCounts($result);
-    }
-
-    public static function getNumberOfPengbdianByStatus()
-    {
-        $prodi = self::getUserProdi();
-        $result = self::getStatusCount(Pengabdian::class, $prodi);
-        return self::formatStatusCounts($result);
     }
 }

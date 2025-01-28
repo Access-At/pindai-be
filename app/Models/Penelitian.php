@@ -81,7 +81,7 @@ class Penelitian extends Model
             $latestKode = static::withTrashed()->latest()->first();
             $tahun = date('Y');
 
-            if (! $latestKode) {
+            if ( ! $latestKode) {
                 $nextNumber = '001';
             } else {
                 $lastNumber = (int) (mb_substr($latestKode->kode, -3));

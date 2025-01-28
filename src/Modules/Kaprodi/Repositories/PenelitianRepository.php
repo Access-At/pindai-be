@@ -7,7 +7,6 @@ use App\Models\Prodi;
 use App\Models\Penelitian;
 use App\Enums\StatusPenelitian;
 use Modules\Kaprodi\Exceptions\PenelitianException;
-use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 
 class PenelitianRepository
 {
@@ -38,7 +37,7 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
@@ -60,7 +59,7 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 

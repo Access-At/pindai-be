@@ -13,11 +13,11 @@ class PenelitianException extends CustomException
 
     public static function penelitianCantApproved($message): self
     {
-        return new self("Penelitian tidak bisa disetujui. Dikarenakan $message", 422, 'Approval Penelitian');
+        return new self("Penelitian tidak bisa disetujui. Dikarenakan {$message}", 422, 'Approval Penelitian');
     }
 
     public static function penelitianCantCanceled($message): self
     {
-        return new self("Penelitian tidak bisa ditolak. Dikarenakan $message", 422, 'Canceled Penelitian');
+        return new self("Penelitian tidak bisa ditolak. Dikarenakan {$message}", 422, 'Canceled Penelitian');
     }
 }

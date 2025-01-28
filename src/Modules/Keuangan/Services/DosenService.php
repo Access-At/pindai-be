@@ -25,7 +25,7 @@ class DosenService implements DosenServiceInterface
     {
         $user = DosenRepository::getDosenById($id);
 
-        if (! $user) {
+        if ( ! $user) {
             throw DosenException::dosenNotFound();
         }
 

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Kaprodi;
 use App\Helper\ResponseApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 use Modules\Kaprodi\Requests\PenelitianRequest;
 use Modules\Kaprodi\Services\PenelitianService;
+use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 
 class PenelitianController extends Controller
 {
@@ -24,6 +24,9 @@ class PenelitianController extends Controller
             'search_fields' => ['judul'],
             'filters' => [
                 'tahun_akademik' => $request->input('tahun_akademik'),
+                'status_kaprodi' => $request->input('status_kaprodi'),
+                'status_dppm' => $request->input('status_dppm'),
+                'status_keuangan' => $request->input('status_keuangan'),
             ],
             'order_by' => $request->input('order_by', 'created_at'),
             'order_direction' => $request->input('order_direction', 'desc'),

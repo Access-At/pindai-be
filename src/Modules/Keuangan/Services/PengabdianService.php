@@ -3,8 +3,8 @@
 namespace Modules\Keuangan\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Keuangan\DataTransferObjects\PengabdianDto;
 use Modules\Keuangan\Exceptions\PengabdianException;
+use Modules\Keuangan\DataTransferObjects\PengabdianDto;
 use Modules\Keuangan\Repositories\PengabdianRepository;
 use Modules\Keuangan\Resources\DetailPengabdianResource;
 use Modules\Keuangan\Interfaces\PengabdianServiceInterface;
@@ -26,7 +26,7 @@ class PengabdianService implements PengabdianServiceInterface
     {
         $penelitian = PengabdianRepository::getPengabdianById($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PengabdianException::penelitianNotFound();
         }
 

@@ -3,9 +3,9 @@
 namespace Modules\Dosen\Repositories;
 
 use App\Models\Pengabdian;
+use App\Models\LuaranKriteria;
 use App\Models\DetailPengabdian;
 use App\Models\AnggotaPengabdian;
-use App\Models\LuaranKriteria;
 use Modules\Dosen\DataTransferObjects\PengabdianDto;
 
 class PengabdianRepository

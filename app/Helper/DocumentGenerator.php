@@ -2,13 +2,11 @@
 
 namespace App\Helper;
 
-use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\Element\ListItem;
-use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpWord\Style\ListItem as StyleListItem;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 class DocumentGenerator
 {
@@ -45,7 +43,7 @@ class DocumentGenerator
             $table->addCell(150)->addText($header, [
                 'bold' => true,
                 'size' => 10,
-                'name' => 'Times New Roman'
+                'name' => 'Times New Roman',
             ], ['alignment' => Jc::CENTER]);
         }
 

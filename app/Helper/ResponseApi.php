@@ -282,17 +282,17 @@ class ResponseApi
     /**
      * Returns a file download response
      *
-     * @param string $filePath Path to the file
-     * @param string|null $fileName Optional custom file name
-     * @param array $headers Optional headers
+     * @param  string  $filePath  Path to the file
+     * @param  string|null  $fileName  Optional custom file name
+     * @param  array  $headers  Optional headers
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download(string $filePath, ?string $fileName = null, array $headers = [])
     {
-        if (!file_exists($filePath)) {
+        if ( ! file_exists($filePath)) {
             return response()->json([
                 'status' => Response::HTTP_NOT_FOUND,
-                'error' => 'File not found.'
+                'error' => 'File not found.',
             ], Response::HTTP_NOT_FOUND);
         }
 

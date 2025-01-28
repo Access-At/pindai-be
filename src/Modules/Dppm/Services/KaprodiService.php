@@ -77,7 +77,7 @@ class KaprodiService implements KaprodiServiceInterface
     {
         $kaprodi = KaprodiRepository::getKaprodiById($id);
 
-        if (! $kaprodi) {
+        if ( ! $kaprodi) {
             throw KaprodiException::kaprodiNotFound();
         }
     }

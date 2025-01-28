@@ -2,8 +2,8 @@
 
 namespace Modules\Dppm\Repositories;
 
-use App\Helper\Terbilang;
 use App\Models\Luaran;
+use App\Helper\Terbilang;
 use App\Models\LuaranKriteria;
 use Modules\Dppm\DataTransferObjects\LuaranDto;
 
@@ -28,10 +28,10 @@ class LuaranRepository
 
         foreach ($data->kriteria as $kriteria) {
             LuaranKriteria::create([
-                'name' => $kriteria["name"],
-                'nominal' => $kriteria["nominal"],
-                'keterangan' => $kriteria["keterangan"],
-                'terbilang' => self::parseTerbilang($kriteria["nominal"]),
+                'name' => $kriteria['name'],
+                'nominal' => $kriteria['nominal'],
+                'keterangan' => $kriteria['keterangan'],
+                'terbilang' => self::parseTerbilang($kriteria['nominal']),
                 'luaran_id' => $Luaran->id,
             ]);
         }
@@ -51,10 +51,10 @@ class LuaranRepository
             LuaranKriteria::where('luaran_id', $Luaran->id)->delete();
 
             LuaranKriteria::create([
-                'name' => $kriteria["name"],
-                'nominal' => $kriteria["nominal"],
-                'keterangan' => $kriteria["keterangan"],
-                'terbilang' => self::parseTerbilang($kriteria["nominal"]),
+                'name' => $kriteria['name'],
+                'nominal' => $kriteria['nominal'],
+                'keterangan' => $kriteria['keterangan'],
+                'terbilang' => self::parseTerbilang($kriteria['nominal']),
                 'luaran_id' => $Luaran->id,
             ]);
         }
@@ -74,7 +74,7 @@ class LuaranRepository
 
     private static function parseTerbilang(int $nominal)
     {
-        $terbilang = new Terbilang();
+        $terbilang = new Terbilang;
         $terbilang->parse($nominal);
 
         return $terbilang->getResult();

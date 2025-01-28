@@ -5,19 +5,22 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Dosen\DokumentController;
 use App\Http\Controllers\Dppm\DosenController;
+use App\Http\Controllers\Dppm\LuaranController;
 use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
+use App\Http\Controllers\Dosen\DokumentController;
+use App\Http\Controllers\Dosen\PublikasiController;
 use App\Http\Controllers\Dosen\PenelitianController;
 use App\Http\Controllers\Dosen\PengabdianController;
-use App\Http\Controllers\Dosen\PublikasiController;
-use App\Http\Controllers\Dppm\LuaranController;
+use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
+use App\Http\Controllers\Dppm\PublikasiController as DppmPublikasiController;
 use App\Http\Controllers\Dppm\PenelitianController as DppmPenelitianController;
 use App\Http\Controllers\Dppm\PengabdianController as DppmPengabdianController;
-use App\Http\Controllers\Kaprodi\DosenController as KaprodiDosenController;
+use App\Http\Controllers\Kaprodi\PublikasiController as KaprodiPublikasiController;
 use App\Http\Controllers\Kaprodi\PenelitianController as KaprodiPenelitianController;
 use App\Http\Controllers\Kaprodi\PengabdianController as KaprodiPengabdianController;
+use App\Http\Controllers\Keuangan\PublikasiController as KeuanganPublikasiController;
 use App\Http\Controllers\Keuangan\PenelitianController as KeuanganPenelitianController;
 use App\Http\Controllers\Keuangan\PengabdianController as KeuanganPengabdianController;
 
@@ -83,6 +86,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('pengabdian', DppmPengabdianController::class)->only('index', 'show');
             Route::post('approved/pengabdian/{id}', [DppmPengabdianController::class, 'approved']);
             Route::post('canceled/pengabdian/{id}', [DppmPengabdianController::class, 'canceled']);
+
+            // publikasi
+            Route::apiResource('publikasi', DppmPublikasiController::class)->only('index', 'show');
+            Route::post('approved/publikasi/{id}', [DppmPublikasiController::class, 'approved']);
+            Route::post('canceled/publikasi/{id}', [DppmPublikasiController::class, 'canceled']);
         });
 
         Route::group([
@@ -100,6 +108,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('pengabdian', KeuanganPengabdianController::class)->only('index', 'show');
             Route::post('approved/pengabdian/{id}', [KeuanganPengabdianController::class, 'approved']);
             Route::post('canceled/pengabdian/{id}', [KeuanganPengabdianController::class, 'canceled']);
+
+            // publikasi
+            Route::apiResource('publikasi', KeuanganPublikasiController::class)->only('index', 'show');
+            Route::post('approved/publikasi/{id}', [KeuanganPublikasiController::class, 'approved']);
+            Route::post('canceled/publikasi/{id}', [KeuanganPublikasiController::class, 'canceled']);
         });
 
         // Kaprodi
@@ -123,6 +136,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::apiResource('pengabdian', KaprodiPengabdianController::class)->only('index', 'show');
             Route::post('approved/pengabdian/{id}', [KaprodiPengabdianController::class, 'approved']);
             Route::post('canceled/pengabdian/{id}', [KaprodiPengabdianController::class, 'canceled']);
+
+            // publikasi
+            Route::apiResource('publikasi', KaprodiPublikasiController::class)->only('index', 'show');
+            Route::post('approved/publikasi/{id}', [KaprodiPublikasiController::class, 'approved']);
+            Route::post('canceled/publikasi/{id}', [KaprodiPublikasiController::class, 'canceled']);
         });
 
         // dosen

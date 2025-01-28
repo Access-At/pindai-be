@@ -3,8 +3,8 @@
 namespace Modules\Dppm\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Dppm\DataTransferObjects\PenelitianDto;
 use Modules\Dppm\Exceptions\PenelitianException;
+use Modules\Dppm\DataTransferObjects\PenelitianDto;
 use Modules\Dppm\Repositories\PenelitianRepository;
 use Modules\Dppm\Resources\DetailPenelitianResource;
 use Modules\Dppm\Interfaces\PenelitianServiceInterface;
@@ -26,7 +26,7 @@ class PenelitianService implements PenelitianServiceInterface
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 

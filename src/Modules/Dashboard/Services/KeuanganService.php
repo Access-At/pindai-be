@@ -2,7 +2,9 @@
 
 namespace Modules\Dashboard\Services;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Modules\Dashboard\Repositories\KeuanganRepository;
 use Modules\Dashboard\Interfaces\KeuanganServiceInterface;
 use Modules\Dashboard\Resources\PenelitianKeuanganResource;
@@ -12,7 +14,9 @@ class KeuanganService implements KeuanganServiceInterface
 {
     public function getNumberOfLecturersByFaculty(): Collection
     {
-        return KeuanganRepository::getNumberOfLecturersByFaculty();
+        return Cache::remember('dashboard_keuangan_lecture_faculty', CarbonInterval::minutes(5)->totalSeconds, function () {
+            return KeuanganRepository::getNumberOfLecturersByFaculty();
+        });
     }
 
     public function getOfPenelitian()
@@ -22,7 +26,9 @@ class KeuanganService implements KeuanganServiceInterface
             'status' => KeuanganRepository::getNumberOfPenelitianByStatus(),
         ];
 
-        return $data;
+        return Cache::remember('dashboard_keuangan_penelitian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
     }
 
     public function getOfPengabdian()
@@ -32,6 +38,8 @@ class KeuanganService implements KeuanganServiceInterface
             'status' => KeuanganRepository::getNumberOfPengabdianByStatus(),
         ];
 
-        return $data;
+        return Cache::remember('dashboard_keuangan_pengabdian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
     }
 }

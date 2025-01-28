@@ -3,12 +3,9 @@
 namespace Modules\Dosen\Repositories;
 
 use App\Models\Penelitian;
-use App\Models\getListJenisPublikasi;
-use App\Models\JenisPenelitian;
+use App\Models\LuaranKriteria;
 use App\Models\DetailPenelitian;
 use App\Models\AnggotaPenelitian;
-use App\Models\Luaran;
-use App\Models\LuaranKriteria;
 use Modules\Dosen\DataTransferObjects\PenelitianDto;
 
 class PenelitianRepository

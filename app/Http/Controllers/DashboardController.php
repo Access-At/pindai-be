@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->data([
                 'fakultas' => $this->serviceDppm->getNumberOfLecturersByFaculty(),
                 'penelitian' => $this->serviceDppm->getOfPenelitian(),
-                'pengabdian' => $this->serviceDppm->getOfPengabdian()
+                'pengabdian' => $this->serviceDppm->getOfPengabdian(),
             ])
             ->json();
     }
@@ -35,7 +35,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'penelitian' => $this->serviceKeuangan->getOfPenelitian(),
-                'pengabdian' => $this->serviceKeuangan->getOfPengabdian()
+                'pengabdian' => $this->serviceKeuangan->getOfPengabdian(),
             ])
             ->json();
     }
@@ -46,7 +46,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'penelitian' => $this->serviceDosen->getNumberOfPenelitianByStatus(),
-                'pengabdian' => $this->serviceDosen->getNumberOfPengbdianByStatus()
+                'pengabdian' => $this->serviceDosen->getNumberOfPengbdianByStatus(),
             ])
             ->json();
     }
@@ -57,7 +57,7 @@ class DashboardController extends Controller
             ->message('Data Dashboard berhasil diambil')
             ->data([
                 'penelitian' => $this->serviceKaprodi->getNumberOfPenelitianByStatus(),
-                'pengabdian' => $this->serviceKaprodi->getNumberOfPengbdianByStatus()
+                'pengabdian' => $this->serviceKaprodi->getNumberOfPengbdianByStatus(),
             ])
             ->json();
     }

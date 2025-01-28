@@ -31,7 +31,7 @@ class GoogleScholarScraper
 
     public static function searchAuthor(string $name): array
     {
-        if (! isset(self::$client)) {
+        if ( ! isset(self::$client)) {
             self::initializeClient();
         }
 
@@ -45,7 +45,7 @@ class GoogleScholarScraper
             $crawler = new Crawler($response->getBody()->getContents());
 
             return $crawler->filter('.gsc_1usr')->each(
-                fn(Crawler $node) => self::extractAuthorData($node)
+                fn (Crawler $node) => self::extractAuthorData($node)
             );
         } catch (Exception) {
             return [];
@@ -54,7 +54,7 @@ class GoogleScholarScraper
 
     public static function getAuthorProfile(string $authorId): ?array
     {
-        if (! isset(self::$client)) {
+        if ( ! isset(self::$client)) {
             self::initializeClient();
         }
 
@@ -125,6 +125,7 @@ class GoogleScholarScraper
         // Jika URL mengandung 'scholar.googleusercontent.com', ubah 'small' menjadi 'medium'
         if (str_contains($photo, 'scholar.googleusercontent.com')) {
             $photo = str_replace('small_photo', 'view_photo', $photo);
+
             return str_replace('view_photo', 'medium_photo', $photo);
         }
 

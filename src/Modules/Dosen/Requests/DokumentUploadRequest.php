@@ -2,9 +2,9 @@
 
 namespace Modules\Dosen\Requests;
 
-use App\Rules\Base64PdfValidation;
-use Illuminate\Validation\Rule;
 use Modules\CustomRequest;
+use Illuminate\Validation\Rule;
+use App\Rules\Base64PdfValidation;
 
 class DokumentUploadRequest extends CustomRequest
 {
@@ -16,13 +16,13 @@ class DokumentUploadRequest extends CustomRequest
     public function rules(): array
     {
         return [
-            'file' => ['required', 'string', new Base64PdfValidation()],
+            'file' => ['required', 'string', new Base64PdfValidation],
             'category' => [
                 'required',
                 Rule::in([
                     'pengabdian',
                     'penelitian',
-                ])
+                ]),
             ],
             'jenis_dokumen' => [
                 'sometimes',
@@ -31,12 +31,12 @@ class DokumentUploadRequest extends CustomRequest
                     'surat_pengajuan',
                     'surat_rekomendasi',
                     'proposal',
-                    "kontrak_penelitian",
-                    "kontrak_pengabdian",
-                    "surat_keterangan_selesai",
+                    'kontrak_penelitian',
+                    'kontrak_pengabdian',
+                    'surat_keterangan_selesai',
                     'laporan_kemajuan',
-                    'laporan'
-                ])
+                    'laporan',
+                ]),
             ],
         ];
     }

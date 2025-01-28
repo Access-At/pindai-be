@@ -22,7 +22,7 @@ class PengabdianRequest extends CustomRequest
     public function rules(): array
     {
         return [
-            'keterangan' => ['required', 'string', 'max:255']
+            'keterangan' => ['required', 'string', 'max:255'],
         ];
     }
 }

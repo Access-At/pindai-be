@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Dppm;
 
 use App\Helper\ResponseApi;
-use Modules\Dppm\Interfaces\LuaranServiceInterface;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Dppm\DataTransferObjects\LuaranDto;
+use App\Http\Controllers\Controller;
 use Modules\Dppm\Requests\LuaranRequest;
+use Modules\Dppm\DataTransferObjects\LuaranDto;
+use Modules\Dppm\Interfaces\LuaranServiceInterface;
 
 class LuaranController extends Controller
 {

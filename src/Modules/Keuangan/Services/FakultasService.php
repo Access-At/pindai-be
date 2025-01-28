@@ -53,7 +53,7 @@ class FakultasService implements FakultasServiceInterface
     {
         $fakultas = FakultasRepository::getFakultasById($id);
 
-        if (! $fakultas) {
+        if ( ! $fakultas) {
             throw FakultasException::fakultasNotFound();
         }
     }

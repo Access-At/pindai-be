@@ -2,19 +2,20 @@
 
 namespace Modules\Dosen\Services;
 
-use App\Models\Faculty;
-use App\Models\NomorDokumen;
-use App\Models\Prodi;
 use App\Models\User;
+use App\Models\Prodi;
+use App\Models\Faculty;
+use Illuminate\Support\Str;
+use App\Models\NomorDokumen;
 use App\Utils\DocumentUtils;
+use InvalidArgumentException;
 use App\Utils\ValidationUtils;
 use Illuminate\Support\Facades\Storage;
-use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
-use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 use Modules\Dosen\Repositories\PenelitianRepository;
 use Modules\Dosen\Repositories\PengabdianRepository;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
-use Illuminate\Support\Str;
+use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
+use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
 
 class DokumentService implements DokumentServiceInterface
 {
@@ -34,8 +35,8 @@ class DokumentService implements DokumentServiceInterface
         ValidationUtils::validatePenelitian($penelitian, $request->jenis_dokumen, $request->category);
 
         $method = self::DOCUMENT_TYPES[$request->jenis_dokumen] ?? null;
-        if (!$method) {
-            throw new \InvalidArgumentException('Invalid document type');
+        if ( ! $method) {
+            throw new InvalidArgumentException('Invalid document type');
         }
 
         $file = $this->{$method}($penelitian, $request->category);
@@ -52,16 +53,34 @@ class DokumentService implements DokumentServiceInterface
         $penelitian = PenelitianRepository::getPenelitianById($id) ?? PengabdianRepository::getPengabdianById($id);
         $contentFile = base64_decode($request->file, true);
 
-        $formatJudul =  Str::slug($penelitian->judul, '-') . '.pdf';
+        $formatJudul = Str::slug($penelitian->judul, '-') . '.pdf';
         $formatDokumen = Str::replace('_', '-', $request->jenis_dokumen);
         $nameFile = "{$formatDokumen}-{$formatJudul}";
 
         $pathFile = Storage::disk('public')->put(
-            "{$request->category}/$penelitian->kode/{$nameFile}",
+            "{$request->category}/{$penelitian->kode}/{$nameFile}",
             $contentFile
         );
 
         return $pathFile;
+    }
+
+    private static function getFakultasData(string $prodiName): array
+    {
+        $prodi = Prodi::where('name', $prodiName)->first();
+        $fakultas = Faculty::find($prodi->faculties_id);
+
+        return [
+            'fakultasId' => $fakultas->id,
+            'fakultas' => $fakultas->name,
+        ];
+    }
+
+    private static function getKaprodi(int $fakultasId): User
+    {
+        return User::kaprodiRole()
+            ->whereHas('kaprodi', fn ($q) => $q->where('faculties_id', $fakultasId))
+            ->first();
     }
 
     private function generateCover($penelitian, $category): string
@@ -99,7 +118,7 @@ class DokumentService implements DokumentServiceInterface
 
         $nomorDokumen = NomorDokumen::where('jenis_dokumen', 'surat_rekomendasi')->first();
         $tahun = date('Y');
-        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/$tahun";
+        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/{$tahun}";
 
         return DocumentUtils::generateDocument(
             'doc/template_surat_rekomendasi.docx',
@@ -126,7 +145,7 @@ class DokumentService implements DokumentServiceInterface
         $nomorDokumen = NomorDokumen::where('jenis_dokumen', 'surat_rekomendasi')->first();
         $tahun = date('Y');
 
-        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/$tahun";
+        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/{$tahun}";
         $dppm = User::DppmRole()->first();
         $ketua = $penelitian->ketua;
 
@@ -144,7 +163,7 @@ class DokumentService implements DokumentServiceInterface
         $nomorDokumen = NomorDokumen::where('jenis_dokumen', 'surat_keterangan')->first();
         $tahun = date('Y');
 
-        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/$tahun";
+        $no = "{$nomorDokumen->kode_dokumen}{$nomorDokumen->nomor}/7/{$nomorDokumen->kode_dokumen}/UPB/{$tahun}";
         $ketua = $penelitian->ketua;
 
         $dppm = User::DppmRole()->first();
@@ -158,23 +177,5 @@ class DokumentService implements DokumentServiceInterface
             $category,
             $penelitian
         );
-    }
-
-    private static function getFakultasData(string $prodiName): array
-    {
-        $prodi = Prodi::where('name', $prodiName)->first();
-        $fakultas = Faculty::find($prodi->faculties_id);
-
-        return [
-            'fakultasId' => $fakultas->id,
-            'fakultas' => $fakultas->name
-        ];
-    }
-
-    private static function getKaprodi(int $fakultasId): User
-    {
-        return User::kaprodiRole()
-            ->whereHas('kaprodi', fn($q) => $q->where('faculties_id', $fakultasId))
-            ->first();
     }
 }

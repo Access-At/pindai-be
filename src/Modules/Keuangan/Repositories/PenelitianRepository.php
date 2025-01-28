@@ -23,7 +23,7 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
@@ -31,9 +31,7 @@ class PenelitianRepository
             $penelitian->status_kaprodi === StatusPenelitian::Pending ||
             $penelitian->status_dppm === StatusPenelitian::Pending
         ) {
-            throw PenelitianException::penelitianCantApproved(
-                "Penelitian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
-            );
+            throw PenelitianException::penelitianCantApproved('Penelitian ' . StatusPenelitian::Pending->message() . ' kaprodi dan dppm.');
         }
 
         if (
@@ -54,7 +52,7 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
@@ -62,9 +60,7 @@ class PenelitianRepository
             $penelitian->status_kaprodi === StatusPenelitian::Pending ||
             $penelitian->status_dppm === StatusPenelitian::Pending
         ) {
-            throw PenelitianException::penelitianCantApproved(
-                "Penelitian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
-            );
+            throw PenelitianException::penelitianCantApproved('Penelitian ' . StatusPenelitian::Pending->message() . ' kaprodi dan dppm.');
         }
 
         if (

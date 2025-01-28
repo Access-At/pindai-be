@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\StatusPenelitian;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('status_kaprodi')->default(StatusPenelitian::Pending);
             $table->string('status_dppm')->default(StatusPenelitian::Pending);
             $table->string('status_keuangan')->default(StatusPenelitian::Pending);
+            $table->text('keterangan')->nullable();
             $table->foreignId('luaran_kriteria_id')
                 ->nullable()->references(
                     'id'

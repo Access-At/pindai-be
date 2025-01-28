@@ -3,8 +3,8 @@
 namespace Modules\Keuangan\Resources\Pagination;
 
 use Illuminate\Http\Request;
-use Modules\Keuangan\Resources\DosenResource;
 use Modules\CustomPaginationResourceResponse;
+use Modules\Keuangan\Resources\DosenResource;
 
 class DosenPaginationCollection extends CustomPaginationResourceResponse
 {

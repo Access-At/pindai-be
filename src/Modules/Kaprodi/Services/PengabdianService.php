@@ -3,8 +3,8 @@
 namespace Modules\Kaprodi\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Kaprodi\DataTransferObjects\PengabdianDto;
 use Modules\Kaprodi\Exceptions\PengabdianException;
+use Modules\Kaprodi\DataTransferObjects\PengabdianDto;
 use Modules\Kaprodi\Repositories\PengabdianRepository;
 use Modules\Kaprodi\Resources\DetailPengabdianResource;
 use Modules\Kaprodi\Interfaces\PengabdianServiceInterface;
@@ -26,7 +26,7 @@ class PengabdianService implements PengabdianServiceInterface
     {
         $pengabdian = PengabdianRepository::getPengabdianById($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 

@@ -3,8 +3,8 @@
 namespace Modules\Dppm\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Dppm\DataTransferObjects\PengabdianDto;
 use Modules\Dppm\Exceptions\PengabdianException;
+use Modules\Dppm\DataTransferObjects\PengabdianDto;
 use Modules\Dppm\Repositories\PengabdianRepository;
 use Modules\Dppm\Resources\DetailPengabdianResource;
 use Modules\Dppm\Interfaces\PengabdianServiceInterface;
@@ -26,7 +26,7 @@ class PengabdianService implements PengabdianServiceInterface
     {
         $pengabdian = PengabdianRepository::getPengabdianById($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 

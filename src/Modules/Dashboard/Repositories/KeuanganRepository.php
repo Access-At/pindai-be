@@ -2,12 +2,12 @@
 
 namespace Modules\Dashboard\Repositories;
 
-use App\Enums\StatusPenelitian;
 use App\Models\Faculty;
 use App\Models\Penelitian;
 use App\Models\Pengabdian;
-use Illuminate\Support\Collection;
+use App\Enums\StatusPenelitian;
 use sbamtr\LaravelQueryEnrich\QE;
+use Illuminate\Support\Collection;
 
 class KeuanganRepository
 {
@@ -36,11 +36,13 @@ class KeuanganRepository
             ->get();
 
         $statuses = ['accepted', 'rejected'];
+
         return collect($statuses)->map(function ($status) use ($result) {
             $found = $result->firstWhere('status', $status);
+
             return [
                 'status' => $status,
-                'count' => $found ? $found->count : 0
+                'count' => $found ? $found->count : 0,
             ];
         });
     }
@@ -63,11 +65,13 @@ class KeuanganRepository
             ->get();
 
         $statuses = ['accepted', 'rejected'];
+
         return collect($statuses)->map(function ($status) use ($result) {
             $found = $result->firstWhere('status', $status);
+
             return [
                 'status' => $status,
-                'count' => $found ? $found->count : 0
+                'count' => $found ? $found->count : 0,
             ];
         });
     }

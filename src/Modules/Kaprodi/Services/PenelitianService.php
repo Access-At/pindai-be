@@ -3,8 +3,8 @@
 namespace Modules\Kaprodi\Services;
 
 use App\Helper\PaginateHelper;
-use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 use Modules\Kaprodi\Exceptions\PenelitianException;
+use Modules\Kaprodi\DataTransferObjects\PenelitianDto;
 use Modules\Kaprodi\Repositories\PenelitianRepository;
 use Modules\Kaprodi\Resources\DetailPenelitianResource;
 use Modules\Kaprodi\Interfaces\PenelitianServiceInterface;
@@ -26,7 +26,7 @@ class PenelitianService implements PenelitianServiceInterface
     {
         $penelitian = PenelitianRepository::getPenelitianById($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 

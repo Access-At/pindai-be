@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class NomorDokumenSeeder extends Seeder
@@ -22,14 +21,14 @@ class NomorDokumenSeeder extends Seeder
         // /7/SP/UPB/2025 (Surat Pengantar)
 
         $kodeDokumen = [
-            "Und" => "surat_undangan",
-            "SA" => "surat_ajuan",
-            "SE" => "surat_edaran",
-            "ST" => "surat_tugas",
-            "SR" => "surat_rekomendasi",
-            "SK" => "surat_keputusan",
-            "Ket" => "surat_keterangan",
-            "SP" => "surat_pengantar",
+            'Und' => 'surat_undangan',
+            'SA' => 'surat_ajuan',
+            'SE' => 'surat_edaran',
+            'ST' => 'surat_tugas',
+            'SR' => 'surat_rekomendasi',
+            'SK' => 'surat_keputusan',
+            'Ket' => 'surat_keterangan',
+            'SP' => 'surat_pengantar',
         ];
 
         foreach ($kodeDokumen as $key => $value) {

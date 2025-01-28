@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Luaran;
+use App\Helper\Terbilang;
 use App\Models\LuaranKriteria;
 use Illuminate\Database\Seeder;
-use App\Helper\Terbilang;
 
 class LuaranSeeder extends Seeder
 {
@@ -20,7 +20,7 @@ class LuaranSeeder extends Seeder
 
     public function __construct()
     {
-        $this->terbilang = new Terbilang();
+        $this->terbilang = new Terbilang;
     }
 
     public function run(): void
@@ -59,8 +59,8 @@ class LuaranSeeder extends Seeder
                     [
                         'name' => 'Target Luaran Publikasi Jurnal Ter Akreditasi Sinta 1 s.d 4 atau International Conference terindeks',
                         'nominal' => 2000000,
-                        'keterangan' => 'Semua Jabatan Fungsional'
-                    ]
+                        'keterangan' => 'Semua Jabatan Fungsional',
+                    ],
                 ],
             ],
             [
@@ -69,8 +69,8 @@ class LuaranSeeder extends Seeder
                     [
                         'name' => 'Target Luaran Publikasi Jurnal Internasional Bereputasi',
                         'nominal' => 5000000,
-                        'keterangan' => 'Minimal Lektor'
-                    ]
+                        'keterangan' => 'Minimal Lektor',
+                    ],
                 ],
             ],
             [
@@ -79,12 +79,12 @@ class LuaranSeeder extends Seeder
                     [
                         'name' => 'Target Luaran Jurnal Internasional Bereputasi',
                         'nominal' => 6000000,
-                        'keterangan' => 'Minimal Lektor'
+                        'keterangan' => 'Minimal Lektor',
                     ],
                     [
                         'name' => 'Memiliki MoU, MoA, dan IA Kerjasama',
                         'nominal' => 6000000,
-                        'keterangan' => 'Minimal Lektor'
+                        'keterangan' => 'Minimal Lektor',
                     ],
                 ],
             ],
@@ -110,7 +110,7 @@ class LuaranSeeder extends Seeder
                         'name' => 'Target Publikasi Jurnal Nasional Terakreditasi 5 dan 6',
                         'nominal' => 1000000,
                         'keterangan' => 'Tenaga Pengajar',
-                    ]
+                    ],
                 ],
             ],
         ];
@@ -130,7 +130,7 @@ class LuaranSeeder extends Seeder
                         'name' => 'Minimal 3 Dosen dari 2 Prodi yang berbeda dalam satu intitusi',
                         'nominal' => 1000000,
                         'keterangan' => 'Semua Jabatan Fungsional',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -140,7 +140,7 @@ class LuaranSeeder extends Seeder
                         'name' => 'Minimal 2 Dosen UPB dari Prodi yang berbeda dari lingkup LLDIKti IV dan sudah mempunyai MoU, MoA, IA',
                         'nominal' => 2000000,
                         'keterangan' => 'Semua Jabatan Fungsional',
-                    ]
+                    ],
                 ],
             ],
             [
@@ -150,7 +150,7 @@ class LuaranSeeder extends Seeder
                         'name' => 'Minimal 2 Dosen UPB dari Prodi yang berbeda dan kampus LN yangsudah mempunyai MoU, MoA, IA',
                         'nominal' => 3000000,
                         'keterangan' => 'Semua Jabatan Fungsional',
-                    ]
+                    ],
                 ],
             ],
         ];
@@ -167,24 +167,24 @@ class LuaranSeeder extends Seeder
                 'name' => 'Jurnal Ilmiah Internasional Bereputasi',
                 'kriteria' => [
                     [
-                        "name" => "Scopus Q1 / WoS",
-                        "nominal" => 1200000,
-                        "keterangan" => "Sesuai dengan ketentuan proposal"
+                        'name' => 'Scopus Q1 / WoS',
+                        'nominal' => 1200000,
+                        'keterangan' => 'Sesuai dengan ketentuan proposal',
                     ],
                     [
-                        "name" => "Scopus Q2",
-                        "nominal" => 1000000,
-                        "keterangan" => "Sesuai dengan ketentuan proposal",
+                        'name' => 'Scopus Q2',
+                        'nominal' => 1000000,
+                        'keterangan' => 'Sesuai dengan ketentuan proposal',
                     ],
                     [
-                        "name" => "Scopus Q3",
-                        "nominal" => 800000,
-                        "keterangan" => "Sesuai dengan ketentuan proposal",
+                        'name' => 'Scopus Q3',
+                        'nominal' => 800000,
+                        'keterangan' => 'Sesuai dengan ketentuan proposal',
                     ],
                     [
-                        "name" => "Scopus Q4",
-                        "nominal" => 600000,
-                        "keterangan" => "Sesuai dengan ketentuan proposal",
+                        'name' => 'Scopus Q4',
+                        'nominal' => 600000,
+                        'keterangan' => 'Sesuai dengan ketentuan proposal',
                     ],
                 ],
             ],
@@ -192,65 +192,65 @@ class LuaranSeeder extends Seeder
                 'name' => 'Jurnal Internasional',
                 'kriteria' => [
                     [
-                        "name" => "Ketentuan Jurnal Internasional sesuai dengan Kepmendikbudristek No:384/P/2024",
-                        "nominal" => 2500000,
-                        "keterangan" => "Sesuai dengan ketentuan proposal",
-                    ]
+                        'name' => 'Ketentuan Jurnal Internasional sesuai dengan Kepmendikbudristek No:384/P/2024',
+                        'nominal' => 2500000,
+                        'keterangan' => 'Sesuai dengan ketentuan proposal',
+                    ],
                 ],
             ],
             [
                 'name' => 'Jurnal Nasional Terakreditasi SINTA',
                 'kriteria' => [
                     [
-                        "name" => "S1",
-                        "nominal" => 7500000,
-                        "keterangan" => "Semua Jabatan Fungsional",
+                        'name' => 'S1',
+                        'nominal' => 7500000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
                     ],
                     [
-                        "name" => "S2",
-                        "nominal" => 6000000,
-                        "keterangan" => "Semua Jabatan Fungsional",
+                        'name' => 'S2',
+                        'nominal' => 6000000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
                     ],
                     [
-                        "name" => "S3",
-                        "nominal" => 3500000,
-                        "keterangan" => "Semua Jabatan Fungsional",
+                        'name' => 'S3',
+                        'nominal' => 3500000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
                     ],
                     [
-                        "name" => "S4",
-                        "nominal" => 2500000,
-                        "keterangan" => "Semua Jabatan Fungsional",
+                        'name' => 'S4',
+                        'nominal' => 2500000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
                     ],
                     [
-                        "name" => "S5 dan S6",
-                        "nominal" => 1000000,
-                        "keterangan" => "Khusus Tenaga Pengajar",
-                    ]
+                        'name' => 'S5 dan S6',
+                        'nominal' => 1000000,
+                        'keterangan' => 'Khusus Tenaga Pengajar',
+                    ],
                 ],
             ],
             [
                 'name' => 'Conference',
                 'kriteria' => [
                     [
-                        "name" => "Internasional terindeks Scopus/WoS",
-                        "nominal" => 4000000,
-                        "keterangan" => "Semua Jabatan Fungsional",
-                    ]
+                        'name' => 'Internasional terindeks Scopus/WoS',
+                        'nominal' => 4000000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
+                    ],
                 ],
             ],
             [
                 'name' => 'Jurnal Pengabdian',
                 'kriteria' => [
                     [
-                        "name" => "Nasional e-ISSN",
-                        "nominal" => 1000000,
-                        "keterangan" => "Semua Jabatan Fungsional",
+                        'name' => 'Nasional e-ISSN',
+                        'nominal' => 1000000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
                     ],
                     [
-                        "name" => "Internasional Terakreditasi SINTA (Semua Level Sinta)",
-                        "nominal" => 1500000,
-                        "keterangan" => "Semua Jabatan Fungsional",
-                    ]
+                        'name' => 'Internasional Terakreditasi SINTA (Semua Level Sinta)',
+                        'nominal' => 1500000,
+                        'keterangan' => 'Semua Jabatan Fungsional',
+                    ],
                 ],
             ],
         ];

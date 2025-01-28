@@ -2,14 +2,11 @@
 
 namespace Modules\Dosen\Services;
 
-use App\Enums\StatusPenelitian;
-use App\Models\User;
 use App\Helper\PaginateHelper;
-use App\Models\Publikasi;
-use Modules\Dosen\Resources\DosenResource;
+use App\Enums\StatusPenelitian;
 use Modules\Dosen\Resources\PublikasiResource;
-use Modules\Dosen\DataTransferObjects\PublikasiDto;
 use Modules\Dosen\Exceptions\PublikasiException;
+use Modules\Dosen\DataTransferObjects\PublikasiDto;
 use Modules\Dosen\Repositories\PublikasiRepository;
 use Modules\Dosen\Resources\DetailPublikasiResource;
 use Modules\Dosen\Interfaces\PublikasiServiceInterface;
@@ -31,7 +28,7 @@ class PublikasiService implements PublikasiServiceInterface
     {
         $publikasi = PublikasiRepository::getPublikasiById($id);
 
-        if (!$publikasi) {
+        if ( ! $publikasi) {
             throw PublikasiException::publikasiNotFound();
         }
 
@@ -53,6 +50,7 @@ class PublikasiService implements PublikasiServiceInterface
     public function deletePublikasi(string $id)
     {
         $this->validatePublikasiExists($id);
+
         return new PublikasiResource(PublikasiRepository::deletePublikasi($id));
     }
 
@@ -60,7 +58,7 @@ class PublikasiService implements PublikasiServiceInterface
     {
         $publikasi = PublikasiRepository::getPublikasiById($id);
 
-        if (! $publikasi) {
+        if ( ! $publikasi) {
             throw PublikasiException::publikasiNotFound();
         }
 

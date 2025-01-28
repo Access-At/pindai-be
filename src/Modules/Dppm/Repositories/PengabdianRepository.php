@@ -23,14 +23,12 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 
         if ($pengabdian->status_kaprodi === StatusPenelitian::Pending) {
-            throw PengabdianException::pengabdianCantApproved(
-                "Menunggu persetujuan kaprodi."
-            );
+            throw PengabdianException::pengabdianCantApproved('Menunggu persetujuan kaprodi.');
         }
 
         if (
@@ -51,14 +49,12 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 
         if ($pengabdian->status_kaprodi === StatusPenelitian::Pending) {
-            throw PengabdianException::pengabdianCantCanceled(
-                "Menunggu persetujuan kaprodi."
-            );
+            throw PengabdianException::pengabdianCantCanceled('Menunggu persetujuan kaprodi.');
         }
 
         if (

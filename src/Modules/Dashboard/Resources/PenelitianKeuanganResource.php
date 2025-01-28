@@ -2,8 +2,6 @@
 
 namespace Modules\Dashboard\Resources;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Modules\CustomResource;
 use Illuminate\Http\Request;
 

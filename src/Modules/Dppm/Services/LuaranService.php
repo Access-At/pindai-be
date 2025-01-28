@@ -7,8 +7,8 @@ use Modules\Dppm\Resources\LuaranResource;
 use Modules\Dppm\Exceptions\LuaranException;
 use Modules\Dppm\DataTransferObjects\LuaranDto;
 use Modules\Dppm\Repositories\LuaranRepository;
-use Modules\Dppm\Interfaces\LuaranServiceInterface;
 use Modules\Dppm\Resources\DetailLuaranResource;
+use Modules\Dppm\Interfaces\LuaranServiceInterface;
 use Modules\Dppm\Resources\Pagination\LuaranPaginationCollection;
 
 class LuaranService implements LuaranServiceInterface
@@ -54,7 +54,7 @@ class LuaranService implements LuaranServiceInterface
     {
         $Luaran = LuaranRepository::getLuaranById($id);
 
-        if (! $Luaran) {
+        if ( ! $Luaran) {
             throw LuaranException::LuaranNotFound();
         }
     }

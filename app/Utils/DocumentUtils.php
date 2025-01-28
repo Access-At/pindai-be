@@ -3,11 +3,11 @@
 namespace App\Utils;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Helper\DocumentGenerator;
 use App\Models\Penelitian;
 use App\Models\Pengabdian;
+use Illuminate\Support\Str;
+use App\Helper\DocumentGenerator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DocumentUtils
 {
@@ -21,7 +21,7 @@ class DocumentUtils
         $generator = new DocumentGenerator($templatePath);
 
         $values = array_merge($values, [
-            'category' => strtoupper($category),
+            'category' => mb_strtoupper($category),
             'category_content' => ucwords($category),
         ]);
 
@@ -32,8 +32,9 @@ class DocumentUtils
         self::addAnggotaList($generator, $penelitian->anggota);
 
         $nameFile = self::formatNameFile($filename);
-        $path = "out/$nameFile";
-        $generator->save(storage_path("app/public/$path"));
+        $path = "out/{$nameFile}";
+        $generator->save(storage_path("app/public/{$path}"));
+
         return $path;
     }
 
@@ -57,7 +58,7 @@ class DocumentUtils
     public static function getPengajuanValues($penelitian, $ketua): array
     {
         return [
-            'title' => strtoupper("Surat Pengajuan Ke PRODI"),
+            'title' => mb_strtoupper('Surat Pengajuan Ke PRODI'),
             'prodi' => $ketua->prodi,
             // 'perihal' => 'Pengajuan Pelaksanaan Penelitian Dosen',
             'ketua.nama' => ($ketua->name_with_title ?? $ketua->name),
@@ -155,6 +156,7 @@ class DocumentUtils
             if ($includeProdi) {
                 $data[] = $anggota->prodi;
             }
+
             return $data;
         });
     }
@@ -173,8 +175,7 @@ class DocumentUtils
     private static function generateAnggotaList($anggota): array
     {
         return $anggota->map(
-            fn($anggota) =>
-            $anggota->anggotaPenelitian->name_with_title ?? $anggota->anggotaPenelitian->name
+            fn ($anggota) => $anggota->anggotaPenelitian->name_with_title ?? $anggota->anggotaPenelitian->name
         )->toArray();
     }
 

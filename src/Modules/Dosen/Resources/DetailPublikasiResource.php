@@ -2,8 +2,6 @@
 
 namespace Modules\Dosen\Resources;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Modules\CustomResource;
 use Illuminate\Http\Request;
 
@@ -14,11 +12,13 @@ class DetailPublikasiResource extends CustomResource
         return [
             // 'id' => $this->hash,
             'judul' => $this->judul,
-            'jenis_publikasi' => $this->publikasi->name,
-            'kriteria' => $this->kriteria->name,
+            'author' => $this->authors,
             'tanggal_publikasi' => $this->tanggal_publikasi,
+            'jenis_publikasi' => $this->publikasi->hash,
+            'luaran_kriteria' => $this->kriteria->hash,
+            'jenis_publikasi_label' => $this->publikasi->name,
+            'luaran_kriteria_label' => $this->kriteria->name,
             'tahun' => $this->tahun,
-            'authors' => $this->authors,
             'jurnal' => $this->jurnal,
             'link_publikasi' => $this->link_publikasi,
             'status' => [

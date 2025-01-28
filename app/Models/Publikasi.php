@@ -11,7 +11,7 @@ class Publikasi extends Model
 {
     use HashableId, SoftDeletes;
 
-    protected $table = "publikasi";
+    protected $table = 'publikasi';
 
     protected $fillable = [
         'judul',
@@ -23,9 +23,10 @@ class Publikasi extends Model
         'link_publikasi',
         'status_kaprodi',
         'status_dppm',
+        'keterangan',
         'status_keuangan',
         'luaran_kriteria_id',
-        'user_id'
+        'user_id',
     ];
 
     protected $dates = [
@@ -41,7 +42,7 @@ class Publikasi extends Model
     {
         return $query->whereHas('user', function ($query) use ($prodi) {
             $query->whereHas('dosen', function ($q) use ($prodi) {
-                $q->where('prodi_id', $prodi);
+                $q->whereIn('prodi_id', $prodi);
             });
         });
     }

@@ -2,8 +2,8 @@
 
 namespace Modules\Dosen\Requests;
 
-use Illuminate\Validation\Rule;
 use Modules\CustomRequest;
+use Illuminate\Validation\Rule;
 
 class DokumentDownloadRequest extends CustomRequest
 {
@@ -22,18 +22,18 @@ class DokumentDownloadRequest extends CustomRequest
                     'surat_pengajuan',
                     'surat_rekomendasi',
                     'proposal',
-                    "kontrak_penelitian",
-                    "kontrak_pengabdian",
-                    "surat_keterangan_selesai"
-                ])
+                    'kontrak_penelitian',
+                    'kontrak_pengabdian',
+                    'surat_keterangan_selesai',
+                ]),
             ],
             'category' => [
                 'required',
                 Rule::in([
                     'pengabdian',
                     'penelitian',
-                ])
-            ]
+                ]),
+            ],
         ];
     }
 }

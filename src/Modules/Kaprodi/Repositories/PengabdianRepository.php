@@ -37,7 +37,7 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 
@@ -59,7 +59,7 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 

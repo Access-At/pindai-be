@@ -2,7 +2,9 @@
 
 namespace Modules\Dashboard\Services;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Modules\Dashboard\Repositories\DppmRepository;
 use Modules\Dashboard\Interfaces\DppmServiceInterface;
 use Modules\Dashboard\Resources\PenelitianDppmResource;
@@ -12,7 +14,9 @@ class DppmService implements DppmServiceInterface
 {
     public function getNumberOfLecturersByFaculty(): Collection
     {
-        return DppmRepository::getNumberOfLecturersByFaculty();
+        return Cache::remember('dashboard_dppm_lecture_faculty', CarbonInterval::minutes(5)->totalSeconds, function () {
+            return DppmRepository::getNumberOfLecturersByFaculty();
+        });
     }
 
     public function getOfPenelitian()
@@ -22,7 +26,9 @@ class DppmService implements DppmServiceInterface
             'status' => DppmRepository::getNumberOfPenelitianByStatus(),
         ];
 
-        return $data;
+        return Cache::remember('dashboard_dppm_penelitian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
     }
 
     public function getOfPengabdian()
@@ -32,6 +38,8 @@ class DppmService implements DppmServiceInterface
             'status' => DppmRepository::getNumberOfPengabdianByStatus(),
         ];
 
-        return $data;
+        return Cache::remember('dashboard_dppm_pengabdian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
     }
 }

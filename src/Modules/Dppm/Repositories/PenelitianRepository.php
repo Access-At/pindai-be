@@ -23,14 +23,12 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
         if ($penelitian->status_kaprodi === StatusPenelitian::Pending) {
-            throw PenelitianException::penelitianCantApproved(
-                "Menunggu persetujuan kaprodi."
-            );
+            throw PenelitianException::penelitianCantApproved('Menunggu persetujuan kaprodi.');
         }
 
         if (
@@ -52,14 +50,12 @@ class PenelitianRepository
     {
         $penelitian = Penelitian::byHash($id);
 
-        if (! $penelitian) {
+        if ( ! $penelitian) {
             throw PenelitianException::penelitianNotFound();
         }
 
         if ($penelitian->status_kaprodi === StatusPenelitian::Pending) {
-            throw PenelitianException::penelitianCantCanceled(
-                "Menunggu persetujuan kaprodi."
-            );
+            throw PenelitianException::penelitianCantCanceled('Menunggu persetujuan kaprodi.');
         }
 
         if (

@@ -8,9 +8,10 @@ use Veelasky\LaravelHashId\Eloquent\HashableId;
 
 class Luaran extends Model
 {
-    use \Illuminate\Database\Eloquent\SoftDeletes, HashableId;
+    use HashableId, \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $table = 'luaran';
+
     protected $fillable = ['category', 'name'];
 
     public function kriteria()
@@ -21,7 +22,7 @@ class Luaran extends Model
     protected function casts(): array
     {
         return [
-            'category' => LuaranCategory::class
+            'category' => LuaranCategory::class,
         ];
     }
 }

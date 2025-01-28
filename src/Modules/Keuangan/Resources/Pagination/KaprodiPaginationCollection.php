@@ -3,8 +3,8 @@
 namespace Modules\Keuangan\Resources\Pagination;
 
 use Illuminate\Http\Request;
-use Modules\Keuangan\Resources\KaprodiResource;
 use Modules\CustomPaginationResourceResponse;
+use Modules\Keuangan\Resources\KaprodiResource;
 
 class KaprodiPaginationCollection extends CustomPaginationResourceResponse
 {

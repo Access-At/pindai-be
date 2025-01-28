@@ -8,7 +8,7 @@ class DateFormatter
 {
     public static function formatTahunAjaran(string $tahunAkademik): string
     {
-        return substr($tahunAkademik, 0, 4) . '/' . substr($tahunAkademik, 4, 4);
+        return mb_substr($tahunAkademik, 0, 4) . '/' . mb_substr($tahunAkademik, 4, 4);
     }
 
     public static function formatTanggal($tanggal): string
@@ -41,11 +41,11 @@ class DateFormatter
         ];
 
         $hariNama = $hari[$carbonDate->format('l')];
-        $tanggalTeks = self::angkaKeTeks((int)$carbonDate->format('d'));
-        $bulanNama = $bulan[(int)$carbonDate->format('m')];
-        $tahunTeks = self::angkaKeTeks((int)$carbonDate->format('Y'));
+        $tanggalTeks = self::angkaKeTeks((int) $carbonDate->format('d'));
+        $bulanNama = $bulan[(int) $carbonDate->format('m')];
+        $tahunTeks = self::angkaKeTeks((int) $carbonDate->format('Y'));
 
-        return "$hariNama tanggal $tanggalTeks bulan $bulanNama tahun $tahunTeks";
+        return "{$hariNama} tanggal {$tanggalTeks} bulan {$bulanNama} tahun {$tahunTeks}";
     }
 
     private static function angkaKeTeks($angka): string
@@ -83,17 +83,23 @@ class DateFormatter
 
         if ($angka <= 20) {
             return $angkaText[$angka];
-        } elseif ($angka < 100) {
+        }
+        if ($angka < 100) {
             $puluhan = floor($angka / 10) * 10;
             $satuan = $angka % 10;
+
             return $angkaText[$puluhan] . ($satuan ? ' ' . $angkaText[$satuan] : '');
-        } elseif ($angka < 1000) {
+        }
+        if ($angka < 1000) {
             $ratusan = floor($angka / 100);
             $sisa = $angka % 100;
+
             return $angkaText[$ratusan] . ' Ratus' . ($sisa ? ' ' . self::angkaKeTeks($sisa) : '');
-        } elseif ($angka < 10000) {
+        }
+        if ($angka < 10000) {
             $ribuan = floor($angka / 1000);
             $sisa = $angka % 1000;
+
             return $angkaText[$ribuan] . ' Ribu' . ($sisa ? ' ' . self::angkaKeTeks($sisa) : '');
         }
     }

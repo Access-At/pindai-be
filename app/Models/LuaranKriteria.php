@@ -10,6 +10,7 @@ class LuaranKriteria extends Model
     use HashableId;
 
     protected $table = 'luaran_kriteria';
+
     protected $fillable = ['name', 'nominal', 'terbilang', 'keterangan', 'luaran_id'];
 
     public function luaran()

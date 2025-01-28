@@ -23,7 +23,7 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 
@@ -31,9 +31,7 @@ class PengabdianRepository
             $pengabdian->status_kaprodi === StatusPenelitian::Pending ||
             $pengabdian->status_dppm === StatusPenelitian::Pending
         ) {
-            throw PengabdianException::pengabdianCantApproved(
-                "Pengabdian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
-            );
+            throw PengabdianException::pengabdianCantApproved('Pengabdian ' . StatusPenelitian::Pending->message() . ' kaprodi dan dppm.');
         }
 
         if (
@@ -54,7 +52,7 @@ class PengabdianRepository
     {
         $pengabdian = Pengabdian::byHash($id);
 
-        if (! $pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::pengabdianNotFound();
         }
 
@@ -62,9 +60,7 @@ class PengabdianRepository
             $pengabdian->status_kaprodi === StatusPenelitian::Pending ||
             $pengabdian->status_dppm === StatusPenelitian::Pending
         ) {
-            throw PengabdianException::pengabdianCantApproved(
-                "Pengabdian " . StatusPenelitian::Pending->message() . " kaprodi dan dppm."
-            );
+            throw PengabdianException::pengabdianCantApproved('Pengabdian ' . StatusPenelitian::Pending->message() . ' kaprodi dan dppm.');
         }
 
         if (

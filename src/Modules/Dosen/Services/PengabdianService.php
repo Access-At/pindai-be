@@ -2,13 +2,13 @@
 
 namespace Modules\Dosen\Services;
 
-use App\Enums\StatusPenelitian;
 use App\Models\User;
 use App\Helper\PaginateHelper;
+use App\Enums\StatusPenelitian;
 use Modules\Dosen\Resources\DosenResource;
 use Modules\Dosen\Resources\PengabdianResource;
-use Modules\Dosen\DataTransferObjects\PengabdianDto;
 use Modules\Dosen\Exceptions\PengabdianException;
+use Modules\Dosen\DataTransferObjects\PengabdianDto;
 use Modules\Dosen\Repositories\PengabdianRepository;
 use Modules\Dosen\Resources\DetailPengabdianResource;
 use Modules\Dosen\Interfaces\PengabdianServiceInterface;
@@ -30,7 +30,7 @@ class PengabdianService implements PengabdianServiceInterface
     {
         $Pengabdian = PengabdianRepository::getPengabdianById($id);
 
-        if (!$Pengabdian) {
+        if ( ! $Pengabdian) {
             throw PengabdianException::PengabdianNotFound();
         }
 
@@ -82,7 +82,7 @@ class PengabdianService implements PengabdianServiceInterface
     {
         $pengabdian = PengabdianRepository::getPengabdianById($id);
 
-        if (!$pengabdian) {
+        if ( ! $pengabdian) {
             throw PengabdianException::PengabdianNotFound();
         }
 

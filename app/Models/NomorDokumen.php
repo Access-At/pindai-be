@@ -21,7 +21,7 @@ class NomorDokumen extends Model
 
         static::retrieved(function ($model) {
             $currentYear = date('Y');
-            if ($model->tahun_dokumen != $currentYear) {
+            if ($model->tahun_dokumen !== $currentYear) {
                 $model->tahun_dokumen = $currentYear;
                 $model->nomor = '001';
             } else {
@@ -29,7 +29,7 @@ class NomorDokumen extends Model
                     ->where('tahun_dokumen', $currentYear)
                     ->max('nomor');
 
-                $model->nomor = $lastNumber ? str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT) : '001';
+                $model->nomor = $lastNumber ? mb_str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT) : '001';
             }
             $model->save();
         });

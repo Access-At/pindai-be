@@ -4,11 +4,10 @@ namespace Modules\ListData\Repositories;
 
 use App\Models\User;
 use App\Models\Prodi;
+use App\Models\Luaran;
 use App\Models\Faculty;
 use App\Enums\StatusDosen;
 use App\Enums\ApprovedDosen;
-use App\Models\getListJenisPublikasi;
-use App\Models\Luaran;
 
 class ListRepository
 {
