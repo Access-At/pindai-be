@@ -40,6 +40,7 @@ class PengabdianRepository
 
         $pengabdian->update([
             'status_dppm' => StatusPenelitian::Approval,
+            'status_dppm_date' => now(),
         ]);
 
         return self::getPengabdianById($id);
@@ -67,6 +68,8 @@ class PengabdianRepository
         $pengabdian->update([
             'status_dppm' => StatusPenelitian::Reject,
             'status_keuangan' => StatusPenelitian::Reject,
+            'status_dppm_date' => now(),
+            'status_keuangan_date' => now(),
             'keterangan' => $keterangan,
         ]);
 

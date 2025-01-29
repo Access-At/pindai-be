@@ -18,7 +18,7 @@ class LuaranKriteriaResource extends CustomResource
             'id' => $this->hash,
             'name' => $this->name,
             'nominal' => $this->nominal,
-            'terbilang' => $this->terbilang,
+            // 'terbilang' => $this->terbilang,
             'keterangan' => $this->keterangan,
         ];
     }

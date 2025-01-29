@@ -18,6 +18,7 @@ class LuaranResource extends CustomResource
             'id' => $this->hash,
             'name' => $this->name,
             'category' => $this->category,
+            'kriteria' => LuaranKriteriaResource::collection($this->kriteria),
         ];
     }
 }

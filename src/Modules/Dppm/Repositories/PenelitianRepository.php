@@ -41,6 +41,7 @@ class PenelitianRepository
         $penelitian->update([
             'status_dppm' => StatusPenelitian::Approval,
             // 'deadline_dppm' => now()->addDays(30)
+            'status_dppm_date' => now(),
         ]);
 
         return self::getPenelitianById($id);
@@ -68,6 +69,8 @@ class PenelitianRepository
         $penelitian->update([
             'status_dppm' => StatusPenelitian::Reject,
             'status_keuangan' => StatusPenelitian::Reject,
+            'status_dppm_date' => now(),
+            'status_keuangan_date' => now(),
             'keterangan' => $keterangan,
         ]);
 

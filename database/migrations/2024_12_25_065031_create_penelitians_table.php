@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('status_keuangan')->default(StatusPenelitian::Pending);
             $table->text('keterangan')->nullable();
             $table->date('deadline_dppm')->nullable();
+            $table->dateTime('status_kaprodi_date')->nullable();
+            $table->dateTime('status_dppm_date')->nullable();
+            $table->dateTime('status_keuangan_date')->nullable();
             $table->foreignId('luaran_kriteria_id')
                 ->nullable()->references(
                     'id'

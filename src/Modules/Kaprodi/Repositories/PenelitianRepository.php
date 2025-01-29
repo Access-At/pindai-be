@@ -50,6 +50,7 @@ class PenelitianRepository
 
         $penelitian->update([
             'status_kaprodi' => StatusPenelitian::Approval,
+            'status_kaprodi_date' => now(),
         ]);
 
         return self::getPenelitianById($id);
@@ -74,6 +75,9 @@ class PenelitianRepository
             'status_kaprodi' => StatusPenelitian::Reject,
             'status_dppm' => StatusPenelitian::Reject,
             'status_keuangan' => StatusPenelitian::Reject,
+            'status_kaprodi_date' => now(),
+            'status_dppm_date' => now(),
+            'status_keuangan_date' => now(),
             'keterangan' => $keterangan,
         ]);
 

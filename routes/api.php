@@ -10,6 +10,7 @@ use App\Http\Controllers\Dppm\LuaranController;
 use App\Http\Controllers\Dppm\KaprodiController;
 use App\Http\Controllers\Dppm\FakultasController;
 use App\Http\Controllers\Dosen\DokumentController;
+use App\Http\Controllers\Dosen\TrackingController;
 use App\Http\Controllers\Dosen\PublikasiController;
 use App\Http\Controllers\Dosen\PenelitianController;
 use App\Http\Controllers\Dosen\PengabdianController;
@@ -160,6 +161,11 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             Route::post('pengabdian/upload/{id}', [DokumentController::class, 'upload']);
 
             Route::apiResource('publikasi', PublikasiController::class);
+
+            // tracking penelitian, pengabdian
+            Route::get('/tracking/penelitian', [TrackingController::class, 'penelitianTracking']);
+            Route::get('/tracking/publikasi', [TrackingController::class, 'publikasiTracking']);
+            Route::get('/tracking/pengabdian', [TrackingController::class, 'pengabdianTracking']);
         });
     });
 });

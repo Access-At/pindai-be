@@ -152,10 +152,10 @@ class ResponseApi
     /**
      * Sets the error message
      *
-     * @param  string  $error  Error message
+     * @param  string|array  $error  Error message
      * @return $this
      */
-    public function error(string $error): self
+    public function error(string|array $error): self
     {
         $this->data['error'] = $error;
 

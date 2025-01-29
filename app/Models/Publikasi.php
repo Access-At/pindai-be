@@ -27,10 +27,17 @@ class Publikasi extends Model
         'status_keuangan',
         'luaran_kriteria_id',
         'user_id',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
     ];
 
     protected $dates = [
+        'deleted_at',
         'tanggal_publikasi',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
     ];
 
     public function scopeMyPublikasi($query)

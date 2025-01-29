@@ -14,8 +14,6 @@ class Pengabdian extends Model
 
     protected $table = 'pengabdian';
 
-    protected $dates = ['deleted_at'];
-
     protected $fillable = [
         'kode',
         'judul',
@@ -28,10 +26,16 @@ class Pengabdian extends Model
         'status_keuangan',
         'keterangan',
         'luaran_kriteria_id',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
+    ];
 
-        // 'jenis_pengabdian_id',
-        // 'jenis_indeksasi_id',
-        // 'luaran_id'
+    protected $dates = [
+        'deleted_at',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
     ];
 
     public function getAnggotaAttribute()

@@ -19,7 +19,7 @@ class CustomException extends Exception
     {
         return ResponseApi::statusQueryError()
             ->error($this->error)
-            ->status($this->code) // Use $this->code for the status
+            ->status($this->code)
             ->message($this->getMessage())
             ->json();
     }

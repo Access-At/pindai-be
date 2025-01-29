@@ -21,7 +21,7 @@ class LuaranRepository
 
     public static function insertLuaran(LuaranDto $data)
     {
-        $Luaran = Luaran::create([
+        $luaran = Luaran::create([
             'name' => $data->name,
             'category' => $data->category,
         ]);
@@ -32,44 +32,44 @@ class LuaranRepository
                 'nominal' => $kriteria['nominal'],
                 'keterangan' => $kriteria['keterangan'],
                 'terbilang' => self::parseTerbilang($kriteria['nominal']),
-                'luaran_id' => $Luaran->id,
+                'luaran_id' => $luaran->id,
             ]);
         }
 
-        return $Luaran;
+        return $luaran;
     }
 
     public static function updateLuaran(string $id, LuaranDto $data)
     {
-        $Luaran = Luaran::byHash($id);
+        $luaran = Luaran::byHash($id);
 
-        $Luaran->update([
+        $luaran->update([
             'name' => $data->name,
         ]);
 
-        foreach ($data->kriteria as $kriteria) {
-            LuaranKriteria::where('luaran_id', $Luaran->id)->delete();
+        LuaranKriteria::where('luaran_id', $luaran->id)->delete();
 
+        foreach ($data->kriteria as $kriteria) {
             LuaranKriteria::create([
                 'name' => $kriteria['name'],
                 'nominal' => $kriteria['nominal'],
                 'keterangan' => $kriteria['keterangan'],
                 'terbilang' => self::parseTerbilang($kriteria['nominal']),
-                'luaran_id' => $Luaran->id,
+                'luaran_id' => $luaran->id,
             ]);
         }
 
-        return $Luaran;
+        return $luaran;
     }
 
     public static function deleteLuaran(string $id)
     {
-        $Luaran = Luaran::byHash($id);
+        $luaran = Luaran::byHash($id);
 
-        LuaranKriteria::where('luaran_id', $Luaran->id)->delete();
-        $Luaran->delete();
+        LuaranKriteria::where('luaran_id', $luaran->id)->delete();
+        $luaran->delete();
 
-        return $Luaran;
+        return $luaran;
     }
 
     private static function parseTerbilang(int $nominal)

@@ -49,6 +49,7 @@ class PublikasiRepository
 
         $publikasi->update([
             'status_kaprodi' => StatusPenelitian::Approval,
+            'status_kaprodi_date' => now(),
         ]);
 
         return self::getPublikasiById($id);
@@ -73,6 +74,9 @@ class PublikasiRepository
             'status_kaprodi' => StatusPenelitian::Reject,
             'status_dppm' => StatusPenelitian::Reject,
             'status_keuangan' => StatusPenelitian::Reject,
+            'status_kaprodi_date' => now(),
+            'status_dppm_date' => now(),
+            'status_keuangan_date' => now(),
             'keterangan' => $keterangan,
         ]);
 

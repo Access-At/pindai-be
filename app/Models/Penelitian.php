@@ -14,8 +14,6 @@ class Penelitian extends Model
 
     protected $table = 'penelitian';
 
-    protected $dates = ['deleted_at'];
-
     protected $fillable = [
         'kode',
         'judul',
@@ -29,6 +27,17 @@ class Penelitian extends Model
         'luaran_kriteria_id',
         'deadline_dppm',
         'keterangan',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
+    ];
+
+    protected $dates = [
+        'deleted_at',
+        'deadline_dppm',
+        'status_kaprodi_date',
+        'status_dppm_date',
+        'status_keuangan_date',
     ];
 
     public function getAnggotaAttribute()
