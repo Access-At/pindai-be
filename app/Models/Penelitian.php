@@ -45,6 +45,11 @@ class Penelitian extends Model
         return $this->detail()->with(['anggotaPenelitian'])->get();
     }
 
+    public function getCategoryAttribute()
+    {
+        return "Penelitian";
+    }
+
     public function getKetuaAttribute()
     {
         $detail = $this->detail()->with(['anggotaPenelitian' => function ($q) {
@@ -90,7 +95,7 @@ class Penelitian extends Model
             $latestKode = static::withTrashed()->latest()->first();
             $tahun = date('Y');
 
-            if ( ! $latestKode) {
+            if (! $latestKode) {
                 $nextNumber = '001';
             } else {
                 $lastNumber = (int) (mb_substr($latestKode->kode, -3));

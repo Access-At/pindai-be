@@ -45,6 +45,11 @@ class Publikasi extends Model
         return $query->where('user_id', auth()->user()->id);
     }
 
+    public function getCategoryAttribute()
+    {
+        return "Publikasi";
+    }
+
     public function scopeProdiPublikasi($query, $prodi)
     {
         return $query->whereHas('user', function ($query) use ($prodi) {

@@ -43,6 +43,11 @@ class Pengabdian extends Model
         return $this->detail()->with(['anggotaPengabdian'])->get();
     }
 
+    public function getCategoryAttribute()
+    {
+        return "Pengabdian";
+    }
+
     public function getKetuaAttribute()
     {
         $detail = $this->detail()->with(['anggotaPengabdian' => function ($q) {
@@ -88,7 +93,7 @@ class Pengabdian extends Model
             $latestKode = static::withTrashed()->latest()->first();
             $tahun = date('Y');
 
-            if ( ! $latestKode) {
+            if (! $latestKode) {
                 $nextNumber = '001';
             } else {
                 $lastNumber = (int) (mb_substr($latestKode->kode, -3));
