@@ -11,4 +11,6 @@ interface DppmServiceInterface
     public function getOfPenelitian();
 
     public function getOfPengabdian();
+
+    public function getOfPublikasi();
 }

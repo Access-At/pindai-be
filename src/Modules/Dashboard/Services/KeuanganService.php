@@ -9,6 +9,7 @@ use Modules\Dashboard\Repositories\KeuanganRepository;
 use Modules\Dashboard\Interfaces\KeuanganServiceInterface;
 use Modules\Dashboard\Resources\PenelitianKeuanganResource;
 use Modules\Dashboard\Resources\PengabdianKeuanganResource;
+use Modules\Dashboard\Resources\PublikasiKeuanganResource;
 
 class KeuanganService implements KeuanganServiceInterface
 {
@@ -39,6 +40,18 @@ class KeuanganService implements KeuanganServiceInterface
         ];
 
         return Cache::remember('dashboard_keuangan_pengabdian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
+    }
+
+    public function getOfPublikasi()
+    {
+        $data = [
+            'news' =>  PublikasiKeuanganResource::collection(KeuanganRepository::getNewsPublikasi()),
+            'status' => KeuanganRepository::getNumberOfPublikasiByStatus(),
+        ];
+
+        return Cache::remember('dashboard_keuangan_publikasi', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
             return $data;
         });
     }

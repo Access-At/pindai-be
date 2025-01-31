@@ -10,12 +10,14 @@ use App\Models\NomorDokumen;
 use App\Utils\DocumentUtils;
 use InvalidArgumentException;
 use App\Utils\ValidationUtils;
+use DragonCode\PrettyArray\Services\File;
 use Illuminate\Support\Facades\Storage;
 use Modules\Dosen\Repositories\PenelitianRepository;
 use Modules\Dosen\Repositories\PengabdianRepository;
 use Modules\Dosen\Interfaces\DokumentServiceInterface;
 use Modules\Dosen\DataTransferObjects\DokumentUploadDto;
 use Modules\Dosen\DataTransferObjects\DokumentDownloadDto;
+use Modules\Dosen\Exceptions\DokumentException;
 
 class DokumentService implements DokumentServiceInterface
 {
@@ -35,7 +37,7 @@ class DokumentService implements DokumentServiceInterface
         ValidationUtils::validatePenelitian($penelitian, $request->jenis_dokumen, $request->category);
 
         $method = self::DOCUMENT_TYPES[$request->jenis_dokumen] ?? null;
-        if ( ! $method) {
+        if (! $method) {
             throw new InvalidArgumentException('Invalid document type');
         }
 
@@ -46,6 +48,44 @@ class DokumentService implements DokumentServiceInterface
             'path' => $pathFile,
             'name' => basename($file),
         ];
+    }
+
+    public function downloadDokumen(DokumentDownloadDto $request, string $id): array
+    {
+        $penelitian = PenelitianRepository::getPenelitianById($id) ?? PengabdianRepository::getPengabdianById($id);
+        $this->validateDocumentType($request->jenis_dokumen);
+
+        $file = $this->buildFilePath($penelitian, $request->category, $request->jenis_dokumen);
+        $pathFile = Storage::disk('public')->path($file);
+
+        $this->validateFileExists($pathFile, $penelitian->judul, $request->jenis_dokumen);
+
+        return [
+            'path' => $pathFile,
+            'name' => basename($file),
+        ];
+    }
+
+    private function validateDocumentType(string $documentType): void
+    {
+        if (!isset(self::DOCUMENT_TYPES[$documentType])) {
+            throw new InvalidArgumentException('Invalid document type');
+        }
+    }
+
+    private function buildFilePath($penelitian, string $category, string $documentType): string
+    {
+        $folder = "$category/{$penelitian->kode}";
+        $nameFile = Str::replace('_', '-', $documentType) . "-" . Str::slug($penelitian->judul, '-') . '.pdf';
+
+        return "{$folder}/{$nameFile}";
+    }
+
+    private function validateFileExists(string $pathFile, string $judul, string $documentType): void
+    {
+        if (!file_exists($pathFile)) {
+            throw DokumentException::fileNotFound($judul, Str::replace('_', ' ', $documentType));
+        }
     }
 
     public function upload(DokumentUploadDto $request, string $id): string
@@ -79,7 +119,7 @@ class DokumentService implements DokumentServiceInterface
     private static function getKaprodi(int $fakultasId): User
     {
         return User::kaprodiRole()
-            ->whereHas('kaprodi', fn ($q) => $q->where('faculties_id', $fakultasId))
+            ->whereHas('kaprodi', fn($q) => $q->where('faculties_id', $fakultasId))
             ->first();
     }
 

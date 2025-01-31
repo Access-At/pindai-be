@@ -14,7 +14,7 @@ class KaprodiRepository
     public static function getNumberOfPenelitianByStatus()
     {
         $prodi = self::getUserProdi();
-        $result = self::getStatusCount(Penelitian::class, $prodi);
+        $result = self::getStatusCount(Penelitian::class, $prodi, 'prodiPenelitian');
 
         return self::formatStatusCounts($result);
     }
@@ -22,7 +22,7 @@ class KaprodiRepository
     public static function getNumberOfPengbdianByStatus()
     {
         $prodi = self::getUserProdi();
-        $result = self::getStatusCount(Pengabdian::class, $prodi);
+        $result = self::getStatusCount(Pengabdian::class, $prodi, 'prodiPengabdian');
 
         return self::formatStatusCounts($result);
     }
@@ -53,9 +53,9 @@ class KaprodiRepository
         });
     }
 
-    private static function getStatusCount($query, $prodi)
+    private static function getStatusCount($query, $prodi, $scopeMethod)
     {
-        return $query::prodiPengabdian($prodi)
+        return $query::$scopeMethod($prodi)
             ->whereIn('status_kaprodi', [StatusPenelitian::Approval, StatusPenelitian::Reject])
             ->select(
                 QE::c('status_kaprodi')->as('status'),

@@ -9,6 +9,7 @@ use Modules\Dashboard\Repositories\DppmRepository;
 use Modules\Dashboard\Interfaces\DppmServiceInterface;
 use Modules\Dashboard\Resources\PenelitianDppmResource;
 use Modules\Dashboard\Resources\PengabdianDppmResource;
+use Modules\Dashboard\Resources\PublikasiDppmResource;
 
 class DppmService implements DppmServiceInterface
 {
@@ -39,6 +40,18 @@ class DppmService implements DppmServiceInterface
         ];
 
         return Cache::remember('dashboard_dppm_pengabdian', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
+            return $data;
+        });
+    }
+
+    public function getOfPublikasi()
+    {
+        $data = [
+            'news' =>  PublikasiDppmResource::collection(DppmRepository::getNewsPublikasi()),
+            'status' => DppmRepository::getNumberOfPublikasiByStatus(),
+        ];
+
+        return Cache::remember('dashboard_dppm_publikasi', CarbonInterval::minutes(5)->totalSeconds, function () use ($data) {
             return $data;
         });
     }

@@ -9,5 +9,7 @@ interface DokumentServiceInterface
 {
     public function download(DokumentDownloadDto $request, string $id);
 
+    public function downloadDokumen(DokumentDownloadDto $request, string $id);
+
     public function upload(DokumentUploadDto $request, string $id);
 }

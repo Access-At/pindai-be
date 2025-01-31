@@ -287,9 +287,9 @@ class ResponseApi
      * @param  array  $headers  Optional headers
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(string $filePath, ?string $fileName = null, array $headers = [])
+    public function download(string $filePath, ?string $fileName = null, bool $deleteFile = false, array $headers = [])
     {
-        if ( ! file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             return response()->json([
                 'status' => Response::HTTP_NOT_FOUND,
                 'error' => 'File not found.',
@@ -300,8 +300,10 @@ class ResponseApi
         $base64Content = base64_encode($fileContent);
         $status = $this->getStatus();
 
-        if (file_exists($filePath)) {
-            unlink($filePath);
+        if ($deleteFile) {
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
         }
 
         $responseData = [

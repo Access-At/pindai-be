@@ -64,6 +64,14 @@ Route::group(['prefix' => 'v1', 'middleware' => [
             // Route::get('/jenis-luaran/{jenis_penelitian}', [ListController::class, 'getListJenisLuaran']);
         });
 
+        // download
+        Route::group([
+            'prefix' => 'download',
+            'middleware' => ['role:dppm|keuangan|kaprodi']
+        ], function () {
+            Route::post('/dokumen/{id}', [DokumentController::class, 'downloadDokumen']);
+        });
+
         // DPPM
         Route::group([
             'prefix' => 'dppm',

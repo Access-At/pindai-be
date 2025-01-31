@@ -19,12 +19,15 @@ class DokumentDownloadRequest extends CustomRequest
                 'required',
                 Rule::in([
                     'cover',
+                    'kontrak_penelitian',
+                    'laporan_kemajuan',
+                    'laporan',
+                    'proposal',
+                    'surat_keterangan_selesai',
                     'surat_pengajuan',
                     'surat_rekomendasi',
-                    'proposal',
-                    'kontrak_penelitian',
+
                     'kontrak_pengabdian',
-                    'surat_keterangan_selesai',
                 ]),
             ],
             'category' => [

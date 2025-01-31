@@ -25,6 +25,18 @@ class DokumentController extends Controller
 
         return ResponseApi::statusSuccess()
             ->message('Dokumen berhasil diunduh')
+            ->download($data['path'], $data['name'], true);
+    }
+
+    public function downloadDokumen(DokumentDownloadRequest $request, string $id)
+    {
+        $data = $this->service->downloadDokumen(
+            DokumentDownloadDto::fromRequest($request),
+            $id
+        );
+
+        return ResponseApi::statusSuccess()
+            ->message('Dokumen berhasil diunduh')
             ->download($data['path'], $data['name']);
     }
 

@@ -25,6 +25,7 @@ class DashboardController extends Controller
                 'fakultas' => $this->serviceDppm->getNumberOfLecturersByFaculty(),
                 'penelitian' => $this->serviceDppm->getOfPenelitian(),
                 'pengabdian' => $this->serviceDppm->getOfPengabdian(),
+                'publikasi' => $this->serviceDppm->getOfPublikasi(),
             ])
             ->json();
     }
@@ -36,6 +37,7 @@ class DashboardController extends Controller
             ->data([
                 'penelitian' => $this->serviceKeuangan->getOfPenelitian(),
                 'pengabdian' => $this->serviceKeuangan->getOfPengabdian(),
+                'publikasi' => $this->serviceKeuangan->getOfPublikasi(),
             ])
             ->json();
     }

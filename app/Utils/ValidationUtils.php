@@ -11,7 +11,7 @@ class ValidationUtils
 {
     public static function validatePenelitian(Penelitian|Pengabdian|null $penelitian, string $documentType, string $category): void
     {
-        if ( ! $penelitian) {
+        if (! $penelitian) {
             throw DokumentException::dataNotFound($category);
         }
 
@@ -19,7 +19,7 @@ class ValidationUtils
             in_array($documentType, ['cover', 'surat_pengajuan', 'surat_rekomendasi', 'proposal'], true)
             && self::isPendingOrRejectedByKaprodi($penelitian)
         ) {
-            throw DokumentException::fileCantDownload(ucwords(str_replace('_', ' ', $documentType)), "{$penelitian->status_kaprodi->message()} kaprodi", $category);
+            throw DokumentException::fileCantDownload(str_replace('_', ' ', $documentType), "{$penelitian->status_kaprodi->message()} kaprodi", $category);
         }
 
         if (in_array($documentType, ['kontrak_penelitian'], true) && self::isPendingOrRejectedByDPPM($penelitian)) {
